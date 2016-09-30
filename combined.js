@@ -31,6 +31,10 @@ wpd.initApp = function() {// This is run when the page loads.
         wpd.graphicsWidget.loadImageFromURL('start.png');
         //wpd.messagePopup.show(wpd.gettext('unstable-version-warning'), wpd.gettext('unstable-version-warning-text'));
     }
+
+    //Set up iframe API
+    window.addEventListener('message', wpd.iframe_api.receiveMessage);
+
     document.getElementById('loadingCurtain').style.display = 'none';
 
 };
@@ -1539,62 +1543,6 @@ wpd.PlotData = (function () {
 
 */
 
-
-var wpd = wpd || {};
-
-wpd.AveragingWindowAlgo = (function () {
-
-    var Algo = function () {
-
-        var xStep = 5, yStep = 5;
-
-        this.getParamList = function () {
-            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
-        };
-
-        this.setParam = function (index, val) {
-            if(index === 0) {
-                xStep = val;
-            } else if(index === 1) {
-                yStep = val;
-            }
-        };
-
-        this.run = function (plotData) {
-            var autoDetector = plotData.getAutoDetector(),
-                dataSeries = plotData.getActiveDataSeries(),
-                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
-
-            algoCore.run();
-        };
-
-    };
-    return Algo;
-})();
-
-/*
-    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
-
-    Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
-
-    This file is part of WebPlotDigitizer.
-
-    WebPlotDigitizer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WebPlotDigitizer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
-
-
-*/
-
 var wpd = wpd || {};
 
 wpd.AveragingWindowCore = (function () {
@@ -1704,6 +1652,62 @@ wpd.AveragingWindowCore = (function () {
     };
     return Algo;
 })();
+/*
+    WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
+
+    Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
+
+    This file is part of WebPlotDigitizer.
+
+    WebPlotDigitizer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    WebPlotDigitizer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with WebPlotDigitizer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*/
+
+
+var wpd = wpd || {};
+
+wpd.AveragingWindowAlgo = (function () {
+
+    var Algo = function () {
+
+        var xStep = 5, yStep = 5;
+
+        this.getParamList = function () {
+            return [['ΔX', 'Px', 10], ['ΔY', 'Px', 10]];
+        };
+
+        this.setParam = function (index, val) {
+            if(index === 0) {
+                xStep = val;
+            } else if(index === 1) {
+                yStep = val;
+            }
+        };
+
+        this.run = function (plotData) {
+            var autoDetector = plotData.getAutoDetector(),
+                dataSeries = plotData.getActiveDataSeries(),
+                algoCore = new wpd.AveragingWindowCore(autoDetector.binaryData, autoDetector.imageHeight, autoDetector.imageWidth, xStep, yStep, dataSeries);
+
+            algoCore.run();
+        };
+
+    };
+    return Algo;
+})();
+
 /*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
@@ -7050,6 +7054,55 @@ wpd.GridMaskPainter = (function () {
     return Painter;
 })();
 /*
+	iframe_api: Helper that translates sending/receiving messages through an iframe into WPD calls
+*/
+
+var wpd = wpd || {};
+
+wpd.iframe_api = (function () {
+
+    //Receives JSON as a string, translates it into WPD-executable call
+    function receiveMessage(e) {
+        var message = JSON.parse(e.data);
+
+        switch(message.name) {
+            case 'loadImage': {
+                //Load image in viewer
+                //src: image path on remote server
+                var local_img = '/images/' + message.src.substr(message.src.lastIndexOf('/') + 1, message.src.length - 1);;
+                if( !wpd.imageOps.imageExists(local_img)){
+                    //If image doesn't exist, transfer over, then load
+                    var ajax = new XMLHttpRequest();
+                    ajax.addEventListener('load', function(){
+                        if(ajax.status == 200){ wpd.graphicsWidget.loadImageFromURL(local_img); }
+                    });
+                    ajax.open('HEAD', '/php/transfer_image.php?url=' + message.src);
+                    ajax.send();
+                }else{
+                    wpd.graphicsWidget.loadImageFromURL(local_img);
+                }
+                break;
+            }
+
+            default: {
+                alert('Error: iFrame API call not recognized');
+            }
+        }
+
+    }
+
+    //Send JSON message back to parent
+    function sendMessage(message) {
+        parent.postMessage(message, document.referrer);
+    }
+
+    return {
+        receiveMessage: receiveMessage,
+        sendMessage: sendMessage
+    };
+})();
+
+/*
 	WebPlotDigitizer - http://arohatgi.info/WebPlotDigitizer
 
 	Copyright 2010-2016 Ankit Rohatgi <ankitrohatgi@hotmail.com>
@@ -7123,9 +7176,18 @@ wpd.imageOps = (function () {
         wpd.graphicsWidget.runImageOp(vflipOp);
     }
 
+    function imageExists(image_url, success) {
+        var http = new XMLHttpRequest();
+        http.open('HEAD', image_url, false);
+        http.send();
+
+        return http.status != 404;
+    }
+
     return {
         hflip: hflip,
-        vflip: vflip
+        vflip: vflip,
+        imageExists: imageExists
     };
 })();
 
@@ -9249,10 +9311,18 @@ wpd.saveResume = (function () {
         }
     }
 
+    function exportToDACTYL() {
+        //Send JSON of data back to DACTYL in parent frame
+        var message = {name: 'exportJSON', data: generateJSON()};
+        wpd.iframe_api.sendMessage(message);
+        wpd.popup.close('export-json-window');
+    }
+
     return {
         save: save,
         load: load,
         download: download,
+        exportToDACTYL: exportToDACTYL,
         read: read
     };
 })();

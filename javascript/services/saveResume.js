@@ -263,10 +263,18 @@ wpd.saveResume = (function () {
         }
     }
 
+    function exportToDACTYL() {
+        //Send JSON of data back to DACTYL in parent frame
+        var message = {name: 'exportJSON', data: generateJSON()};
+        wpd.iframe_api.sendMessage(message);
+        wpd.popup.close('export-json-window');
+    }
+
     return {
         save: save,
         load: load,
         download: download,
+        exportToDACTYL: exportToDACTYL,
         read: read
     };
 })();

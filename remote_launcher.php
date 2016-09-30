@@ -778,6 +778,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <p>This JSON file contains the axes calibration and the digitized data points from this plot. This file can be imported later to resume work or reuse the calibration in another plot.</p>
     <p>&nbsp;</p>
     <p align="center">
+        <input type="button" value="Export to DACTYL" onclick="wpd.saveResume.exportToDACTYL();"/>
         <input type="button" value="Download" onclick="wpd.saveResume.download();"/>
         <input type="button" value="Close" onclick="wpd.popup.close('export-json-window');"/>
     </p>

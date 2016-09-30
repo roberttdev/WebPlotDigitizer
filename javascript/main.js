@@ -31,6 +31,10 @@ wpd.initApp = function() {// This is run when the page loads.
         wpd.graphicsWidget.loadImageFromURL('start.png');
         //wpd.messagePopup.show(wpd.gettext('unstable-version-warning'), wpd.gettext('unstable-version-warning-text'));
     }
+
+    //Set up iframe API
+    window.addEventListener('message', wpd.iframe_api.receiveMessage);
+
     document.getElementById('loadingCurtain').style.display = 'none';
 
 };

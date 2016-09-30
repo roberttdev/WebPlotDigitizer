@@ -1,0 +1,852 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="5e6e3516-a5e9-4f63-9461-3b7d8d6402f3" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/25_RBC_LR_PP3120163.jpg" afterPath="$PROJECT_DIR$/test images/25_RBC_LR_PP3120163.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/7wq5N.jpg" afterPath="$PROJECT_DIR$/test images/7wq5N.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/Coloradoflowgraph.gif" afterPath="$PROJECT_DIR$/test images/Coloradoflowgraph.gif" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/JohnECG2010woutreading.jpg" afterPath="$PROJECT_DIR$/test images/JohnECG2010woutreading.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/KWAJEX_ARM_BOMEX_frac_area_vs_CINW2_minimizedW_wc.png" afterPath="$PROJECT_DIR$/test images/KWAJEX_ARM_BOMEX_frac_area_vs_CINW2_minimizedW_wc.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/KWAJEX_ARM_CIN_TKEinst_w_w_star.png" afterPath="$PROJECT_DIR$/test images/KWAJEX_ARM_CIN_TKEinst_w_w_star.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/KinvA.jpg" afterPath="$PROJECT_DIR$/test images/KinvA.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/LI1LOG.jpg" afterPath="$PROJECT_DIR$/test images/LI1LOG.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/NewTux.png" afterPath="$PROJECT_DIR$/test images/NewTux.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/Resolution_illustration.png" afterPath="$PROJECT_DIR$/test images/Resolution_illustration.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/WA1LOG.jpg" afterPath="$PROJECT_DIR$/test images/WA1LOG.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/Westmann-St_Helena-Gough-3.gif" afterPath="$PROJECT_DIR$/test images/Westmann-St_Helena-Gough-3.gif" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/allUnitedStates.gif" afterPath="$PROJECT_DIR$/test images/allUnitedStates.gif" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/ant.jpg" afterPath="$PROJECT_DIR$/test images/ant.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/autoSidebar.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/autoSidebar.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/averagingWindow.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/averagingWindow.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/barAlignment.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/barAlignment.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/barInfo.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/barInfo.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/images/barchart.png" afterPath="$PROJECT_DIR$/images/barchart.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/barchart.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/barchart.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/blobDetection.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/blobDetection.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/closure-compiler/compiler.jar" afterPath="$PROJECT_DIR$/closure-compiler/compiler.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/images/crosshair.png" afterPath="$PROJECT_DIR$/images/crosshair.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/csvSorting.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/csvSorting.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/date-axis-with-month.png" afterPath="$PROJECT_DIR$/test images/date-axis-with-month.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/dateFormat.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/dateFormat.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/defineAxesPopup.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/defineAxesPopup.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/drops.jpg" afterPath="$PROJECT_DIR$/test images/drops.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/ellipse.png" afterPath="$PROJECT_DIR$/test images/ellipse.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/fgColor.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/fgColor.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/fileMenu.jpg" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/fileMenu.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/gridRemoval.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/gridRemoval.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/grid_test1.png" afterPath="$PROJECT_DIR$/test images/grid_test1.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/histogram.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/histogram.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/browser_extension/chrome/icon.png" afterPath="$PROJECT_DIR$/browser_extension/chrome/icon.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/icon.png" afterPath="$PROJECT_DIR$/chrome/icon.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/images/icon.png" afterPath="$PROJECT_DIR$/images/icon.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/browser_extension/chrome/icon16.png" afterPath="$PROJECT_DIR$/browser_extension/chrome/icon16.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/imageEditingSidebar.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/imageEditingSidebar.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/inline3.png" afterPath="$PROJECT_DIR$/test images/inline3.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/ipexrice_01.png" afterPath="$PROJECT_DIR$/test images/ipexrice_01.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/loadPopup.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/loadPopup.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/logScale.jpg" afterPath="$PROJECT_DIR$/test images/logScale.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/manageDatasets.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/manageDatasets.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/manualSidebar.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/manualSidebar.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/images/map.png" afterPath="$PROJECT_DIR$/images/map.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/map.png" afterPath="$PROJECT_DIR$/test images/map.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/mapAlignment.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/mapAlignment.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/mapInfo.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/mapInfo.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/mark-up.png" afterPath="$PROJECT_DIR$/test images/mark-up.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/markRegion.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/markRegion.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/new_bar2.png" afterPath="$PROJECT_DIR$/test images/new_bar2.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/new_bubble.png" afterPath="$PROJECT_DIR$/test images/new_bubble.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/new_symbol.png" afterPath="$PROJECT_DIR$/test images/new_symbol.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/particles+1.jpeg" afterPath="$PROJECT_DIR$/test images/particles+1.jpeg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/images/perspective.odg" afterPath="$PROJECT_DIR$/images/perspective.odg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/images/perspective.png" afterPath="$PROJECT_DIR$/images/perspective.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/perspective.png" afterPath="$PROJECT_DIR$/test images/perspective.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/polarAlignment.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/polarAlignment.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/polarInfo.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/polarInfo.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/images/polaraxes.png" afterPath="$PROJECT_DIR$/images/polaraxes.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/screenshot.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/screenshot.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/sineWavePerspective.png" afterPath="$PROJECT_DIR$/test images/sineWavePerspective.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/smoothing.jpg" afterPath="$PROJECT_DIR$/test images/smoothing.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/stairsOctPlot.png" afterPath="$PROJECT_DIR$/test images/stairsOctPlot.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/tecplot_polar_archimedes.gif" afterPath="$PROJECT_DIR$/test images/tecplot_polar_archimedes.gif" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/ternary.png" afterPath="$PROJECT_DIR$/test images/ternary.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/ternaryAlignment.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/ternaryAlignment.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/ternaryInfo.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/ternaryInfo.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/images/ternaryaxes.png" afterPath="$PROJECT_DIR$/images/ternaryaxes.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/images/ternarynormal.png" afterPath="$PROJECT_DIR$/images/ternarynormal.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/images/ternaryreverse.png" afterPath="$PROJECT_DIR$/images/ternaryreverse.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/test.jpg" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/test.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/test.pdf" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/test.pdf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/testScan.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/testScan.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/testSmall.jpg" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/testSmall.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/thick.png" afterPath="$PROJECT_DIR$/test images/thick.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/topButtons.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/topButtons.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/unbroken.png" afterPath="$PROJECT_DIR$/test images/unbroken.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/uni_ms_fast.jpg" afterPath="$PROJECT_DIR$/test images/uni_ms_fast.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/uni_ms_fast.png" afterPath="$PROJECT_DIR$/test images/uni_ms_fast.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/userManual.pdf" afterPath="$PROJECT_DIR$/manual/user_manual/latex/userManual.pdf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/wpd_algos.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/wpd_algos.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/wpd_dataset_2.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/wpd_dataset_2.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/wpd_formatting.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/wpd_formatting.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test images/wrld-bm-6-jpg.jpg" afterPath="$PROJECT_DIR$/test images/wrld-bm-6-jpg.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/xStep.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/xStep.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/xStepWithActualUnits.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/xStepWithActualUnits.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/xStepWithInterpolation.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/xStepWithInterpolation.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/xyAlignment.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/xyAlignment.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/xyAxesInfo.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/xyAxesInfo.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/images/xyaxes.png" afterPath="$PROJECT_DIR$/images/xyaxes.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/yStep.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/yStep.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/figures/zoom.png" afterPath="$PROJECT_DIR$/manual/user_manual/latex/figures/zoom.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/COPYING" afterPath="$PROJECT_DIR$/COPYING" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/closure-compiler/COPYING" afterPath="$PROJECT_DIR$/closure-compiler/COPYING" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/closure-compiler/README.md" afterPath="$PROJECT_DIR$/closure-compiler/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/_base.html" afterPath="$PROJECT_DIR$/templates/_base.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/_menubar.html" afterPath="$PROJECT_DIR$/templates/_menubar.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/_popups.html" afterPath="$PROJECT_DIR$/templates/_popups.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/_sidebars.html" afterPath="$PROJECT_DIR$/templates/_sidebars.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/_strings.html" afterPath="$PROJECT_DIR$/templates/_strings.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/_toolbars.html" afterPath="$PROJECT_DIR$/templates/_toolbars.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/services/ajax.js" afterPath="$PROJECT_DIR$/javascript/services/ajax.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/tools/alignAxes.js" afterPath="$PROJECT_DIR$/javascript/tools/alignAxes.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/appData.js" afterPath="$PROJECT_DIR$/javascript/core/appData.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/services/args.js" afterPath="$PROJECT_DIR$/javascript/services/args.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/autoDetection.js" afterPath="$PROJECT_DIR$/javascript/core/autoDetection.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/tools/autodetect.js" afterPath="$PROJECT_DIR$/javascript/tools/autodetect.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/AEalgos/averagingWindow.js" afterPath="$PROJECT_DIR$/javascript/core/AEalgos/averagingWindow.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/AEalgos/averagingWindowCore.js" afterPath="$PROJECT_DIR$/javascript/core/AEalgos/averagingWindowCore.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/AEalgos/averagingWindowWithStepSize.js" afterPath="$PROJECT_DIR$/javascript/core/AEalgos/averagingWindowWithStepSize.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/browser_extension/chrome/background.js" afterPath="$PROJECT_DIR$/browser_extension/chrome/background.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/axes/bar.js" afterPath="$PROJECT_DIR$/javascript/core/axes/bar.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/barChart.R" afterPath="$PROJECT_DIR$/scripts/barChart.R" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/AEalgos/barExtraction.js" afterPath="$PROJECT_DIR$/javascript/core/AEalgos/barExtraction.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/barVsHistogram.R" afterPath="$PROJECT_DIR$/scripts/barVsHistogram.R" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/AEalgos/blobdetector.js" afterPath="$PROJECT_DIR$/javascript/core/AEalgos/blobdetector.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/browser/browserInfo.js" afterPath="$PROJECT_DIR$/javascript/browser/browserInfo.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.sh" afterPath="$PROJECT_DIR$/build.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/calibration.js" afterPath="$PROJECT_DIR$/javascript/core/calibration.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/colorAnalysis.js" afterPath="$PROJECT_DIR$/javascript/core/colorAnalysis.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/tools/colorPicker.js" afterPath="$PROJECT_DIR$/javascript/tools/colorPicker.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/combine.sh" afterPath="$PROJECT_DIR$/combine.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/combined-compiled.js" afterPath="$PROJECT_DIR$/combined-compiled.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/combined.js" afterPath="$PROJECT_DIR$/combined.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/compile.sh" afterPath="$PROJECT_DIR$/compile.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/connectedPoints.js" afterPath="$PROJECT_DIR$/javascript/core/connectedPoints.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/images/crosshair.svg" afterPath="$PROJECT_DIR$/images/crosshair.svg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/php/csvexport.php" afterPath="$PROJECT_DIR$/php/csvexport.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/dashedLines.py" afterPath="$PROJECT_DIR$/scripts/dashedLines.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/tools/dataProviders.js" afterPath="$PROJECT_DIR$/javascript/tools/dataProviders.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/dataSeries.js" afterPath="$PROJECT_DIR$/javascript/core/dataSeries.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/widgets/dataSeriesManagement.js" afterPath="$PROJECT_DIR$/javascript/widgets/dataSeriesManagement.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/widgets/dataTable.js" afterPath="$PROJECT_DIR$/javascript/widgets/dataTable.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/dateConversion.js" afterPath="$PROJECT_DIR$/javascript/core/dateConversion.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/defaultPlot.py" afterPath="$PROJECT_DIR$/scripts/defaultPlot.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev.html" afterPath="$PROJECT_DIR$/dev.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/dev.html" afterPath="$PROJECT_DIR$/templates/dev.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/services/download.js" afterPath="$PROJECT_DIR$/javascript/services/download.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/php/echo.php" afterPath="$PROJECT_DIR$/php/echo.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/tools/graphicsHelper.js" afterPath="$PROJECT_DIR$/javascript/tools/graphicsHelper.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/widgets/graphicsWidget.js" afterPath="$PROJECT_DIR$/javascript/widgets/graphicsWidget.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/tools/gridDetection.js" afterPath="$PROJECT_DIR$/javascript/tools/gridDetection.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/gridDetectionCore.js" afterPath="$PROJECT_DIR$/javascript/core/gridDetectionCore.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/services/i18n.js" afterPath="$PROJECT_DIR$/javascript/services/i18n.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/images/icon.svg" afterPath="$PROJECT_DIR$/images/icon.svg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/axes/image.js" afterPath="$PROJECT_DIR$/javascript/core/axes/image.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/tools/imageOps.js" afterPath="$PROJECT_DIR$/javascript/tools/imageOps.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/index.html" afterPath="$PROJECT_DIR$/templates/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/inputParser.js" afterPath="$PROJECT_DIR$/javascript/core/inputParser.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/php/json.php" afterPath="$PROJECT_DIR$/php/json.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/tools/keyCodes.js" afterPath="$PROJECT_DIR$/javascript/tools/keyCodes.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/widgets/layoutManager.js" afterPath="$PROJECT_DIR$/javascript/widgets/layoutManager.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/main.js" afterPath="$PROJECT_DIR$/javascript/main.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/main.js" afterPath="$PROJECT_DIR$/tests/main.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/browser_extension/chrome/manifest.json" afterPath="$PROJECT_DIR$/browser_extension/chrome/manifest.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chrome/manifest.json" afterPath="$PROJECT_DIR$/chrome/manifest.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/tools/manualDataCollection.js" afterPath="$PROJECT_DIR$/javascript/tools/manualDataCollection.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/axes/map.js" afterPath="$PROJECT_DIR$/javascript/core/axes/map.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/images/map.svg" afterPath="$PROJECT_DIR$/images/map.svg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/tools/mask.js" afterPath="$PROJECT_DIR$/javascript/tools/mask.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/mathFunctions.js" afterPath="$PROJECT_DIR$/javascript/core/mathFunctions.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/tools/measurement.js" afterPath="$PROJECT_DIR$/javascript/tools/measurement.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/noisyData.py" afterPath="$PROJECT_DIR$/scripts/noisyData.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/offline.html" afterPath="$PROJECT_DIR$/offline.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/offline.html" afterPath="$PROJECT_DIR$/templates/offline.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/tools/perspective.js" afterPath="$PROJECT_DIR$/javascript/tools/perspective.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/plotData.js" afterPath="$PROJECT_DIR$/javascript/core/plotData.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/services/plotly.js" afterPath="$PROJECT_DIR$/javascript/services/plotly.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/axes/polar.js" afterPath="$PROJECT_DIR$/javascript/core/axes/polar.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/images/polaraxes.svg" afterPath="$PROJECT_DIR$/images/polaraxes.svg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/widgets/popups.js" afterPath="$PROJECT_DIR$/javascript/widgets/popups.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/remote_launcher.php" afterPath="$PROJECT_DIR$/remote_launcher.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/remote_launcher.php" afterPath="$PROJECT_DIR$/templates/remote_launcher.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/services/saveResume.js" afterPath="$PROJECT_DIR$/javascript/services/saveResume.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/services/scriptInjection.js" afterPath="$PROJECT_DIR$/javascript/services/scriptInjection.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/widgets/sidebars.js" afterPath="$PROJECT_DIR$/javascript/widgets/sidebars.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/axes/ternary.js" afterPath="$PROJECT_DIR$/javascript/core/axes/ternary.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/images/ternaryaxes.svg" afterPath="$PROJECT_DIR$/images/ternaryaxes.svg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/images/ternarynormal.svg" afterPath="$PROJECT_DIR$/images/ternarynormal.svg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/images/ternaryreverse.svg" afterPath="$PROJECT_DIR$/images/ternaryreverse.svg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/widgets/toolbars.js" afterPath="$PROJECT_DIR$/javascript/widgets/toolbars.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/widgets/transformationEquations.js" afterPath="$PROJECT_DIR$/javascript/widgets/transformationEquations.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manual/user_manual/latex/userManual.tex" afterPath="$PROJECT_DIR$/manual/user_manual/latex/userManual.tex" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/widgets/webcam.js" afterPath="$PROJECT_DIR$/javascript/widgets/webcam.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/services/websockets.js" afterPath="$PROJECT_DIR$/javascript/services/websockets.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/wpdcore.js" afterPath="$PROJECT_DIR$/tests/wpdcore.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/wpdmodule.js" afterPath="$PROJECT_DIR$/tests/wpdmodule.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/AEalgos/xStepWithInterpolation.js" afterPath="$PROJECT_DIR$/javascript/core/AEalgos/xStepWithInterpolation.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/core/axes/xy.js" afterPath="$PROJECT_DIR$/javascript/core/axes/xy.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/images/xyaxes.svg" afterPath="$PROJECT_DIR$/images/xyaxes.svg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/widgets/zoom.js" afterPath="$PROJECT_DIR$/javascript/widgets/zoom.js" />
+    </list>
+    <ignored path="WebPlotDigitizer.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <ignored path=".idea/dataSources.local.xml" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="WebPlotDigitizer" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/javascript/main.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="35" column="4" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="70" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="iframe_api.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/javascript/tools/iframe_api.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="40" column="31" selection-start-line="40" selection-start-column="31" selection-end-line="40" selection-end-column="31" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-16.875">
+              <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_popups.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/_popups.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-5.0">
+              <caret line="382" column="63" selection-start-line="382" selection-start-column="63" selection-end-line="382" selection-end-column="63" />
+              <folding>
+                <element signature="n#style#0;n#div#13;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#14;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="saveResume.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/javascript/services/saveResume.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.8672769">
+              <caret line="270" column="5" selection-start-line="270" selection-start-column="5" selection-end-line="270" selection-end-column="5" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="styles.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/styles.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="115" column="4" selection-start-line="115" selection-start-column="3" selection-end-line="115" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-2.5">
+              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/build.sh" />
+        <option value="$PROJECT_DIR$/combine.sh" />
+        <option value="$PROJECT_DIR$/javascript/main.js" />
+        <option value="$PROJECT_DIR$/combined-compiled.js" />
+        <option value="$PROJECT_DIR$/php/transfer_file.php" />
+        <option value="$PROJECT_DIR$/javascript/tools/imageOps.js" />
+        <option value="$PROJECT_DIR$/styles.css" />
+        <option value="$PROJECT_DIR$/javascript/widgets/dataTable.js" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/templates/index.html" />
+        <option value="$PROJECT_DIR$/templates/_popups.html" />
+        <option value="$PROJECT_DIR$/javascript/tools/iframe_api.js" />
+        <option value="$PROJECT_DIR$/javascript/services/saveResume.js" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+  </component>
+  <component name="NamedScopeManager">
+    <order />
+  </component>
+  <component name="PhpDebugGeneral" xdebug_debug_port="9001" />
+  <component name="PhpServers">
+    <servers />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true">
+    <include_path>
+      <path value="." />
+      <path value="/usr/share/php" />
+      <path value="/usr/share/pear" />
+    </include_path>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="24" />
+    <option name="width" value="1280" />
+    <option name="height" value="1000" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebPlotDigitizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebPlotDigitizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebPlotDigitizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebPlotDigitizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebPlotDigitizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebPlotDigitizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebPlotDigitizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="php" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebPlotDigitizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebPlotDigitizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="javascript" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebPlotDigitizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebPlotDigitizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="javascript" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebPlotDigitizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebPlotDigitizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="javascript" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="options.lastSelected" value="reference.webide.settings.project.settings.php.debug" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/javascript/tools" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpBehatConfigurationType" factoryName="Behat">
+      <BehatRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server" server_id="4cfdf88b-980e-4d75-967f-b917a0ebba53" server_name="WPD">
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <pass-parent-envs>true</pass-parent-envs>
+      <envs />
+      <method />
+    </configuration>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5e6e3516-a5e9-4f63-9461-3b7d8d6402f3" name="Default" comment="" />
+      <created>1474308319403</created>
+      <option name="number" value="Default" />
+      <updated>1474308319403</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="24" width="1280" height="1000" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36142626" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32916668" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/javascript/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="35" column="4" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="70" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/tools/iframe_api.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="34" column="9" selection-start-line="10" selection-start-column="7" selection-end-line="34" selection-end-column="9" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/_popups.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="383" column="73" selection-start-line="383" selection-start-column="73" selection-end-line="383" selection-end-column="73" />
+          <folding>
+            <element signature="n#style#0;n#div#13;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#14;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/services/saveResume.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/styles.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="115" column="4" selection-start-line="115" selection-start-column="3" selection-end-line="115" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="4" column="8" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="34" column="16" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/combined-compiled.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2" column="20" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compile.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/tools/iframe_api.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="18" column="32" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/renderHtml.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="4" column="8" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/tools/imageOps.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="75" column="40" selection-start-line="75" selection-start-column="40" selection-end-line="75" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/widgets/graphicsWidget.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="691" column="42" selection-start-line="691" selection-start-column="26" selection-end-line="691" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/php/transfer_image.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/widgets/popups.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="30" column="21" selection-start-line="30" selection-start-column="21" selection-end-line="30" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/core/appData.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.26344085">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/combine.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.6551723">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compile.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/combined-compiled.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0">
+          <caret line="2" column="20" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/widgets/graphicsWidget.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="691" column="42" selection-start-line="691" selection-start-column="26" selection-end-line="691" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/php/transfer_image.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/tools/imageOps.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="75" column="40" selection-start-line="75" selection-start-column="40" selection-end-line="75" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/renderHtml.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/widgets.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.081374325">
+          <caret line="3" column="59" selection-start-line="3" selection-start-column="58" selection-end-line="3" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/styles.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="115" column="4" selection-start-line="115" selection-start-column="3" selection-end-line="115" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/widgets/dataTable.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="312" column="39" selection-start-line="312" selection-start-column="39" selection-end-line="312" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.875">
+          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.5">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="35" column="4" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="70" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/tools/iframe_api.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="40" column="31" selection-start-line="40" selection-start-column="31" selection-end-line="40" selection-end-column="31" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/_popups.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.0">
+          <caret line="382" column="63" selection-start-line="382" selection-start-column="63" selection-end-line="382" selection-end-column="63" />
+          <folding>
+            <element signature="n#style#0;n#div#13;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#14;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/services/saveResume.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8672769">
+          <caret line="270" column="5" selection-start-line="270" selection-start-column="5" selection-end-line="270" selection-end-column="5" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

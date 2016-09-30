@@ -72,9 +72,18 @@ wpd.imageOps = (function () {
         wpd.graphicsWidget.runImageOp(vflipOp);
     }
 
+    function imageExists(image_url, success) {
+        var http = new XMLHttpRequest();
+        http.open('HEAD', image_url, false);
+        http.send();
+
+        return http.status != 404;
+    }
+
     return {
         hflip: hflip,
-        vflip: vflip
+        vflip: vflip,
+        imageExists: imageExists
     };
 })();
 
