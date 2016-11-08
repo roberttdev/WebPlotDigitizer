@@ -33,7 +33,8 @@ wpd.initApp = function() {// This is run when the page loads.
     }
 
     //Set up iframe API
-    window.addEventListener('message', wpd.iframe_api.receiveMessage);
+    window.addEventListener('message', $.proxy(wpd.iframe_api.receiveMessage, wpd.iframe_api));
+    window.addEventListener('dataChange', $.proxy(wpd.iframe_api.sendDataChangeUpdate, wpd.iframe_api));
 
     document.getElementById('loadingCurtain').style.display = 'none';
 
@@ -822,6 +823,7 @@ wpd.DataSeries = (function () {
             if (mdata != null) {
                 hasMetadata = true;
             }
+            window.dispatchEvent(wpd.DataChangeEvent);
         };
 
         this.getPixel = function(index) {
@@ -833,6 +835,8 @@ wpd.DataSeries = (function () {
                 dataPoints[index].x = pxi;
                 dataPoints[index].y = pyi;
             }
+
+            window.dispatchEvent(wpd.DataChangeEvent);
         };
 
         this.setMetadataAt = function (index, mdata) {
@@ -849,6 +853,8 @@ wpd.DataSeries = (function () {
             if(index < dataPoints.length) {
                 dataPoints.splice(index, 1);
             }
+
+            window.dispatchEvent(wpd.DataChangeEvent);
         };
 
         this.removeLastPixel = function() {
@@ -880,7 +886,9 @@ wpd.DataSeries = (function () {
         this.clearAll = function() { 
             dataPoints = []; 
             hasMetadata = false; 
-            mkeys = []; 
+            mkeys = [];
+
+            window.dispatchEvent(wpd.DataChangeEvent);
         };
 
         this.getCount = function() { return dataPoints.length; };
@@ -3446,6 +3454,8 @@ var wpd = wpd || {};
 wpd.dataSeriesManagement = (function () {
 
     var nameIndex = 1;
+    var pointFieldCount = 0;
+    var pointFieldSelect = null;
     
     function updateSeriesList() {
     }
@@ -3463,6 +3473,13 @@ wpd.dataSeriesManagement = (function () {
                 activeSeriesIndex = plotData.getActiveDataSeriesIndex(),
                 listHtml = '',
                 i;
+
+            //Populate point fields; pull measurement fields first if blank
+            if( wpd.dataSeriesManagement.pointFieldSelect == null ){
+                pullMeasurementFields(populatePointFields);
+            }else{
+                populatePointFields();
+            }
 
             $nameField.value = activeDataSeries.name;
             $pointCount.innerHTML = activeDataSeries.getCount();
@@ -3548,13 +3565,43 @@ wpd.dataSeriesManagement = (function () {
         wpd.popup.close('manage-data-series-window');
     }
 
+    function pullMeasurementFields(success) {
+        $.ajax({
+            url         : wpd.dactyl_url + wpd.measurement_url,
+            type        : 'get',
+            contentType : 'application/json; charset=utf-8',
+            success     : function(data){
+                //Create select template
+                var select = '<select>';
+                for(var i=0; i < data.length; i++){
+                    select += '<option value="' + data[i].id + '">' + data[i].field_name + '</option>';
+                }
+                select += '</select>';
+                wpd.dataSeriesManagement.pointFieldSelect = select;
+                success.call();
+             }
+        });
+    }
+
+    function populatePointFields() {
+        //Populate X and Y values
+        addPointField('X Value:');
+        addPointField('Y Value:');
+    }
+
+    function addPointField(name) {
+        var new_row = '<tr><td>' + name + '</td><td>' + $(wpd.dataSeriesManagement.pointFieldSelect).clone().attr('id', 'point_field_' + wpd.dataSeriesManapointFieldCount).html() + '</td></tr>';
+        $('table[name=data_series_info] tr:last').after(new_row);
+        pointFieldCount++;
+    }
+
     return {
         manage: manage,
         addSeries: addSeries,
         deleteSeries: deleteSeries,
         viewData: viewData,
         changeSelectedSeries: changeSelectedSeries,
-        editSeriesName: editSeriesName
+        editSeriesName: editSeriesName.apply
     };
 })();
 /*
@@ -7055,9 +7102,12 @@ wpd.GridMaskPainter = (function () {
 })();
 /*
 	iframe_api: Helper that translates sending/receiving messages through an iframe into WPD calls
+	Expected message format: {name: string, (all other fields optional, but must match DV API expectations)}
 */
 
 var wpd = wpd || {};
+
+wpd.DataChangeEvent = new Event('dataChange');
 
 wpd.iframe_api = (function () {
 
@@ -7091,14 +7141,20 @@ wpd.iframe_api = (function () {
 
     }
 
-    //Send JSON message back to parent
+    //Send JSON message back to parent.
     function sendMessage(message) {
         parent.postMessage(message, document.referrer);
     }
 
+    function sendDataChangeUpdate() {
+        var message = {name: 'dataChange'};
+        this.sendMessage(message);
+    }
+
     return {
         receiveMessage: receiveMessage,
-        sendMessage: sendMessage
+        sendMessage: sendMessage,
+        sendDataChangeUpdate: sendDataChangeUpdate
     };
 })();
 

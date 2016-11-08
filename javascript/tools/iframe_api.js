@@ -1,8 +1,11 @@
 /*
 	iframe_api: Helper that translates sending/receiving messages through an iframe into WPD calls
+	Expected message format: {name: string, (all other fields optional, but must match DV API expectations)}
 */
 
 var wpd = wpd || {};
+
+wpd.DataChangeEvent = new Event('dataChange');
 
 wpd.iframe_api = (function () {
 
@@ -36,14 +39,20 @@ wpd.iframe_api = (function () {
 
     }
 
-    //Send JSON message back to parent
+    //Send JSON message back to parent.
     function sendMessage(message) {
         parent.postMessage(message, document.referrer);
     }
 
+    function sendDataChangeUpdate() {
+        var message = {name: 'dataChange'};
+        this.sendMessage(message);
+    }
+
     return {
         receiveMessage: receiveMessage,
-        sendMessage: sendMessage
+        sendMessage: sendMessage,
+        sendDataChangeUpdate: sendDataChangeUpdate
     };
 })();
 

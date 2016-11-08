@@ -33,7 +33,8 @@ wpd.initApp = function() {// This is run when the page loads.
     }
 
     //Set up iframe API
-    window.addEventListener('message', wpd.iframe_api.receiveMessage);
+    window.addEventListener('message', $.proxy(wpd.iframe_api.receiveMessage, wpd.iframe_api));
+    window.addEventListener('dataChange', $.proxy(wpd.iframe_api.sendDataChangeUpdate, wpd.iframe_api));
 
     document.getElementById('loadingCurtain').style.display = 'none';
 

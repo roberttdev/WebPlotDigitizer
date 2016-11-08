@@ -26,6 +26,8 @@ var wpd = wpd || {};
 wpd.dataSeriesManagement = (function () {
 
     var nameIndex = 1;
+    var pointFieldCount = 0;
+    var pointFieldSelect = null;
     
     function updateSeriesList() {
     }
@@ -43,6 +45,13 @@ wpd.dataSeriesManagement = (function () {
                 activeSeriesIndex = plotData.getActiveDataSeriesIndex(),
                 listHtml = '',
                 i;
+
+            //Populate point fields; pull measurement fields first if blank
+            if( wpd.dataSeriesManagement.pointFieldSelect == null ){
+                pullMeasurementFields(populatePointFields);
+            }else{
+                populatePointFields();
+            }
 
             $nameField.value = activeDataSeries.name;
             $pointCount.innerHTML = activeDataSeries.getCount();
@@ -128,12 +137,42 @@ wpd.dataSeriesManagement = (function () {
         wpd.popup.close('manage-data-series-window');
     }
 
+    function pullMeasurementFields(success) {
+        $.ajax({
+            url         : wpd.dactyl_url + wpd.measurement_url,
+            type        : 'get',
+            contentType : 'application/json; charset=utf-8',
+            success     : function(data){
+                //Create select template
+                var select = '<select>';
+                for(var i=0; i < data.length; i++){
+                    select += '<option value="' + data[i].id + '">' + data[i].field_name + '</option>';
+                }
+                select += '</select>';
+                wpd.dataSeriesManagement.pointFieldSelect = select;
+                success.call();
+             }
+        });
+    }
+
+    function populatePointFields() {
+        //Populate X and Y values
+        addPointField('X Value', 0);
+        addPointField('Y Value', 1);
+    }
+
+    function addPointField(name, index) {
+        var new_row = '<tr><td>' + name + '</td><td>' + $(wpd.dataSeriesManagement.pointFieldSelect).clone().attr('id', 'point_field_' + pointFieldCount).prop('outerHTML') + '</td></tr>';
+        $('table[name=point_field_table] tr:last').after(new_row);
+        pointFieldCount++;
+    }
+
     return {
         manage: manage,
         addSeries: addSeries,
         deleteSeries: deleteSeries,
         viewData: viewData,
         changeSelectedSeries: changeSelectedSeries,
-        editSeriesName: editSeriesName
+        editSeriesName: editSeriesName.apply
     };
 })();

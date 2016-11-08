@@ -30,7 +30,9 @@ wpd.DataSeries = (function () {
             connections = [],
             selections = [],
             hasMetadata = false,
-            mkeys = [];
+            mkeys = [],
+            pointFields = [];
+
 
         this.name = "Default Dataset";
 
@@ -48,12 +50,25 @@ wpd.DataSeries = (function () {
             return mkeys;
         };
 
+        this.addPointField = function(name, map_id) {
+            dataPoints.push({name: name, map_id: map_id});
+        };
+
+        this.editPointField = function(name, map_id, loc) {
+            dataPoints[loc] = {name: name, map_id: map_id};
+        };
+
+        this.deletePointField = function(loc) {
+            dataPoints.splice(loc);
+        };
+
         this.addPixel = function(pxi, pyi, mdata) {
             var dlen = dataPoints.length;
             dataPoints[dlen] = {x: pxi, y: pyi, metadata: mdata};
             if (mdata != null) {
                 hasMetadata = true;
             }
+            window.dispatchEvent(wpd.DataChangeEvent);
         };
 
         this.getPixel = function(index) {
@@ -65,6 +80,8 @@ wpd.DataSeries = (function () {
                 dataPoints[index].x = pxi;
                 dataPoints[index].y = pyi;
             }
+
+            window.dispatchEvent(wpd.DataChangeEvent);
         };
 
         this.setMetadataAt = function (index, mdata) {
@@ -81,6 +98,8 @@ wpd.DataSeries = (function () {
             if(index < dataPoints.length) {
                 dataPoints.splice(index, 1);
             }
+
+            window.dispatchEvent(wpd.DataChangeEvent);
         };
 
         this.removeLastPixel = function() {
@@ -112,7 +131,9 @@ wpd.DataSeries = (function () {
         this.clearAll = function() { 
             dataPoints = []; 
             hasMetadata = false; 
-            mkeys = []; 
+            mkeys = [];
+
+            window.dispatchEvent(wpd.DataChangeEvent);
         };
 
         this.getCount = function() { return dataPoints.length; };
