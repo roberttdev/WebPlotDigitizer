@@ -147,6 +147,7 @@ wpd.saveResume = (function () {
             outData = {
                     wpd: {
                         version: [3, 8], // [major, minor, subminor,...]
+                        imgSrc: wpd.graphicsWidget.getImageSrc(),
                         axesType: null,
                         axesParameters: null,
                         calibration: null,
@@ -207,6 +208,8 @@ wpd.saveResume = (function () {
             ds = plotData.dataSeriesColl[i];
             outData.wpd.dataSeries[i] = {
                 name: ds.name,
+                variableNames: ds.variableNames,
+                variableIds: ds.variableIds,
                 data: []
             };
             mkeys = ds.getMetadataKeys();
@@ -216,7 +219,10 @@ wpd.saveResume = (function () {
             for(j = 0; j < ds.getCount(); j++) {
                 pixel = ds.getPixel(j);
                 outData.wpd.dataSeries[i].data[j] = pixel;
-                outData.wpd.dataSeries[i].data[j].value = plotData.axes.pixelToData(pixel.x, pixel.y);
+
+                var exportValue = plotData.axes.pixelToData(pixel.x, pixel.y);
+                if( pixel.extraVars ){ $.merge(exportValue, pixel.extraVars); }
+                outData.wpd.dataSeries[i].data[j].value = exportValue;
             }
         }
 
@@ -249,18 +255,29 @@ wpd.saveResume = (function () {
             var fileReader = new FileReader();
             fileReader.onload = function () {
                 var json_data = JSON.parse(fileReader.result);
-                resumeFromJSON(json_data); 
-                
-                wpd.graphicsWidget.resetData();
-                wpd.graphicsWidget.removeTool();
-                wpd.graphicsWidget.removeRepainter();
-                if(wpd.appData.isAligned()) {
-                    wpd.acquireData.load();
-                }
-                wpd.messagePopup.show(wpd.gettext('import-json'), wpd.gettext("json-data-loaded"));
+                importJSON(json_data);
             };
             fileReader.readAsText($fileInput.files[0]);
         }
+    }
+
+    function importImageAndJSON(img, graph_json){
+        wpd.graphicsWidget.loadImageFromURL(img, function(){
+            //If there's JSON, import it, otherwise start new graph workflow
+            graph_json != null ? wpd.saveResume.importJSON(graph_json) : wpd.popup.show('axesList');
+        });
+    }
+
+    function importJSON(json_data){
+        resumeFromJSON(json_data);
+
+        wpd.graphicsWidget.resetData();
+        wpd.graphicsWidget.removeTool();
+        wpd.graphicsWidget.removeRepainter();
+        if(wpd.appData.isAligned()) {
+            wpd.acquireData.load();
+        }
+        wpd.messagePopup.show(wpd.gettext('import-json'), wpd.gettext("json-data-loaded"));
     }
 
     function exportToDACTYL() {
@@ -275,6 +292,8 @@ wpd.saveResume = (function () {
         load: load,
         download: download,
         exportToDACTYL: exportToDACTYL,
+        importJSON: importJSON,
+        importImageAndJSON: importImageAndJSON,
         read: read
     };
 })();

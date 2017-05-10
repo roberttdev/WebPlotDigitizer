@@ -49,6 +49,7 @@ wpd.graphicsWidget = (function () {
         height,
         originalWidth,
         originalHeight,
+        originalSrc,
         
         aspectRatio,
         displayAspectRatio,
@@ -484,6 +485,7 @@ wpd.graphicsWidget = (function () {
         removeRepainter();
         originalWidth = originalImage.width;
         originalHeight = originalImage.height;
+        originalSrc = originalImage.src;
         aspectRatio = originalWidth/(originalHeight*1.0);
         $oriImageCanvas.width = originalWidth;
         $oriImageCanvas.height = originalHeight;
@@ -496,18 +498,13 @@ wpd.graphicsWidget = (function () {
         wpd.appData.plotLoaded(originalImageData);
         
         wpd.busyNote.close();
-
-        // TODO: move this logic outside the graphics widget!
-        if (firstLoad === false) {
-            wpd.popup.show('axesList');
-        }
-        firstLoad = false;
     }
 
-    function loadImageFromSrc(imgSrc) {
+    function loadImageFromSrc(imgSrc, afterLoad) {
         var originalImage = document.createElement('img');
         originalImage.onload = function () {
             loadImage(originalImage);
+            if(afterLoad){ afterLoad.call(); }
         };
         originalImage.src = imgSrc;
     }
@@ -595,6 +592,10 @@ wpd.graphicsWidget = (function () {
 
     function getImageData() {
         return originalImageData;
+    }
+
+    function getImageSrc() {
+        return originalSrc;
     }
 
     function setTool(tool) {
@@ -715,6 +716,7 @@ wpd.graphicsWidget = (function () {
         forceHandlerRepaint: forceHandlerRepaint,
         getRepainter: getRepainter,
 
-        saveImage: saveImage
+        saveImage: saveImage,
+        getImageSrc: getImageSrc
     };
 })();

@@ -17,18 +17,21 @@ wpd.iframe_api = (function () {
             case 'loadImage': {
                 //Load image in viewer
                 //src: image path on remote server
-                var local_img = '/images/' + message.src.substr(message.src.lastIndexOf('/') + 1, message.src.length - 1);;
+                var local_img = '/images/' + message.src.substr(message.src.lastIndexOf('/') + 1, message.src.length - 1);
                 if( !wpd.imageOps.imageExists(local_img)){
                     //If image doesn't exist, transfer over, then load
                     var ajax = new XMLHttpRequest();
                     ajax.addEventListener('load', function(){
-                        if(ajax.status == 200){ wpd.graphicsWidget.loadImageFromURL(local_img); }
+                        if(ajax.status == 200){
+                            wpd.saveResume.importImageAndJSON(local_img, JSON.parse(message.graph_json));
+                        }
                     });
                     ajax.open('HEAD', '/php/transfer_image.php?url=' + message.src);
                     ajax.send();
                 }else{
-                    wpd.graphicsWidget.loadImageFromURL(local_img);
+                    wpd.saveResume.importImageAndJSON(local_img, JSON.parse(message.graph_json));
                 }
+
                 break;
             }
 
@@ -41,7 +44,10 @@ wpd.iframe_api = (function () {
 
     //Send JSON message back to parent.
     function sendMessage(message) {
-        parent.postMessage(message, document.referrer);
+        //If WPD is embedded, send message
+        if (document.referrer != ''){
+            parent.postMessage(message, document.referrer);
+        }
     }
 
     function sendDataChangeUpdate() {
