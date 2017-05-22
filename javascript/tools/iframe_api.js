@@ -18,18 +18,19 @@ wpd.iframe_api = (function () {
                 //Load image in viewer
                 //src: image path on remote server
                 var local_img = '/images/' + message.src.substr(message.src.lastIndexOf('/') + 1, message.src.length - 1);
+                var graph_json = message.graph_json == null ? null : JSON.parse(message.graph_json);
                 if( !wpd.imageOps.imageExists(local_img)){
                     //If image doesn't exist, transfer over, then load
                     var ajax = new XMLHttpRequest();
                     ajax.addEventListener('load', function(){
                         if(ajax.status == 200){
-                            wpd.saveResume.importImageAndJSON(local_img, JSON.parse(message.graph_json));
+                            wpd.saveResume.importImageAndJSON(local_img, graph_json);
                         }
                     });
                     ajax.open('HEAD', '/php/transfer_image.php?url=' + message.src);
                     ajax.send();
                 }else{
-                    wpd.saveResume.importImageAndJSON(local_img, JSON.parse(message.graph_json));
+                    wpd.saveResume.importImageAndJSON(local_img, graph_json);
                 }
 
                 break;
