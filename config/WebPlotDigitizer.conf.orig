@@ -1,0 +1,15 @@
+server {  
+    listen 1235;
+    root   /srv/www/WebPlotDigitizer;  
+    index  index.html;
+
+    location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+<<<<<<< HEAD
+	fastcgi_pass 127.0.0.1:9000;
+=======
+	fastcgi_pass unix:/var/run/php5-fpm.sock;
+>>>>>>> 3367673507b9d5d575f0260c1f1c49fc53c16141
+    }
+}

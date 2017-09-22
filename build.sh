@@ -1,4 +1,5 @@
 #!/bin/bash
+echo $(whoami)
 echo "Combining Javascript Files..."
 bash combine.sh
 echo "Compiling Javascript Files..."

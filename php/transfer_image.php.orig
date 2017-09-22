@@ -1,0 +1,28 @@
+<<<<<<< HEAD
+<?php
+/**
+ * Created by PhpStorm.
+ * User: rwilliams
+ * Date: 9/22/16
+ * Time: 3:37 PM
+ */
+
+$url=$_GET['url'];
+$img = file_get_contents($url);
+$fn = substr(strrchr($url, "/"), 1);
+file_put_contents("../images/" . $fn,$img);
+=======
+<?php
+/**
+ * Created by PhpStorm.
+ * User: rwilliams
+ * Date: 9/22/16
+ * Time: 3:37 PM
+ */
+
+$url=$_GET['url'];
+$img = file_get_contents($url);
+$fn = substr(strrchr($url, "/"), 1);
+file_put_contents("../images/" . $fn,$img);
+>>>>>>> 3367673507b9d5d575f0260c1f1c49fc53c16141
+?>
