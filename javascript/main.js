@@ -23,21 +23,54 @@
 
 var wpd = wpd || {};
 
-wpd.initApp = function() {// This is run when the page loads.
+wpd.initApp = function(isWindowed, image_ref, initial_graph_json) {// This is run when the page loads.
 
-    wpd.browserInfo.checkBrowser();
-    wpd.layoutManager.initialLayout();
-    if(!wpd.loadRemoteData()) {
-        wpd.graphicsWidget.loadImageFromURL('start.png');
-        //wpd.messagePopup.show(wpd.gettext('unstable-version-warning'), wpd.gettext('unstable-version-warning-text'));
-    }
+    wpd.isWindowed = isWindowed;
+    wpd.image_ref = image_ref == null ? 'start.png' : image_ref;
+    wpd.initial_graph_json = initial_graph_json;
 
-    //Set up iframe API
+    //Load CSS
+    wpd.css_loaded = [];
+    wpd.css_loaded['/viewer/WPD/css/styles.css'] = false;
+    wpd.css_loaded['/viewer/WPD/css/widgets.css'] = false;
+    wpd.includeCss('/viewer/WPD/css/styles.css');
+    wpd.includeCss('/viewer/WPD/css/widgets.css');
+
+    //Set up frame API
     window.addEventListener('message', $.proxy(wpd.iframe_api.receiveMessage, wpd.iframe_api));
     window.addEventListener('dataChange', $.proxy(wpd.iframe_api.sendDataChangeUpdate, wpd.iframe_api));
 
-    document.getElementById('loadingCurtain').style.display = 'none';
+};
 
+
+wpd.initIfAllCSSLoaded = function(){
+    if( wpd.css_loaded['/viewer/WPD/css/styles.css'] && wpd.css_loaded['/viewer/WPD/css/widgets.css'] ){
+        wpd.browserInfo.checkBrowser();
+        wpd.layoutManager.initialLayout();
+
+        document.getElementById('loadingCurtain').style.display = 'none';
+
+        if(!wpd.loadRemoteData()) {
+            wpd.saveResume.importImageAndJSON(wpd.image_ref, wpd.initial_graph_json);
+            //wpd.graphicsWidget.loadImageFromURL(wpd.image_ref);
+            //wpd.messagePopup.show(wpd.gettext('unstable-version-warning'), wpd.gettext('unstable-version-warning-text'));
+        }
+    }
+};
+
+
+wpd.includeCss = function(filename) {
+    var head  = document.getElementsByTagName('head')[0];
+    var link  = document.createElement('link');
+    link.rel  = 'stylesheet';
+    link.type = 'text/css';
+    link.href = filename;
+    link.media = 'all';
+    link.onload = function(){
+        wpd.css_loaded[filename] = true;
+        wpd.initIfAllCSSLoaded();
+    };
+    head.appendChild(link);
 };
 
 wpd.loadRemoteData = function() {

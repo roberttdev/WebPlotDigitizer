@@ -87,6 +87,7 @@ input[type="button"], button {
 	border: thin #bbbbbb solid;
 	height:22px;
     margin: 0px;
+	box-sizing: border-box;
 }
 
 input[type="button"]:hover, button:hover {

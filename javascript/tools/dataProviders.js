@@ -132,6 +132,11 @@ wpd.plotDataProvider = (function() {
                 rawData[rowi][coli] = ptData[coli];
             }
 
+            // extra vars
+            if( !(pt.extraVars === undefined) ){
+                $.merge(rawData[rowi], pt.extraVars);
+            }
+
             // metadata
             for (metadi = 0; metadi < metaKeyCount; metadi++) {
                 if (pt.metadata == null || pt.metadata[metadi] == null) {
@@ -139,11 +144,13 @@ wpd.plotDataProvider = (function() {
                 } else {
                     ptmetadata = pt.metadata[metadi];
                 }
-                rawData[rowi][ptData.length + metadi] = ptmetadata;
+                rawData[rowi].push(ptmetadata);
+                //rawData[rowi][ptData.length + metadi] = ptmetadata;
             }
         }
 
-        fields = axes.getAxesLabels();
+        //fields = axes.getAxesLabels();
+        fields = dataSeries.variableNames;
         if(hasMetadata) {
             fields = fields.concat(metaKeys);
         }

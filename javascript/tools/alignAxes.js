@@ -457,6 +457,7 @@ wpd.alignAxes = (function () {
             return;
         }
         wpd.appData.isAligned(true);
+        wpd.dataSeriesManagement.manage();
         wpd.acquireData.load();
     }
 

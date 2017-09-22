@@ -1,6 +1,12 @@
 {% extends "_base.html" %}
 {% block scripts %}
+<!-- Environment config -->
+<script>
+    var wpd={};
+    wpd.dactyl_url = 'http://local.documentcloud.org:3000';
+</script>
 <!-- Individual, uncompressed javascript files -->
+<script src="/javascript/vendor/jquery-3.1.1.min.js"></script>
 <script src="javascript/browser/browserInfo.js"></script>
 <script src="javascript/core/AEalgos/averagingWindow.js"></script>
 <script src="javascript/core/AEalgos/averagingWindowCore.js"></script>
@@ -40,6 +46,7 @@
 <script src="javascript/tools/dataProviders.js"></script>
 <script src="javascript/tools/graphicsHelper.js"></script>
 <script src="javascript/tools/gridDetection.js"></script>
+<script src="javascript/tools/iframe_api.js"></script>
 <script src="javascript/tools/imageOps.js"></script>
 <script src="javascript/tools/keyCodes.js"></script>
 <script src="javascript/tools/manualDataCollection.js"></script>

@@ -36,8 +36,8 @@ wpd.popup = (function () {
         
         // Display the popup
         var pWindow = document.getElementById(popupid);
-        var screenWidth = parseInt(window.innerWidth, 10);
-        var screenHeight = parseInt(window.innerHeight, 10);
+        var screenWidth = wpd.isWindowed ? $('#allContainer').parent().width() : parseInt(window.innerWidth, 10);
+        var screenHeight = wpd.isWindowed ? $('#allContainer').parent().height() : parseInt(window.innerHeight, 10);
         var pWidth = parseInt(pWindow.offsetWidth, 10);
         var pHeight = parseInt(pWindow.offsetHeight, 10);
         var xPos = (screenWidth - pWidth)/2;

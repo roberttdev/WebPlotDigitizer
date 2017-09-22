@@ -28,7 +28,7 @@ wpd.sidebar = (function () {
         clear();
         var sb = document.getElementById(sbid);
         sb.style.display = "inline-block";
-        sb.style.height = parseInt(document.body.offsetHeight,10) - 280 + 'px';
+        sb.style.height = wpd.isWindowed ? $('#allContainer').parent().height() - 280 + 'px' : parseInt(document.body.offsetHeight,10) - 280 + 'px';
     }
 
     function clear() { // Clears all open sidebars
@@ -47,7 +47,7 @@ wpd.sidebar = (function () {
 
         for (ii = 0; ii < sidebarList.length; ii++) {
             if (sidebarList[ii].style.display === "inline-block") {
-                sidebarList[ii].style.height = parseInt(document.body.offsetHeight,10) - 280 + 'px';
+                sidebarList[ii].style.height = wpd.isWindowed ? $('#allContainer').parent().height() - 280 + 'px' : parseInt(document.body.offsetHeight,10) - 280 + 'px';
             }
         }
     }

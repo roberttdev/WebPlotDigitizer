@@ -30,8 +30,6 @@
 <meta http-equiv="Pragma" content="no-cache"/>
 <meta http-equiv="Expires" content="0"/>
 <title>WebPlotDigitizer - Copyright 2010-2016 Ankit Rohatgi</title>
-<link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
-<link rel="stylesheet" href="widgets.css" type="text/css" media="screen" />
 
 
 
@@ -205,7 +203,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
                 <button type="button" title="Zoom out" onclick="wpd.graphicsWidget.zoomOut();" style="border:none; width:20px;">-</button>
                 <button type="button" title="View actual size" onclick="wpd.graphicsWidget.zoom100perc();" style="border:none;">100%</button>
                 <button type="button" title="Fit to graphics area" onclick="wpd.graphicsWidget.zoomFit();" style="border:none;">Fit</button>
-                <button title="Toggle extended crosshair" onclick="wpd.graphicsWidget.toggleExtendedCrosshairBtn();" style="border:none; width:20px; background-image: url('images/crosshair.png'); background-repeat: no-repeat; background-position: center;" id="extended-crosshair-btn">&nbsp;</button>
+                <button title="Toggle extended crosshair" onclick="wpd.graphicsWidget.toggleExtendedCrosshairBtn();" style="border:none; width:20px; background-image: url('/viewer/WPD/images/crosshair.png'); background-repeat: no-repeat; background-position: center;" id="extended-crosshair-btn">&nbsp;</button>
             </div>
 
         </div>
@@ -591,7 +589,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<p align="center">Axes Orientation</p>
 	<center>
 	<table>
-	  <tr><td><img src="images/ternarynormal.png" width="200"></td><td><img src="images/ternaryreverse.png" width="200"></td></tr>
+	  <tr><td><img src="/viewer/WPD/images/ternarynormal.png" width="200"></td><td><img src="/viewer/WPD/images/ternaryreverse.png" width="200"></td></tr>
 	  <tr><td><p align="center"><input type="radio" name="ternaryOrientation" id="ternarynormal" checked> Normal</p></td><td><p align="center"><input type="radio" name="ternaryOrientation" id="ternaryreverse"> Reverse</p></td></tr>
 	</table>
 	</center>
@@ -604,7 +602,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	</div>
 
     <!-- View Data -->
-	<div id="csvWindow" class="popup" style="width: 800px; height: 480px;">
+	<div id="csvWindow" class="popup" style="height: 480px;">
 	<div class="popupheading">Acquired Data</div>
     <table style="width:780px;">
     <tr>
@@ -660,7 +658,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<div id="xyAxesInfo" class="popup" style="width:400px;">
 	<div class="popupheading">Align X-Y Axes</div>
 	<p>&nbsp;</p>
-	<p align="center"><img src="images/xyaxes.png" /></p>
+	<p align="center"><img src="/viewer/WPD/images/xyaxes.png" /></p>
 	<p align="center">Click four known points on the axes in the <font color="red">order shown in red</font>. Two on the X axis (X1, X2) and two on the Y axis (Y1, Y2).</p>
 	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Proceed" onclick="wpd.xyCalibration.pickCorners();" /></p>
@@ -670,7 +668,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <div id="barAxesInfo" class="popup" style="width:650px;">
     <div class="popupheading">Align Bar Chart Axes</div>
     <p>&nbsp;</p>
-    <p align="center"><img src="images/barchart.png" /></p>
+    <p align="center"><img src="/viewer/WPD/images/barchart.png" /></p>
     <p align="center">Click on two known points (P1, P2) on the continuous axes along the bars</p>
     <p>&nbsp;</p>
     <p align="center"><input type="button" value="Proceed" onclick="wpd.barCalibration.pickCorners();" /></p>
@@ -680,7 +678,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<div id="mapAxesInfo" class="popup" style="width: 350px;">
 	<div class="popupheading">Align Map To Scale Bar</div>
 	<p>&nbsp;</p>
-	<p align="center"><img src="images/map.png" /></p>
+	<p align="center"><img src="/viewer/WPD/images/map.png" /></p>
 	<p align="center">Click on the two ends of the scale bar on the map.</p>
 	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Proceed" onclick="wpd.mapCalibration.pickCorners();"></p>
@@ -690,7 +688,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<div id="polarAxesInfo" class="popup" style="width: 350px;">
 	<div class="popupheading">Align Polar Axes</div>
 	<p>&nbsp;</p>
-	<p align="center"><img src="images/polaraxes.png" /></p>
+	<p align="center"><img src="/viewer/WPD/images/polaraxes.png" /></p>
 	<p align="center">Click on the center, followed by two known points.</p>
 	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Proceed" onclick="wpd.polarCalibration.pickCorners();"></p>
@@ -700,7 +698,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 	<div id="ternaryAxesInfo" class="popup" style="width: 350px;">
 	<div class="popupheading">Align Ternary Axes</div>
 	<p>&nbsp;</p>
-	<p align="center"><img src="images/ternaryaxes.png" /></p>
+	<p align="center"><img src="/viewer/WPD/images/ternaryaxes.png" /></p>
 	<p align="center">Click on the three corners in the order shown above.</p>
 	<p>&nbsp;</p>
 	<p align="center"><input type="button" value="Proceed" onclick="wpd.ternaryCalibration.pickCorners();"></p>
@@ -735,15 +733,15 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
 
 
     <!-- Manage Data Series -->
-    <div id="manage-data-series-window" class="popup" style="width:400px;">
+    <div id="manage-data-series-window" class="popup" style="width:425px;">
     <div class="popupheading">Manage Datasets</div>
     <p>&nbsp;</p>
     <center>
     <table name="data_series_info">
-    <tr>
+    <!--<tr>
         <td align="right">Selected Dataset: </td><td> &nbsp;<select id="manage-data-series-list" style="width:200px;" onchange="wpd.dataSeriesManagement.changeSelectedSeries();"><option>Default Dataset</option></select></td>
     </tr>
-    <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <tr><td>&nbsp;</td><td>&nbsp;</td></tr>-->
     <tr>
         <td align="right">Dataset Name: </td><td> &nbsp;
         <input type="text" id="manage-data-series-name" onblur="wpd.dataSeriesManagement.editSeriesName();" onchange="wpd.dataSeriesManagement.editSeriesName();"/>
@@ -753,15 +751,32 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
         <td align="right">Data Points: </td><td> &nbsp;<span id="manage-data-series-point-count">0</span></td>
     </tr>
     <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <tr><td colspan="2"><table name="point_field_table"><tbody></tbody></table></td></tr>
     </table>
-    <input type="button" value="Add Field" onclick="wpd.dataSeriesManagement.addField();"/>
+    <input type="button" value="Add Field" onclick="wpd.dataSeriesManagement.addField(null);"/>
     </center>
     <p>&nbsp;</p>
     <p align="center">
         <input type="button" value="View Data" onclick="wpd.dataSeriesManagement.viewData();"/>
-        <input type="button" value="Close" onclick="wpd.popup.close('manage-data-series-window');"/>
+        <input type="button" value="Close" onclick="wpd.dataSeriesManagement.validateAndClose();"/>
     </p>
     </div>
+
+
+    <!-- Get Extra Variable Data -->
+    <div id="extra-variable-prompt" class="popup" style="width:425px;">
+        <div class="popupheading">Extra Variables</div>
+        <p>&nbsp;</p>
+        <center>
+            <input type="hidden" id="pointData"/>
+            <table name="extra_var_table"><tbody></tbody></table></td>
+        </center>
+        <p>&nbsp;</p>
+        <p align="center">
+            <input type="button" value="Close" onclick="wpd.dataSeriesManagement.activeDataSeries.validateExtraAndClose();"/>
+        </p>
+    </div>
+
 
     <!-- Axes Transformation Equations -->
     <div id="axes-transformation-equations-window" class="popup" style="width:600px;">
@@ -830,7 +845,7 @@ Stroke Width <input type="range" id="eraseThickness" min="1" max="150" value="20
     <!-- Perspective Transform Instructions -->
     <div id="perspective-info" class="popup" style="width:500px;">
     <div class="popupheading">Perspective Transformation</div>
-    <p align="center"><img src="images/perspective.png" width="350"></p>
+    <p align="center"><img src="/viewer/WPD/images/perspective.png" width="350"></p>
     <br/>
     <p align="center">Click on four corners of the region to be transformed as shown.</p>
     <br/>

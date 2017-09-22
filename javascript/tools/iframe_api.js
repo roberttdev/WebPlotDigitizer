@@ -8,27 +8,22 @@ var wpd = wpd || {};
 wpd.DataChangeEvent = new Event('dataChange');
 
 wpd.iframe_api = (function () {
+    var parentMsgFunction = null;
+
+    //Set callback function in parent app
+    function setParentMsgFunction(func){
+        this.parentMsgFunction = func;
+    }
 
     //Receives JSON as a string, translates it into WPD-executable call
     function receiveMessage(e) {
-        var message = JSON.parse(e.data);
+        var message = JSON.parse(e);
 
         switch(message.name) {
             case 'loadImage': {
                 //Load image in viewer
-                //src: image path on remote server
-                var local_img = '/images/' + message.src.substr(message.src.lastIndexOf('/') + 1, message.src.length - 1);;
-                if( !wpd.imageOps.imageExists(local_img)){
-                    //If image doesn't exist, transfer over, then load
-                    var ajax = new XMLHttpRequest();
-                    ajax.addEventListener('load', function(){
-                        if(ajax.status == 200){ wpd.graphicsWidget.loadImageFromURL(local_img); }
-                    });
-                    ajax.open('HEAD', '/php/transfer_image.php?url=' + message.src);
-                    ajax.send();
-                }else{
-                    wpd.graphicsWidget.loadImageFromURL(local_img);
-                }
+                var graph_json = message.graph_json == null ? null : JSON.parse(message.graph_json);
+                wpd.saveResume.importImageAndJSON(message.src, graph_json);
                 break;
             }
 
@@ -36,12 +31,14 @@ wpd.iframe_api = (function () {
                 alert('Error: iFrame API call not recognized');
             }
         }
-
     }
 
     //Send JSON message back to parent.
     function sendMessage(message) {
-        parent.postMessage(message, document.referrer);
+        //If WPD is embedded, send message
+        if (document.referrer != ''){
+            this.parentMsgFunction(message, document.referrer);
+        }
     }
 
     function sendDataChangeUpdate() {
@@ -50,6 +47,7 @@ wpd.iframe_api = (function () {
     }
 
     return {
+        setParentMsgFunction: setParentMsgFunction,
         receiveMessage: receiveMessage,
         sendMessage: sendMessage,
         sendDataChangeUpdate: sendDataChangeUpdate

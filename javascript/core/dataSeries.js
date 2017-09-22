@@ -36,7 +36,9 @@ wpd.DataSeries = (function () {
 
         this.name = "Default Dataset";
 
-        this.variableNames = ['x', 'y'];
+        this.variableNames = [];
+
+        this.variableIds = [];
 
         this.hasMetadata = function () {
             return hasMetadata;
@@ -63,13 +65,28 @@ wpd.DataSeries = (function () {
         };
 
         this.addPixel = function(pxi, pyi, mdata) {
+            var pointData = {x: pxi, y: pyi, metadata: mdata};
+
+            //Need to prompt for extra variable values if extra variables
+            if( this.variableIds.length > 2 ){
+                wpd.popup.show('extra-variable-prompt');
+                $('#pointData').val(JSON.stringify(pointData));
+            }else{
+                this.addPointData(pointData);
+            }
+        };
+
+        this.addPointData = function(pointData){
             var dlen = dataPoints.length;
-            dataPoints[dlen] = {x: pxi, y: pyi, metadata: mdata};
-            if (mdata != null) {
+            dataPoints[dlen] = pointData;
+            if (pointData.metadata != null) {
                 hasMetadata = true;
             }
+
+            wpd.dataPointCounter.setCount();
+
             window.dispatchEvent(wpd.DataChangeEvent);
-        };
+        }
 
         this.getPixel = function(index) {
             return dataPoints[index];
@@ -180,6 +197,42 @@ wpd.DataSeries = (function () {
             return selections;
         };
 
+
+        this.removeExtraVariableFromData = function(varNum){
+            //varNum is position in varId array among extra (non-locked) vars
+            for(var i=0; i < dataPoints.length; i++){
+                dataPoints[i].extraVars.splice(varNum,1);
+                if(dataPoints[i].extraVars.length == 0){ delete dataPoints[i].extraVars; }
+            }
+        };
+
+
+        this.validateExtraAndClose = function () {
+            //Check that all defined fields have values, if so, save, clear form, and close
+            var empty = false;
+            for(var i=2; i < wpd.dataSeriesManagement.activeDataSeries.variableIds.length; i++){
+                var val = $('#extra_var_' + wpd.dataSeriesManagement.activeDataSeries.variableIds[i]).val();
+                if( val == "" ){
+                    empty = true;
+                    break;
+                }
+            }
+
+            if( empty ){
+                alert('Please enter a value for each variable.');
+            }else{
+                var pointData = JSON.parse($('#pointData').val());
+                if(pointData.extraVars === undefined){ pointData.extraVars = []; }
+                $('#pointData').val('');
+
+                for(var i=2; i < wpd.dataSeriesManagement.activeDataSeries.variableIds.length; i++){
+                    pointData.extraVars.push($('#extra_var_' + wpd.dataSeriesManagement.activeDataSeries.variableIds[i]).val());
+                    $('#extra_var_' + wpd.dataSeriesManagement.activeDataSeries.variableIds[i]).val('');
+                }
+                wpd.popup.close('extra-variable-prompt');
+                this.addPointData(pointData);
+            }
+        }
     };
 })();
 

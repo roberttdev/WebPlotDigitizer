@@ -23,21 +23,54 @@
 
 var wpd = wpd || {};
 
-wpd.initApp = function() {// This is run when the page loads.
+wpd.initApp = function(isWindowed, image_ref, initial_graph_json) {// This is run when the page loads.
 
-    wpd.browserInfo.checkBrowser();
-    wpd.layoutManager.initialLayout();
-    if(!wpd.loadRemoteData()) {
-        wpd.graphicsWidget.loadImageFromURL('start.png');
-        //wpd.messagePopup.show(wpd.gettext('unstable-version-warning'), wpd.gettext('unstable-version-warning-text'));
-    }
+    wpd.isWindowed = isWindowed;
+    wpd.image_ref = image_ref == null ? 'start.png' : image_ref;
+    wpd.initial_graph_json = initial_graph_json;
 
-    //Set up iframe API
+    //Load CSS
+    wpd.css_loaded = [];
+    wpd.css_loaded['/viewer/WPD/css/styles.css'] = false;
+    wpd.css_loaded['/viewer/WPD/css/widgets.css'] = false;
+    wpd.includeCss('/viewer/WPD/css/styles.css');
+    wpd.includeCss('/viewer/WPD/css/widgets.css');
+
+    //Set up frame API
     window.addEventListener('message', $.proxy(wpd.iframe_api.receiveMessage, wpd.iframe_api));
     window.addEventListener('dataChange', $.proxy(wpd.iframe_api.sendDataChangeUpdate, wpd.iframe_api));
 
-    document.getElementById('loadingCurtain').style.display = 'none';
+};
 
+
+wpd.initIfAllCSSLoaded = function(){
+    if( wpd.css_loaded['/viewer/WPD/css/styles.css'] && wpd.css_loaded['/viewer/WPD/css/widgets.css'] ){
+        wpd.browserInfo.checkBrowser();
+        wpd.layoutManager.initialLayout();
+
+        document.getElementById('loadingCurtain').style.display = 'none';
+
+        if(!wpd.loadRemoteData()) {
+            wpd.saveResume.importImageAndJSON(wpd.image_ref, wpd.initial_graph_json);
+            //wpd.graphicsWidget.loadImageFromURL(wpd.image_ref);
+            //wpd.messagePopup.show(wpd.gettext('unstable-version-warning'), wpd.gettext('unstable-version-warning-text'));
+        }
+    }
+};
+
+
+wpd.includeCss = function(filename) {
+    var head  = document.getElementsByTagName('head')[0];
+    var link  = document.createElement('link');
+    link.rel  = 'stylesheet';
+    link.type = 'text/css';
+    link.href = filename;
+    link.media = 'all';
+    link.onload = function(){
+        wpd.css_loaded[filename] = true;
+        wpd.initIfAllCSSLoaded();
+    };
+    head.appendChild(link);
 };
 
 wpd.loadRemoteData = function() {
@@ -799,11 +832,15 @@ wpd.DataSeries = (function () {
             connections = [],
             selections = [],
             hasMetadata = false,
-            mkeys = [];
+            mkeys = [],
+            pointFields = [];
+
 
         this.name = "Default Dataset";
 
-        this.variableNames = ['x', 'y'];
+        this.variableNames = [];
+
+        this.variableIds = [];
 
         this.hasMetadata = function () {
             return hasMetadata;
@@ -817,14 +854,41 @@ wpd.DataSeries = (function () {
             return mkeys;
         };
 
+        this.addPointField = function(name, map_id) {
+            dataPoints.push({name: name, map_id: map_id});
+        };
+
+        this.editPointField = function(name, map_id, loc) {
+            dataPoints[loc] = {name: name, map_id: map_id};
+        };
+
+        this.deletePointField = function(loc) {
+            dataPoints.splice(loc);
+        };
+
         this.addPixel = function(pxi, pyi, mdata) {
+            var pointData = {x: pxi, y: pyi, metadata: mdata};
+
+            //Need to prompt for extra variable values if extra variables
+            if( this.variableIds.length > 2 ){
+                wpd.popup.show('extra-variable-prompt');
+                $('#pointData').val(JSON.stringify(pointData));
+            }else{
+                this.addPointData(pointData);
+            }
+        };
+
+        this.addPointData = function(pointData){
             var dlen = dataPoints.length;
-            dataPoints[dlen] = {x: pxi, y: pyi, metadata: mdata};
-            if (mdata != null) {
+            dataPoints[dlen] = pointData;
+            if (pointData.metadata != null) {
                 hasMetadata = true;
             }
+
+            wpd.dataPointCounter.setCount();
+
             window.dispatchEvent(wpd.DataChangeEvent);
-        };
+        }
 
         this.getPixel = function(index) {
             return dataPoints[index];
@@ -935,6 +999,42 @@ wpd.DataSeries = (function () {
             return selections;
         };
 
+
+        this.removeExtraVariableFromData = function(varNum){
+            //varNum is position in varId array among extra (non-locked) vars
+            for(var i=0; i < dataPoints.length; i++){
+                dataPoints[i].extraVars.splice(varNum,1);
+                if(dataPoints[i].extraVars.length == 0){ delete dataPoints[i].extraVars; }
+            }
+        };
+
+
+        this.validateExtraAndClose = function () {
+            //Check that all defined fields have values, if so, save, clear form, and close
+            var empty = false;
+            for(var i=2; i < wpd.dataSeriesManagement.activeDataSeries.variableIds.length; i++){
+                var val = $('#extra_var_' + wpd.dataSeriesManagement.activeDataSeries.variableIds[i]).val();
+                if( val == "" ){
+                    empty = true;
+                    break;
+                }
+            }
+
+            if( empty ){
+                alert('Please enter a value for each variable.');
+            }else{
+                var pointData = JSON.parse($('#pointData').val());
+                if(pointData.extraVars === undefined){ pointData.extraVars = []; }
+                $('#pointData').val('');
+
+                for(var i=2; i < wpd.dataSeriesManagement.activeDataSeries.variableIds.length; i++){
+                    pointData.extraVars.push($('#extra_var_' + wpd.dataSeriesManagement.activeDataSeries.variableIds[i]).val());
+                    $('#extra_var_' + wpd.dataSeriesManagement.activeDataSeries.variableIds[i]).val('');
+                }
+                wpd.popup.close('extra-variable-prompt');
+                this.addPointData(pointData);
+            }
+        }
     };
 })();
 
@@ -3454,11 +3554,9 @@ var wpd = wpd || {};
 wpd.dataSeriesManagement = (function () {
 
     var nameIndex = 1;
-    var pointFieldCount = 0;
     var pointFieldSelect = null;
-    
-    function updateSeriesList() {
-    }
+    var activeDataSeries = null;
+    var lockedVars = null;
 
     function manage() {
         if(!wpd.appData.isAligned()) {
@@ -3466,13 +3564,14 @@ wpd.dataSeriesManagement = (function () {
         } else {
             var $nameField = document.getElementById('manage-data-series-name'),
                 $pointCount = document.getElementById('manage-data-series-point-count'),
-                $datasetList = document.getElementById('manage-data-series-list'),
+                //$datasetList = document.getElementById('manage-data-series-list'),
                 plotData = wpd.appData.getPlotData(),
-                activeDataSeries = plotData.getActiveDataSeries(),
                 seriesList = plotData.getDataSeriesNames(),
                 activeSeriesIndex = plotData.getActiveDataSeriesIndex(),
                 listHtml = '',
                 i;
+
+            this.activeDataSeries = plotData.getActiveDataSeries();
 
             //Populate point fields; pull measurement fields first if blank
             if( wpd.dataSeriesManagement.pointFieldSelect == null ){
@@ -3481,13 +3580,13 @@ wpd.dataSeriesManagement = (function () {
                 populatePointFields();
             }
 
-            $nameField.value = activeDataSeries.name;
-            $pointCount.innerHTML = activeDataSeries.getCount();
-            for(i = 0; i < seriesList.length; i++) {
+            $nameField.value = this.activeDataSeries.name;
+            $pointCount.innerHTML = this.activeDataSeries.getCount();
+            /*for(i = 0; i < seriesList.length; i++) {
                 listHtml += '<option value="'+ i + '">' + seriesList[i] + '</option>';
             }
             $datasetList.innerHTML = listHtml;
-            $datasetList.selectedIndex = activeSeriesIndex;
+            $datasetList.selectedIndex = activeSeriesIndex; */
 
             // TODO: disable delete button if only one series is present
             wpd.popup.show('manage-data-series-window');
@@ -3567,12 +3666,12 @@ wpd.dataSeriesManagement = (function () {
 
     function pullMeasurementFields(success) {
         $.ajax({
-            url         : wpd.dactyl_url + wpd.measurement_url,
+            url         : '/api/measurement_fields',
             type        : 'get',
             contentType : 'application/json; charset=utf-8',
             success     : function(data){
                 //Create select template
-                var select = '<select>';
+                var select = '<select onchange="wpd.dataSeriesManagement.updateField(this);"><option value="0">Select..</option>';
                 for(var i=0; i < data.length; i++){
                     select += '<option value="' + data[i].id + '">' + data[i].field_name + '</option>';
                 }
@@ -3584,24 +3683,118 @@ wpd.dataSeriesManagement = (function () {
     }
 
     function populatePointFields() {
-        //Populate X and Y values
-        addPointField('X Value:');
-        addPointField('Y Value:');
+        //If field list is blank, Populate X and Y values
+        if( wpd.dataSeriesManagement.activeDataSeries.variableNames.length == 0 ) {
+            lockedVars = ['X Value','Y Value'];
+            addPointField();
+            addPointField();
+        }
     }
 
     function addPointField(name) {
-        var new_row = '<tr><td>' + name + '</td><td>' + $(wpd.dataSeriesManagement.pointFieldSelect).clone().attr('id', 'point_field_' + wpd.dataSeriesManapointFieldCount).html() + '</td></tr>';
-        $('table[name=data_series_info] tr:last').after(new_row);
-        pointFieldCount++;
+        wpd.dataSeriesManagement.activeDataSeries.variableNames.push(null);
+        wpd.dataSeriesManagement.activeDataSeries.variableIds.push(null);
+        if(wpd.dataSeriesManagement.activeDataSeries.getCount() > 0){ alert('You have existing points which don\'t contain your new variable.  For consistent data, clear the existing points.'); }
+        redrawPointFields();
+    }
+
+    function updatePointField(fieldDom){
+        //Get ID from DOM element passed
+        id = parseInt(fieldDom.id.substr(fieldDom.id.lastIndexOf("_") + 1));
+        wpd.dataSeriesManagement.activeDataSeries.variableNames[id] = $('#point_field_value_' + id).find(':selected').text();
+        wpd.dataSeriesManagement.activeDataSeries.variableIds[id] = $('#point_field_value_' + id).find(':selected').val();
+    }
+
+    function deleteField(fieldDom) {
+        //Get ID from DOM element passed
+        id = parseInt(fieldDom.id.substr(fieldDom.id.lastIndexOf("_") + 1));
+
+        //If data points already exist, confirm that user wants to wipe entered data, then do it
+        if( this.activeDataSeries.getCount() > 0 ){
+            if( confirm('You have data using this variable.  Removing it will erase the variable from that data.  Do you wish to continue?') ){
+                var data = wpd.dataSeriesManagement.activeDataSeries.removeExtraVariableFromData(id - lockedVars.length);
+                wpd.dataSeriesManagement.activeDataSeries.variableNames.splice(id, 1);
+                wpd.dataSeriesManagement.activeDataSeries.variableIds.splice(id, 1);
+                redrawPointFields();
+            }
+        }else{
+            //Remove from variable list and redraw screen
+            wpd.dataSeriesManagement.activeDataSeries.removeExtraVariableFromData(id - lockedVars.length);
+            wpd.dataSeriesManagement.activeDataSeries.variableNames.splice(id, 1);
+            wpd.dataSeriesManagement.activeDataSeries.variableIds.splice(id, 1);
+            redrawPointFields();
+        }
+    }
+
+    function redrawPointFields() {
+        $('table[name=point_field_table] tbody tr').remove();
+        for(var i=0; i < wpd.dataSeriesManagement.activeDataSeries.variableNames.length; i++) {
+            if( i < lockedVars.length ){
+                label = lockedVars[i] + ':';
+                delButton = '';
+            }else{
+                label = '';
+                delButton = '<input type="button" value="X" id="delete_point_field_' + i + '" onClick="wpd.dataSeriesManagement.deleteField(this);">'
+            }
+
+            var new_row = '<tr><td align="right">' + label + '</td>' +
+                '<td>' + $(wpd.dataSeriesManagement.pointFieldSelect).clone().attr('id', 'point_field_value_' + i).prop('outerHTML') + '</td>' +
+                '<td>' + delButton + '</td></tr>';
+            $('table[name=point_field_table]').find('tbody').append(new_row);
+            $('#point_field_value_' + i).val(wpd.dataSeriesManagement.activeDataSeries.variableIds[i] == null ? 0 : wpd.dataSeriesManagement.activeDataSeries.variableIds[i]);
+        }
+    }
+
+    function redrawExtraVariables() {
+        //Redraw table for user to enter extra variable info
+        $("table[name=extra_var_table] tbody tr").remove();
+        for(var i=2; i < wpd.dataSeriesManagement.activeDataSeries.variableNames.length; i++) {
+            var new_row = '<tr><td align="right">' + wpd.dataSeriesManagement.activeDataSeries.variableNames[i] + '</td>' +
+                '<td><input type="text" id="extra_var_' + wpd.dataSeriesManagement.activeDataSeries.variableIds[i] + '"></td></tr>';
+            $('table[name=extra_var_table]').find('tbody').append(new_row);
+        }
+    }
+
+    function validateAndClose() {
+        //Check that all defined fields have selected values, and no value is used twice
+        var duped = false;
+        var unselected = false;
+        var selectedVals = [];
+        for(var i=0; i < wpd.dataSeriesManagement.activeDataSeries.variableNames.length; i++){
+            var val = $('#point_field_value_' + i).find(':selected').val();
+            if( val == "0" ){
+                unselected = true;
+                break;
+            }
+            if( $.inArray(val, selectedVals) != -1 ){
+                duped = true;
+                break;
+            }
+            selectedVals.push(val);
+        }
+
+        if( duped ){
+            alert('Each data point must be assigned a unique measurement value.  Please assign each data point a unique value.');
+        }else if( unselected ){
+            alert('All data points must be assigned a measurement value.  Please assign all points a value, or remove unassigned points.');
+        }else{
+            //Recreate extra data screen and close window
+            redrawExtraVariables();
+            wpd.popup.close('manage-data-series-window');
+        }
     }
 
     return {
         manage: manage,
+        addField: addPointField,
+        updateField: updatePointField,
+        deleteField: deleteField,
         addSeries: addSeries,
         deleteSeries: deleteSeries,
         viewData: viewData,
         changeSelectedSeries: changeSelectedSeries,
-        editSeriesName: editSeriesName.apply
+        editSeriesName: editSeriesName.apply,
+        validateAndClose: validateAndClose
     };
 })();
 /*
@@ -3971,6 +4164,7 @@ wpd.graphicsWidget = (function () {
         height,
         originalWidth,
         originalHeight,
+        originalSrc,
         
         aspectRatio,
         displayAspectRatio,
@@ -4397,7 +4591,7 @@ wpd.graphicsWidget = (function () {
 
     function loadImage(originalImage) {
         
-        if($mainCanvas == null) {
+        if($mainCanvas == null || wpd.isWindowed) {
             init();
         }
         wpd.appData.reset();
@@ -4406,6 +4600,7 @@ wpd.graphicsWidget = (function () {
         removeRepainter();
         originalWidth = originalImage.width;
         originalHeight = originalImage.height;
+        originalSrc = originalImage.src;
         aspectRatio = originalWidth/(originalHeight*1.0);
         $oriImageCanvas.width = originalWidth;
         $oriImageCanvas.height = originalHeight;
@@ -4418,18 +4613,13 @@ wpd.graphicsWidget = (function () {
         wpd.appData.plotLoaded(originalImageData);
         
         wpd.busyNote.close();
-
-        // TODO: move this logic outside the graphics widget!
-        if (firstLoad === false) {
-            wpd.popup.show('axesList');
-        }
-        firstLoad = false;
     }
 
-    function loadImageFromSrc(imgSrc) {
+    function loadImageFromSrc(imgSrc, afterLoad) {
         var originalImage = document.createElement('img');
         originalImage.onload = function () {
             loadImage(originalImage);
+            if(afterLoad){ afterLoad.call(); }
         };
         originalImage.src = imgSrc;
     }
@@ -4517,6 +4707,10 @@ wpd.graphicsWidget = (function () {
 
     function getImageData() {
         return originalImageData;
+    }
+
+    function getImageSrc() {
+        return originalSrc;
     }
 
     function setTool(tool) {
@@ -4637,7 +4831,8 @@ wpd.graphicsWidget = (function () {
         forceHandlerRepaint: forceHandlerRepaint,
         getRepainter: getRepainter,
 
-        saveImage: saveImage
+        saveImage: saveImage,
+        getImageSrc: getImageSrc
     };
 })();
 /*
@@ -4674,8 +4869,8 @@ wpd.layoutManager = (function () {
 
     // Redo layout when window is resized
     function adjustLayout() {
-        var windowWidth = parseInt(document.body.offsetWidth,10),
-            windowHeight = parseInt(document.body.offsetHeight,10);
+        var windowWidth = wpd.isWindowed ? $('#allContainer').parent().width() : parseInt(document.body.offsetWidth,10),
+            windowHeight = wpd.isWindowed ? $('#allContainer').parent().height() : parseInt(document.body.offsetHeight,10);
 
         $sidebarContainer.style.height = windowHeight + 'px';
         $sidebarControlsContainer.style.height = windowHeight - 280 + 'px';
@@ -4754,8 +4949,8 @@ wpd.popup = (function () {
         
         // Display the popup
         var pWindow = document.getElementById(popupid);
-        var screenWidth = parseInt(window.innerWidth, 10);
-        var screenHeight = parseInt(window.innerHeight, 10);
+        var screenWidth = wpd.isWindowed ? $('#allContainer').parent().width() : parseInt(window.innerWidth, 10);
+        var screenHeight = wpd.isWindowed ? $('#allContainer').parent().height() : parseInt(window.innerHeight, 10);
         var pWidth = parseInt(pWindow.offsetWidth, 10);
         var pHeight = parseInt(pWindow.offsetHeight, 10);
         var xPos = (screenWidth - pWidth)/2;
@@ -4975,7 +5170,7 @@ wpd.sidebar = (function () {
         clear();
         var sb = document.getElementById(sbid);
         sb.style.display = "inline-block";
-        sb.style.height = parseInt(document.body.offsetHeight,10) - 280 + 'px';
+        sb.style.height = wpd.isWindowed ? $('#allContainer').parent().height() - 280 + 'px' : parseInt(document.body.offsetHeight,10) - 280 + 'px';
     }
 
     function clear() { // Clears all open sidebars
@@ -4994,7 +5189,7 @@ wpd.sidebar = (function () {
 
         for (ii = 0; ii < sidebarList.length; ii++) {
             if (sidebarList[ii].style.display === "inline-block") {
-                sidebarList[ii].style.height = parseInt(document.body.offsetHeight,10) - 280 + 'px';
+                sidebarList[ii].style.height = wpd.isWindowed ? $('#allContainer').parent().height() - 280 + 'px' : parseInt(document.body.offsetHeight,10) - 280 + 'px';
             }
         }
     }
@@ -5817,6 +6012,7 @@ wpd.alignAxes = (function () {
             return;
         }
         wpd.appData.isAligned(true);
+        wpd.dataSeriesManagement.manage();
         wpd.acquireData.load();
     }
 
@@ -6470,6 +6666,11 @@ wpd.plotDataProvider = (function() {
                 rawData[rowi][coli] = ptData[coli];
             }
 
+            // extra vars
+            if( !(pt.extraVars === undefined) ){
+                $.merge(rawData[rowi], pt.extraVars);
+            }
+
             // metadata
             for (metadi = 0; metadi < metaKeyCount; metadi++) {
                 if (pt.metadata == null || pt.metadata[metadi] == null) {
@@ -6477,11 +6678,13 @@ wpd.plotDataProvider = (function() {
                 } else {
                     ptmetadata = pt.metadata[metadi];
                 }
-                rawData[rowi][ptData.length + metadi] = ptmetadata;
+                rawData[rowi].push(ptmetadata);
+                //rawData[rowi][ptData.length + metadi] = ptmetadata;
             }
         }
 
-        fields = axes.getAxesLabels();
+        //fields = axes.getAxesLabels();
+        fields = dataSeries.variableNames;
         if(hasMetadata) {
             fields = fields.concat(metaKeys);
         }
@@ -7110,27 +7313,22 @@ var wpd = wpd || {};
 wpd.DataChangeEvent = new Event('dataChange');
 
 wpd.iframe_api = (function () {
+    var parentMsgFunction = null;
+
+    //Set callback function in parent app
+    function setParentMsgFunction(func){
+        this.parentMsgFunction = func;
+    }
 
     //Receives JSON as a string, translates it into WPD-executable call
     function receiveMessage(e) {
-        var message = JSON.parse(e.data);
+        var message = JSON.parse(e);
 
         switch(message.name) {
             case 'loadImage': {
                 //Load image in viewer
-                //src: image path on remote server
-                var local_img = '/images/' + message.src.substr(message.src.lastIndexOf('/') + 1, message.src.length - 1);;
-                if( !wpd.imageOps.imageExists(local_img)){
-                    //If image doesn't exist, transfer over, then load
-                    var ajax = new XMLHttpRequest();
-                    ajax.addEventListener('load', function(){
-                        if(ajax.status == 200){ wpd.graphicsWidget.loadImageFromURL(local_img); }
-                    });
-                    ajax.open('HEAD', '/php/transfer_image.php?url=' + message.src);
-                    ajax.send();
-                }else{
-                    wpd.graphicsWidget.loadImageFromURL(local_img);
-                }
+                var graph_json = message.graph_json == null ? null : JSON.parse(message.graph_json);
+                wpd.saveResume.importImageAndJSON(message.src, graph_json);
                 break;
             }
 
@@ -7138,12 +7336,14 @@ wpd.iframe_api = (function () {
                 alert('Error: iFrame API call not recognized');
             }
         }
-
     }
 
     //Send JSON message back to parent.
     function sendMessage(message) {
-        parent.postMessage(message, document.referrer);
+        //If WPD is embedded, send message
+        if (document.referrer != ''){
+            this.parentMsgFunction(message, document.referrer);
+        }
     }
 
     function sendDataChangeUpdate() {
@@ -7152,6 +7352,7 @@ wpd.iframe_api = (function () {
     }
 
     return {
+        setParentMsgFunction: setParentMsgFunction,
         receiveMessage: receiveMessage,
         sendMessage: sendMessage,
         sendDataChangeUpdate: sendDataChangeUpdate
@@ -9251,6 +9452,7 @@ wpd.saveResume = (function () {
             outData = {
                     wpd: {
                         version: [3, 8], // [major, minor, subminor,...]
+                        imgSrc: wpd.graphicsWidget.getImageSrc(),
                         axesType: null,
                         axesParameters: null,
                         calibration: null,
@@ -9311,6 +9513,8 @@ wpd.saveResume = (function () {
             ds = plotData.dataSeriesColl[i];
             outData.wpd.dataSeries[i] = {
                 name: ds.name,
+                variableNames: ds.variableNames,
+                variableIds: ds.variableIds,
                 data: []
             };
             mkeys = ds.getMetadataKeys();
@@ -9320,7 +9524,10 @@ wpd.saveResume = (function () {
             for(j = 0; j < ds.getCount(); j++) {
                 pixel = ds.getPixel(j);
                 outData.wpd.dataSeries[i].data[j] = pixel;
-                outData.wpd.dataSeries[i].data[j].value = plotData.axes.pixelToData(pixel.x, pixel.y);
+
+                var exportValue = plotData.axes.pixelToData(pixel.x, pixel.y);
+                if( pixel.extraVars ){ $.merge(exportValue, pixel.extraVars); }
+                outData.wpd.dataSeries[i].data[j].value = exportValue;
             }
         }
 
@@ -9353,18 +9560,29 @@ wpd.saveResume = (function () {
             var fileReader = new FileReader();
             fileReader.onload = function () {
                 var json_data = JSON.parse(fileReader.result);
-                resumeFromJSON(json_data); 
-                
-                wpd.graphicsWidget.resetData();
-                wpd.graphicsWidget.removeTool();
-                wpd.graphicsWidget.removeRepainter();
-                if(wpd.appData.isAligned()) {
-                    wpd.acquireData.load();
-                }
-                wpd.messagePopup.show(wpd.gettext('import-json'), wpd.gettext("json-data-loaded"));
+                importJSON(json_data);
             };
             fileReader.readAsText($fileInput.files[0]);
         }
+    }
+
+    function importImageAndJSON(img, graph_json){
+        wpd.graphicsWidget.loadImageFromURL(img, function(){
+            //If there's JSON, import it, otherwise start new graph workflow
+            graph_json != null ? wpd.saveResume.importJSON(graph_json) : wpd.popup.show('axesList');
+        });
+    }
+
+    function importJSON(json_data){
+        resumeFromJSON(json_data);
+
+        wpd.graphicsWidget.resetData();
+        wpd.graphicsWidget.removeTool();
+        wpd.graphicsWidget.removeRepainter();
+        if(wpd.appData.isAligned()) {
+            wpd.acquireData.load();
+        }
+        wpd.messagePopup.show(wpd.gettext('import-json'), wpd.gettext("json-data-loaded"));
     }
 
     function exportToDACTYL() {
@@ -9379,6 +9597,8 @@ wpd.saveResume = (function () {
         load: load,
         download: download,
         exportToDACTYL: exportToDACTYL,
+        importJSON: importJSON,
+        importImageAndJSON: importImageAndJSON,
         read: read
     };
 })();
