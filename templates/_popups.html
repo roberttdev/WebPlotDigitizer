@@ -206,15 +206,15 @@
 	</div>
 
     <!-- View Data -->
-	<div id="csvWindow" class="popup" style="height: 480px;">
+	<div id="csvWindow" class="popup" style="height: 430px;">
 	<div class="popupheading">Acquired Data</div>
-    <table style="width:780px;">
+    <table>
     <tr>
     <td>
     <!-- left panel -->
     <span id="data-table-dataset-control"><p>Dataset: <select id="data-table-dataset-list" onchange="wpd.dataTable.changeDataset();"></select></p></span>
     <p align="center">Variables: <span id="dataVariables"></span></p>
-	<p align="center"><textarea id="digitizedDataTable" style="width: 480px; height: 250px;"></textarea></p>
+	<p align="center"><textarea id="digitizedDataTable" style="width: 460px; height: 250px;"></textarea></p>
 	<p align="center">
 		<input type="button" value="Select All" onclick="wpd.dataTable.selectAll();"/>
         <input type="button" value="Download .CSV" onclick="wpd.dataTable.generateCSV();"/>
@@ -224,7 +224,7 @@
 	<p align="center" class="footnote">*Plotly is a secure data analysis and graphing site with data sharing and access controls.</p>
 	<p align="center" class="footnote">Visit <a href="http://plot.ly" target="plotlyWebsite">http://plot.ly</a> for details.</p>
     </td>
-    <td valign="top" style="width:250px;">
+    <td valign="top" style="width:180px;">
     <!-- data side controls -->
     <p><b>Sort</b></p>
     <p class="leftIndent">Sort by: <select id="data-sort-variables" onchange="wpd.dataTable.reSort();"></select></p>

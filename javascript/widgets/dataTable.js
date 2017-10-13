@@ -91,7 +91,7 @@ wpd.dataTable = (function () {
 
             // Sorting
             if(dataCache.isFieldSortable[i]) {
-                sortingHTML += '<option value="' + dataCache.fields[i] + '">' + dataCache.fields[i] + '</option>';
+                sortingHTML += '<option value="' + dataCache.fields[i] + '">' + dataCache.fields[i].substring(0,10) + '</option>';
             }
 
             // Date formatting

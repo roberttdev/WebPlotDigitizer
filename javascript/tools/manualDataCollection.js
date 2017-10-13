@@ -248,7 +248,7 @@ wpd.ManualSelectionTool = (function () {
 
             } else {
 
-                activeDataSeries.addPixel(imagePos.x, imagePos.y);
+                activeDataSeries.addPixel(imagePos.x, imagePos.y, null);
                 wpd.graphicsHelper.drawPoint(imagePos, "rgb(200,0,0)");
 
             }

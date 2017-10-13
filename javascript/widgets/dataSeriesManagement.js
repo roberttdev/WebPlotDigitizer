@@ -31,6 +31,8 @@ wpd.dataSeriesManagement = (function () {
     var lockedVars = null;
 
     function manage() {
+        if (lockedVars == null) { lockedVars = ['X Value','Y Value']; }
+
         if(!wpd.appData.isAligned()) {
             wpd.messagePopup.show(wpd.gettext('manage-datasets'), wpd.gettext('manage-datasets-text'));
         } else {
@@ -102,7 +104,7 @@ wpd.dataSeriesManagement = (function () {
     }
 
     function viewData() {
-        close();
+        validateAndClose();
         wpd.dataTable.showTable();
     }
 
@@ -157,9 +159,10 @@ wpd.dataSeriesManagement = (function () {
     function populatePointFields() {
         //If field list is blank, Populate X and Y values
         if( wpd.dataSeriesManagement.activeDataSeries.variableNames.length == 0 ) {
-            lockedVars = ['X Value','Y Value'];
             addPointField();
             addPointField();
+        }else{
+            redrawPointFields();
         }
     }
 

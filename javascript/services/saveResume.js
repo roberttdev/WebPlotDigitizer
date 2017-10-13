@@ -116,11 +116,15 @@ wpd.saveResume = (function () {
            plotData.dataSeriesColl[i] = new wpd.DataSeries();
            currDataset = plotData.dataSeriesColl[i];
            currDataset.name = ds.name;
+
+           currDataset.variableIds = ds.variableIds;
+           currDataset.variableNames = ds.variableNames;
+
            if(ds.metadataKeys != null) {
                currDataset.setMetadataKeys(ds.metadataKeys);
            }
            for(j = 0; j < ds.data.length; j++) {
-               currDataset.addPixel(ds.data[j].x, ds.data[j].y, ds.data[j].metadata);
+               currDataset.addPixel(ds.data[j].x, ds.data[j].y, ds.data[j].metadata, ds.data[j].extraVars);
            }
        }
 

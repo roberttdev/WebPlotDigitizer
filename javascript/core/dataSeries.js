@@ -64,11 +64,11 @@ wpd.DataSeries = (function () {
             dataPoints.splice(loc);
         };
 
-        this.addPixel = function(pxi, pyi, mdata) {
-            var pointData = {x: pxi, y: pyi, metadata: mdata};
+        this.addPixel = function(pxi, pyi, mdata, extraVars) {
+            var pointData = {x: pxi, y: pyi, metadata: mdata, extraVars: extraVars};
 
-            //Need to prompt for extra variable values if extra variables
-            if( this.variableIds.length > 2 ){
+            //Need to prompt for extra variable values if extra variables (and not repopulating from json load)
+            if( !extraVars && this.variableIds.length > 2 ){
                 wpd.popup.show('extra-variable-prompt');
                 $('#pointData').val(JSON.stringify(pointData));
             }else{
