@@ -427,6 +427,8 @@ wpd.graphicsWidget = (function () {
 
         $canvasDiv = wpd.findElement('canvasDiv');
 
+        activeTool = null;
+
         // Extended crosshair
         document.addEventListener('keydown', function(ev) {
             if(isCanvasInFocus) {
