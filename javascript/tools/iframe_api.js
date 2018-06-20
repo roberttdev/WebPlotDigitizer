@@ -42,8 +42,8 @@ wpd.iframe_api = (function () {
     }
 
     function sendDataChangeUpdate() {
-        var message = {name: 'dataChange'};
-        this.sendMessage(message);
+        var message = {name: 'exportJSON', data: wpd.saveResume.generateJSON()};
+        wpd.iframe_api.sendMessage(message);
     }
 
     return {

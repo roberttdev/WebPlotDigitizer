@@ -62,13 +62,13 @@ wpd.dataTable = (function () {
 
     function setupControls() {
 
-        var $datasetControl = document.getElementById('data-table-dataset-control'),
-            $datasetList = document.getElementById('data-table-dataset-list'),
+        var $datasetControl = wpd.findElement('data-table-dataset-control'),
+            $datasetList = wpd.findElement('data-table-dataset-list'),
             datasetNames = dataProvider.getDatasetNames(),
-            $sortingVariables = document.getElementById('data-sort-variables'),
-            $variableNames = document.getElementById('dataVariables'),
-            $dateFormattingContainer = document.getElementById('data-date-formatting-container'),
-            $dateFormatting = document.getElementById('data-date-formatting'),
+            $sortingVariables = wpd.findElement('data-sort-variables'),
+            $variableNames = wpd.findElement('dataVariables'),
+            $dateFormattingContainer = wpd.findElement('data-date-formatting-container'),
+            $dateFormatting = wpd.findElement('data-date-formatting'),
             i,
             datasetHTML = '',
             sortingHTML = '',
@@ -115,14 +115,14 @@ wpd.dataTable = (function () {
     }
 
     function changeDataset() {
-        var $datasetList = document.getElementById('data-table-dataset-list');
+        var $datasetList = wpd.findElement('data-table-dataset-list');
         dataProvider.setDatasetIndex($datasetList.selectedIndex);
         refresh();
     }
 
     function updateSortingControls() {
-        var sortingKey = document.getElementById('data-sort-variables').value,
-            $sortingOrder = document.getElementById('data-sort-order'),
+        var sortingKey = wpd.findElement('data-sort-variables').value,
+            $sortingOrder = wpd.findElement('data-sort-order'),
             isConnectivity = sortingKey === 'NearestNeighbor',
             isRaw = sortingKey === 'raw';
         
@@ -146,8 +146,8 @@ wpd.dataTable = (function () {
         }
 
         sortedData = dataCache.rawData.slice(0);
-        var sortingKey = document.getElementById('data-sort-variables').value,
-            sortingOrder = document.getElementById('data-sort-order').value,
+        var sortingKey = wpd.findElement('data-sort-variables').value,
+            sortingOrder = wpd.findElement('data-sort-order').value,
             isAscending = sortingOrder === 'ascending',
             isRaw = sortingKey === 'raw',
             isConnectivity = sortingKey === 'NearestNeighbor',
@@ -213,10 +213,10 @@ wpd.dataTable = (function () {
     function makeTable() {
         if(sortedData == null) { return; }
 
-        var $digitizedDataTable = document.getElementById('digitizedDataTable'),
-            numFormattingDigits = parseInt(document.getElementById('data-number-format-digits').value, 10),
-            numFormattingStyle = document.getElementById('data-number-format-style').value,
-            colSeparator = document.getElementById('data-number-format-separator').value,
+        var $digitizedDataTable = wpd.findElement('digitizedDataTable'),
+            numFormattingDigits = parseInt(wpd.findElement('data-number-format-digits').value, 10),
+            numFormattingStyle = wpd.findElement('data-number-format-style').value,
+            colSeparator = wpd.findElement('data-number-format-separator').value,
             rowi,
             coli,
             rowValues,
@@ -231,7 +231,7 @@ wpd.dataTable = (function () {
             for(coli = 0; coli < dataCache.fields.length; coli++) {
                 if(dataCache.fieldDateFormat[coli] != null) { // Date
                     if(dateFormattingStrings[coli] === undefined) {
-                        dateFormattingStrings[coli] = document.getElementById('data-format-string-'+ coli).value;
+                        dateFormattingStrings[coli] = wpd.findElement('data-format-string-'+ coli).value;
                     }
                     rowValues[coli] = wpd.dateConverter.formatDateNumber(sortedData[rowi][coli], dateFormattingStrings[coli]);
                 } else { // Non-date values
@@ -257,7 +257,7 @@ wpd.dataTable = (function () {
     }
 
     function selectAll() {
-        var $digitizedDataTable = document.getElementById('digitizedDataTable');
+        var $digitizedDataTable = wpd.findElement('digitizedDataTable');
         $digitizedDataTable.focus();
         $digitizedDataTable.select();
     }

@@ -40,12 +40,12 @@ wpd.zoomView = (function() {
 
     function init() {
 
-        zCanvas = document.getElementById('zoomCanvas');
+        zCanvas = wpd.findElement('zoomCanvas');
     	zctx = zCanvas.getContext('2d');
 	    tempCanvas = document.createElement('canvas');
         tctx = tempCanvas.getContext('2d');
 
-        $mPosn = document.getElementById('mousePosition');
+        $mPosn = wpd.findElement('mousePosition');
 
         zoomRatio = 5;
 
@@ -53,7 +53,7 @@ wpd.zoomView = (function() {
     }
 
     function drawCrosshair() {
-        var zCrossHair = document.getElementById("zoomCrossHair");
+        var zCrossHair = wpd.findElement("zoomCrossHair");
         var zchCtx = zCrossHair.getContext("2d");
         
         zCrossHair.width = zCrossHair.width;
@@ -110,14 +110,14 @@ wpd.zoomView = (function() {
     }
 
     function showSettingsWindow() {
-        document.getElementById('zoom-magnification-value').value = zoomRatio;
-        document.getElementById('zoom-crosshair-color-value').value = crosshairColorText;
+        wpd.findElement('zoom-magnification-value').value = zoomRatio;
+        wpd.findElement('zoom-crosshair-color-value').value = crosshairColorText;
         wpd.popup.show('zoom-settings-popup');
     }
 
     function applySettings() {
-        zoomRatio = document.getElementById('zoom-magnification-value').value;
-        crosshairColorText = document.getElementById('zoom-crosshair-color-value').value;
+        zoomRatio = wpd.findElement('zoom-magnification-value').value;
+        crosshairColorText = wpd.findElement('zoom-crosshair-color-value').value;
         drawCrosshair();
         wpd.popup.close('zoom-settings-popup');
     }

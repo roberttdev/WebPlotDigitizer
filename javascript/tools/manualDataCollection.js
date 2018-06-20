@@ -78,7 +78,7 @@ wpd.acquireData = (function () {
 
     function updateControlVisibility() {
         var axes = wpd.appData.getPlotData().axes,
-            $editLabelsBtn = document.getElementById('edit-data-labels');
+            $editLabelsBtn = wpd.findElement('edit-data-labels');
         if(axes instanceof wpd.BarAxes) {
             $editLabelsBtn.style.display = 'inline-block';
         } else {
@@ -90,7 +90,7 @@ wpd.acquireData = (function () {
         var plotData = wpd.appData.getPlotData(),
             currentDataset = plotData.getActiveDataSeries(), // just to create a dataset if there is none.
             currentIndex = plotData.getActiveDataSeriesIndex(),
-            $datasetList = document.getElementById('manual-sidebar-dataset-list'),
+            $datasetList = wpd.findElement('manual-sidebar-dataset-list'),
             listHTML = '',
             i;
         for(i = 0; i < plotData.dataSeriesColl.length; i++) {
@@ -150,6 +150,7 @@ wpd.acquireData = (function () {
         adjustPoints: adjustPoints,
         deletePoint: deletePoint,
         clearAll: clearAll,
+        confirmedClearAll: confirmedClearAll,
         undo: undo,
         showSidebar: showSidebar,
         switchToolOnKeyPress: switchToolOnKeyPress,
@@ -177,13 +178,13 @@ wpd.dataPointLabelEditor = (function() {
 
         // show popup window with originalLabel in the input field.
         wpd.popup.show('data-point-label-editor');
-        $labelField = document.getElementById('data-point-label-field');
+        $labelField = wpd.findElement('data-point-label-field');
         $labelField.value = originalLabel;
         $labelField.focus();
     }
 
     function ok() {
-        var newLabel = document.getElementById('data-point-label-field').value;
+        var newLabel = wpd.findElement('data-point-label-field').value;
 
         if(newLabel != null && newLabel.length > 0) {
             // set label 
@@ -225,7 +226,7 @@ wpd.ManualSelectionTool = (function () {
         var plotData = wpd.appData.getPlotData();
 
         this.onAttach = function () {
-            document.getElementById('manual-select-button').classList.add('pressed-button');
+            wpd.findElement('manual-select-button').classList.add('pressed-button');
             wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
         };
 
@@ -264,7 +265,7 @@ wpd.ManualSelectionTool = (function () {
         };
 
         this.onRemove = function () {
-            document.getElementById('manual-select-button').classList.remove('pressed-button');
+            wpd.findElement('manual-select-button').classList.remove('pressed-button');
         };
 
         this.onKeyDown = function (ev) {
@@ -305,7 +306,7 @@ wpd.DeleteDataPointTool = (function () {
             plotData = wpd.appData.getPlotData();
 
         this.onAttach = function () {
-            document.getElementById('delete-point-button').classList.add('pressed-button');
+            wpd.findElement('delete-point-button').classList.add('pressed-button');
             wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
         };
 
@@ -325,7 +326,7 @@ wpd.DeleteDataPointTool = (function () {
         };
 
         this.onRemove = function () {
-            document.getElementById('delete-point-button').classList.remove('pressed-button');
+            wpd.findElement('delete-point-button').classList.remove('pressed-button');
         };
     };
     return Tool;
@@ -396,7 +397,7 @@ wpd.AdjustDataPointTool = (function () {
     var Tool = function () {
 
         this.onAttach = function () {
-            document.getElementById('manual-adjust-button').classList.add('pressed-button');
+            wpd.findElement('manual-adjust-button').classList.add('pressed-button');
             wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
             wpd.toolbar.show('adjustDataPointsToolbar');
         }; 
@@ -405,7 +406,7 @@ wpd.AdjustDataPointTool = (function () {
             var dataSeries = wpd.appData.getPlotData().getActiveDataSeries();
             dataSeries.unselectAll();
             wpd.graphicsWidget.forceHandlerRepaint();
-            document.getElementById('manual-adjust-button').classList.remove('pressed-button');
+            wpd.findElement('manual-adjust-button').classList.remove('pressed-button');
             wpd.toolbar.clear();
         };
 
@@ -496,12 +497,12 @@ wpd.AdjustDataPointTool = (function () {
 wpd.EditLabelsTool = function() {
 
     this.onAttach = function () {
-        document.getElementById('edit-data-labels').classList.add('pressed-button');
+        wpd.findElement('edit-data-labels').classList.add('pressed-button');
         wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
     };
 
     this.onRemove = function () {
-        document.getElementById('edit-data-labels').classList.remove('pressed-button');
+        wpd.findElement('edit-data-labels').classList.remove('pressed-button');
         wpd.appData.getPlotData().getActiveDataSeries().unselectAll();
     };
 
@@ -526,7 +527,7 @@ wpd.EditLabelsTool = function() {
 
 wpd.dataPointCounter = (function () {
     function setCount() {
-        var $counters = document.getElementsByClassName('data-point-counter'),
+        var $counters = wpd.findElementsByClass('data-point-counter'),
             ci;
         for(ci = 0; ci < $counters.length; ci++) {
             $counters[ci].innerHTML = wpd.appData.getPlotData().getActiveDataSeries().getCount();

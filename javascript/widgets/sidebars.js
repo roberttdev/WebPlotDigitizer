@@ -26,13 +26,13 @@ wpd.sidebar = (function () {
 
     function show(sbid) { // Shows a specific sidebar
         clear();
-        var sb = document.getElementById(sbid);
+        var sb = wpd.findElement(sbid);
         sb.style.display = "inline-block";
-        sb.style.height = wpd.isWindowed ? $('#allContainer').parent().height() - 280 + 'px' : parseInt(document.body.offsetHeight,10) - 280 + 'px';
+        sb.style.height = wpd.isWindowed ? wpd.parent_ref.height() - 280 + 'px' : parseInt(document.body.offsetHeight,10) - 280 + 'px';
     }
 
     function clear() { // Clears all open sidebars
-        var sidebarList = document.getElementsByClassName('sidebar'),
+        var sidebarList = wpd.findElementsByClass('sidebar'),
             ii;
 
         for (ii = 0; ii < sidebarList.length; ii++) {
@@ -42,12 +42,12 @@ wpd.sidebar = (function () {
     }
 
     function resize() {
-        var sidebarList = document.getElementsByClassName('sidebar'),
+        var sidebarList = wpd.findElementsByClass('sidebar'),
             ii;
 
         for (ii = 0; ii < sidebarList.length; ii++) {
             if (sidebarList[ii].style.display === "inline-block") {
-                sidebarList[ii].style.height = wpd.isWindowed ? $('#allContainer').parent().height() - 280 + 'px' : parseInt(document.body.offsetHeight,10) - 280 + 'px';
+                sidebarList[ii].style.height = wpd.isWindowed ? wpd.parent_ref.height() - 280 + 'px' : parseInt(document.body.offsetHeight,10) - 280 + 'px';
             }
         }
     }

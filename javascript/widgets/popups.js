@@ -31,13 +31,13 @@ wpd.popup = (function () {
     function show(popupid) {
 
         // Dim lights to make it obvious that these are modal dialog boxes.
-        var shadowDiv = document.getElementById('shadow');
+        var shadowDiv = wpd.findElement('shadow');
         shadowDiv.style.visibility = "visible";
         
         // Display the popup
-        var pWindow = document.getElementById(popupid);
-        var screenWidth = wpd.isWindowed ? $('#allContainer').parent().width() : parseInt(window.innerWidth, 10);
-        var screenHeight = wpd.isWindowed ? $('#allContainer').parent().height() : parseInt(window.innerHeight, 10);
+        var pWindow = wpd.findElement(popupid);
+        var screenWidth = wpd.isWindowed ? wpd.parent_ref.width() : parseInt(window.innerWidth, 10);
+        var screenHeight = wpd.isWindowed ? wpd.parent_ref.height() : parseInt(window.innerHeight, 10);
         var pWidth = parseInt(pWindow.offsetWidth, 10);
         var pHeight = parseInt(pWindow.offsetHeight, 10);
         var xPos = (screenWidth - pWidth)/2;
@@ -60,10 +60,10 @@ wpd.popup = (function () {
 
     function close(popupid) {
 
-        var shadowDiv = document.getElementById('shadow');
+        var shadowDiv = wpd.findElement('shadow');
         shadowDiv.style.visibility = "hidden";
 
-        var pWindow = document.getElementById(popupid);
+        var pWindow = wpd.findElement(popupid);
         pWindow.style.visibility = "hidden";
 
         removeDragMask();
@@ -177,8 +177,8 @@ wpd.messagePopup = (function () {
 
     function show(title, msg, callback) {
         wpd.popup.show('messagePopup');
-        document.getElementById('message-popup-heading').innerHTML = title;
-        document.getElementById('message-popup-text').innerHTML = msg;
+        wpd.findElement('message-popup-heading').innerHTML = title;
+        wpd.findElement('message-popup-text').innerHTML = msg;
         close_callback = callback;
     }
 
@@ -200,8 +200,8 @@ wpd.okCancelPopup = (function () {
 
     function show(title, msg, ok_callback, cancel_callback) {
         wpd.popup.show('okCancelPopup');
-        document.getElementById('ok-cancel-popup-heading').innerHTML = title;
-        document.getElementById('ok-cancel-popup-text').innerHTML = msg;
+        wpd.findElement('ok-cancel-popup-heading').innerHTML = title;
+        wpd.findElement('ok-cancel-popup-text').innerHTML = msg;
         okCallback = ok_callback;
         cancelCallback = cancel_callback;
     }

@@ -25,12 +25,12 @@ wpd.toolbar = (function () {
 
     function show(tbid) { // Shows a specific toolbar
         clear();
-        var tb = document.getElementById(tbid);
+        var tb = wpd.findElement(tbid);
         tb.style.visibility = "visible";
     }
 
     function clear() { // Clears all open toolbars
-        var toolbarList = document.getElementsByClassName('toolbar'),
+        var toolbarList = wpd.findElementsByClass('toolbar'),
             ii;
 
         for (ii = 0; ii < toolbarList.length; ii++) {

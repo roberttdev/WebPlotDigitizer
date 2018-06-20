@@ -154,12 +154,12 @@ wpd.AddMeasurementTool = (function () {
             plist = [];
 
         this.onAttach = function () {
-            document.getElementById(mode.addButtonId).classList.add('pressed-button');
+            wpd.findElement(mode.addButtonId).classList.add('pressed-button');
             wpd.graphicsWidget.setRepainter(new wpd.MeasurementRepainter(mode));
         };
 
         this.onRemove = function () {
-            document.getElementById(mode.addButtonId).classList.remove('pressed-button');
+            wpd.findElement(mode.addButtonId).classList.remove('pressed-button');
         };
 
         this.onKeyDown = function (ev) {
@@ -254,12 +254,12 @@ wpd.DeleteMeasurementTool = (function () {
             plotData = wpd.appData.getPlotData();
 
         this.onAttach = function () {
-            document.getElementById(mode.deleteButtonId).classList.add('pressed-button');
+            wpd.findElement(mode.deleteButtonId).classList.add('pressed-button');
             wpd.graphicsWidget.setRepainter(new wpd.MeasurementRepainter(mode));
         };
 
         this.onRemove = function () {
-            document.getElementById(mode.deleteButtonId).classList.remove('pressed-button');
+            wpd.findElement(mode.deleteButtonId).classList.remove('pressed-button');
         };
         
         this.onKeyDown = function (ev) {

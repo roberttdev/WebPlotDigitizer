@@ -34,7 +34,7 @@ wpd.autoExtraction = (function () {
         var plotData = wpd.appData.getPlotData(),
             currentDataset = plotData.getActiveDataSeries(), // just to create a dataset if there is none.
             currentIndex = plotData.getActiveDataSeriesIndex(),
-            $datasetList = document.getElementById('automatic-sidebar-dataset-list'),
+            $datasetList = wpd.findElement('automatic-sidebar-dataset-list'),
             listHTML = '',
             i;
         for(i = 0; i < plotData.dataSeriesColl.length; i++) {
@@ -45,7 +45,7 @@ wpd.autoExtraction = (function () {
     }
 
     function changeDataset() {
-        var $datasetList = document.getElementById('automatic-sidebar-dataset-list'),
+        var $datasetList = wpd.findElement('automatic-sidebar-dataset-list'),
             index = $datasetList.selectedIndex;
         wpd.appData.getPlotData().setActiveDataSeriesIndex(index);
         wpd.graphicsWidget.forceHandlerRepaint();
@@ -69,7 +69,7 @@ wpd.algoManager = (function() {
         
         var innerHTML = '',
             axes = wpd.appData.getPlotData().axes,
-            $algoOptions = document.getElementById('auto-extract-algo-name');
+            $algoOptions = wpd.findElement('auto-extract-algo-name');
 
         if(axes === axesPtr) {
             return; // don't re-render if already done for this axes object.
@@ -109,7 +109,7 @@ wpd.algoManager = (function() {
     }
 
     function applyAlgoSelection() {
-        var $algoOptions = document.getElementById('auto-extract-algo-name'),
+        var $algoOptions = wpd.findElement('auto-extract-algo-name'),
             selectedValue = $algoOptions.value,
             autoDetector = wpd.appData.getPlotData().getAutoDetector();
 
@@ -131,7 +131,7 @@ wpd.algoManager = (function() {
     }
 
     function renderParameters(algo) {
-        var $paramContainer = document.getElementById('algo-parameter-container'),
+        var $paramContainer = wpd.findElement('algo-parameter-container'),
             algoParams = algo.getParamList(),
             pi,
             tableString = "<table>";
@@ -154,7 +154,7 @@ wpd.algoManager = (function() {
             var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
                 algo = autoDetector.algorithm,
                 repainter = new wpd.DataPointsRepainter(),
-                $paramFields = document.getElementsByClassName('algo-params'),
+                $paramFields = wpd.findElementsByClass('algo-params'),
                 pi,
                 paramId, paramIndex,
                 ctx = wpd.graphicsWidget.getAllContexts(),

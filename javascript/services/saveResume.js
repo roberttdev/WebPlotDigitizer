@@ -142,6 +142,7 @@ wpd.saveResume = (function () {
            }
        }
 
+       wpd.dataSeriesManagement.populate();
 
     }
 
@@ -253,7 +254,7 @@ wpd.saveResume = (function () {
     }
 
     function read() {
-        var $fileInput = document.getElementById('import-json-file');
+        var $fileInput =  wpd.findElement('import-json-file');
         wpd.popup.close('import-json-window');
         if($fileInput.files.length === 1) {
             var fileReader = new FileReader();
@@ -284,18 +285,11 @@ wpd.saveResume = (function () {
         wpd.messagePopup.show(wpd.gettext('import-json'), wpd.gettext("json-data-loaded"));
     }
 
-    function exportToDACTYL() {
-        //Send JSON of data back to DACTYL in parent frame
-        var message = {name: 'exportJSON', data: generateJSON()};
-        wpd.iframe_api.sendMessage(message);
-        wpd.popup.close('export-json-window');
-    }
-
     return {
         save: save,
         load: load,
         download: download,
-        exportToDACTYL: exportToDACTYL,
+        generateJSON: generateJSON,
         importJSON: importJSON,
         importImageAndJSON: importImageAndJSON,
         read: read

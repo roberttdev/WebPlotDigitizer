@@ -23,18 +23,24 @@
 
 var wpd = wpd || {};
 
-wpd.initApp = function(isWindowed, image_ref, initial_graph_json) {// This is run when the page loads.
+wpd.initApp = function(isWindowed, image_ref, initial_graph_json, parent_ref) {// This is run when the page loads.
 
     wpd.isWindowed = isWindowed;
     wpd.image_ref = image_ref == null ? 'start.png' : image_ref;
     wpd.initial_graph_json = initial_graph_json;
+    wpd.parent_ref = parent_ref ? parent_ref : document;
 
-    //Load CSS
-    wpd.css_loaded = [];
-    wpd.css_loaded['/viewer/WPD/css/styles.css'] = false;
-    wpd.css_loaded['/viewer/WPD/css/widgets.css'] = false;
-    wpd.includeCss('/viewer/WPD/css/styles.css');
-    wpd.includeCss('/viewer/WPD/css/widgets.css');
+    //Load CSS if it's not loaded.  If it is, skip to display
+    if( !$("link[href='/viewer/WPD/css/styles.css']").length ){
+        wpd.css_loaded = [];
+        wpd.css_loaded['/viewer/WPD/css/styles.css'] = false;
+        wpd.css_loaded['/viewer/WPD/css/widgets.css'] = false;
+        wpd.includeCss('/viewer/WPD/css/styles.css');
+        wpd.includeCss('/viewer/WPD/css/widgets.css');
+    }else{
+        wpd.initDisplay();
+    }
+
 
     //Set up frame API
     window.addEventListener('message', $.proxy(wpd.iframe_api.receiveMessage, wpd.iframe_api));
@@ -45,16 +51,23 @@ wpd.initApp = function(isWindowed, image_ref, initial_graph_json) {// This is ru
 
 wpd.initIfAllCSSLoaded = function(){
     if( wpd.css_loaded['/viewer/WPD/css/styles.css'] && wpd.css_loaded['/viewer/WPD/css/widgets.css'] ){
-        wpd.browserInfo.checkBrowser();
-        wpd.layoutManager.initialLayout();
+        wpd.initDisplay();
+    }
+};
 
-        document.getElementById('loadingCurtain').style.display = 'none';
 
-        if(!wpd.loadRemoteData()) {
-            wpd.saveResume.importImageAndJSON(wpd.image_ref, wpd.initial_graph_json);
-            //wpd.graphicsWidget.loadImageFromURL(wpd.image_ref);
-            //wpd.messagePopup.show(wpd.gettext('unstable-version-warning'), wpd.gettext('unstable-version-warning-text'));
-        }
+wpd.initDisplay = function(){
+    wpd.browserInfo.checkBrowser();
+    wpd.layoutManager.initialLayout();
+
+    var curtain = this.findElement('loadingCurtain');
+
+    if(curtain) curtain.style.display = 'none';
+
+    if(!wpd.loadRemoteData()) {
+        wpd.saveResume.importImageAndJSON(wpd.image_ref, wpd.initial_graph_json);
+        //wpd.graphicsWidget.loadImageFromURL(wpd.image_ref);
+        //wpd.messagePopup.show(wpd.gettext('unstable-version-warning'), wpd.gettext('unstable-version-warning-text'));
     }
 };
 
@@ -89,6 +102,17 @@ wpd.loadRemoteData = function() {
     }
     return false;
 };
+
+
+wpd.findElement = function(elementId) {
+    return (this.parent_ref) ? wpd.parent_ref.find('#' + elementId)[0] : document.getElementById(elementId);
+};
+
+
+wpd.findElementsByClass = function(className) {
+    return (this.parent_ref) ? wpd.parent_ref.find('.' + className) : document.getElementsByClassName(className)
+};
+
 
 document.addEventListener("DOMContentLoaded", wpd.initApp, true);
 
@@ -872,7 +896,7 @@ wpd.DataSeries = (function () {
             //Need to prompt for extra variable values if extra variables (and not repopulating from json load)
             if( !extraVars && this.variableIds.length > 2 ){
                 wpd.popup.show('extra-variable-prompt');
-                $('#pointData').val(JSON.stringify(pointData));
+                wpd.findElement('pointData').val(JSON.stringify(pointData));
             }else{
                 this.addPointData(pointData);
             }
@@ -1013,7 +1037,7 @@ wpd.DataSeries = (function () {
             //Check that all defined fields have values, if so, save, clear form, and close
             var empty = false;
             for(var i=2; i < wpd.dataSeriesManagement.activeDataSeries.variableIds.length; i++){
-                var val = $('#extra_var_' + wpd.dataSeriesManagement.activeDataSeries.variableIds[i]).val();
+                var val = wpd.findElement('extra_var_' + wpd.dataSeriesManagement.activeDataSeries.variableIds[i]).val();
                 if( val == "" ){
                     empty = true;
                     break;
@@ -1023,13 +1047,13 @@ wpd.DataSeries = (function () {
             if( empty ){
                 alert('Please enter a value for each variable.');
             }else{
-                var pointData = JSON.parse($('#pointData').val());
+                var pointData = JSON.parse(wpd.findElement('pointData').val());
                 if(pointData.extraVars === undefined){ pointData.extraVars = []; }
-                $('#pointData').val('');
+                wpd.findElement('pointData').val('');
 
                 for(var i=2; i < wpd.dataSeriesManagement.activeDataSeries.variableIds.length; i++){
-                    pointData.extraVars.push($('#extra_var_' + wpd.dataSeriesManagement.activeDataSeries.variableIds[i]).val());
-                    $('#extra_var_' + wpd.dataSeriesManagement.activeDataSeries.variableIds[i]).val('');
+                    pointData.extraVars.push($wpd.findElement('extra_var_' + wpd.dataSeriesManagement.activeDataSeries.variableIds[i]).val());
+                    wpd.findElement('extra_var_' + wpd.dataSeriesManagement.activeDataSeries.variableIds[i]).val('');
                 }
                 wpd.popup.close('extra-variable-prompt');
                 this.addPointData(pointData);
@@ -3558,15 +3582,17 @@ wpd.dataSeriesManagement = (function () {
     var activeDataSeries = null;
     var lockedVars = null;
 
-    function manage() {
-        if (lockedVars == null) { lockedVars = ['X Value','Y Value']; }
+    function populate() {
+        if (lockedVars == null) {
+            lockedVars = ['X Value', 'Y Value'];
+        }
 
-        if(!wpd.appData.isAligned()) {
+        if (!wpd.appData.isAligned()) {
             wpd.messagePopup.show(wpd.gettext('manage-datasets'), wpd.gettext('manage-datasets-text'));
         } else {
-            var $nameField = document.getElementById('manage-data-series-name'),
-                $pointCount = document.getElementById('manage-data-series-point-count'),
-                //$datasetList = document.getElementById('manage-data-series-list'),
+            var $nameField = wpd.findElement('manage-data-series-name'),
+                $pointCount = wpd.findElement('manage-data-series-point-count'),
+                //$datasetList = wpd.findElement('manage-data-series-list'),
                 plotData = wpd.appData.getPlotData(),
                 seriesList = plotData.getDataSeriesNames(),
                 activeSeriesIndex = plotData.getActiveDataSeriesIndex(),
@@ -3576,23 +3602,27 @@ wpd.dataSeriesManagement = (function () {
             this.activeDataSeries = plotData.getActiveDataSeries();
 
             //Populate point fields; pull measurement fields first if blank
-            if( wpd.dataSeriesManagement.pointFieldSelect == null ){
-                pullMeasurementFields(populatePointFields);
-            }else{
-                populatePointFields();
+            if (wpd.dataSeriesManagement.pointFieldSelect == null) {
+                this.pullMeasurementFields(this.populatePointFields.bind(this));
+            } else {
+                this.populatePointFields();
             }
 
             $nameField.value = this.activeDataSeries.name;
             $pointCount.innerHTML = this.activeDataSeries.getCount();
             /*for(i = 0; i < seriesList.length; i++) {
-                listHtml += '<option value="'+ i + '">' + seriesList[i] + '</option>';
-            }
-            $datasetList.innerHTML = listHtml;
-            $datasetList.selectedIndex = activeSeriesIndex; */
-
-            // TODO: disable delete button if only one series is present
-            wpd.popup.show('manage-data-series-window');
+             listHtml += '<option value="'+ i + '">' + seriesList[i] + '</option>';
+             }
+             $datasetList.innerHTML = listHtml;
+             $datasetList.selectedIndex = activeSeriesIndex; */
         }
+    }
+
+    function manage() {
+        this.populate();
+
+        // TODO: disable delete button if only one series is present
+        wpd.popup.show('manage-data-series-window');
     }
 
     function addSeries() {
@@ -3637,7 +3667,7 @@ wpd.dataSeriesManagement = (function () {
     }
 
     function changeSelectedSeries() {
-        var $list = document.getElementById('manage-data-series-list'),
+        var $list = wpd.findElement('manage-data-series-list'),
             plotData = wpd.appData.getPlotData();
 
         close();
@@ -3655,7 +3685,7 @@ wpd.dataSeriesManagement = (function () {
 
     function editSeriesName() {
         var activeSeries = wpd.appData.getPlotData().getActiveDataSeries(),
-            $name = document.getElementById('manage-data-series-name');
+            $name = wpd.findElement('manage-data-series-name');
         close();
         activeSeries.name = $name.value;
         updateApp(); // overkill, but not too bad.
@@ -3687,25 +3717,34 @@ wpd.dataSeriesManagement = (function () {
     function populatePointFields() {
         //If field list is blank, Populate X and Y values
         if( wpd.dataSeriesManagement.activeDataSeries.variableNames.length == 0 ) {
-            addPointField();
-            addPointField();
+            this.addField();
+            this.addField();
         }else{
-            redrawPointFields();
+            this.redrawFields();
         }
     }
 
     function addPointField(name) {
-        wpd.dataSeriesManagement.activeDataSeries.variableNames.push(null);
-        wpd.dataSeriesManagement.activeDataSeries.variableIds.push(null);
-        if(wpd.dataSeriesManagement.activeDataSeries.getCount() > 0){ alert('You have existing points which don\'t contain your new variable.  For consistent data, clear the existing points.'); }
-        redrawPointFields();
+        if(wpd.dataSeriesManagement.activeDataSeries.getCount() > 0){
+            if( confirm(wpd.gettext('existing-data-text')) ){
+                wpd.acquireData.confirmedClearAll();
+                wpd.dataSeriesManagement.activeDataSeries.variableNames.push(null);
+                wpd.dataSeriesManagement.activeDataSeries.variableIds.push(null);
+                redrawFields();
+            }
+        }else{
+            wpd.dataSeriesManagement.activeDataSeries.variableNames.push(null);
+            wpd.dataSeriesManagement.activeDataSeries.variableIds.push(null);
+            redrawFields();
+        }
+
     }
 
     function updatePointField(fieldDom){
         //Get ID from DOM element passed
         id = parseInt(fieldDom.id.substr(fieldDom.id.lastIndexOf("_") + 1));
-        wpd.dataSeriesManagement.activeDataSeries.variableNames[id] = $('#point_field_value_' + id).find(':selected').text();
-        wpd.dataSeriesManagement.activeDataSeries.variableIds[id] = $('#point_field_value_' + id).find(':selected').val();
+        wpd.dataSeriesManagement.activeDataSeries.variableNames[id] = $(wpd.findElement('point_field_value_' + id)).find(':selected').text();
+        wpd.dataSeriesManagement.activeDataSeries.variableIds[id] = $(wpd.findElement('point_field_value_' + id)).find(':selected').val();
     }
 
     function deleteField(fieldDom) {
@@ -3718,14 +3757,14 @@ wpd.dataSeriesManagement = (function () {
                 var data = wpd.dataSeriesManagement.activeDataSeries.removeExtraVariableFromData(id - lockedVars.length);
                 wpd.dataSeriesManagement.activeDataSeries.variableNames.splice(id, 1);
                 wpd.dataSeriesManagement.activeDataSeries.variableIds.splice(id, 1);
-                redrawPointFields();
+                redrawFields();
             }
         }else{
             //Remove from variable list and redraw screen
             wpd.dataSeriesManagement.activeDataSeries.removeExtraVariableFromData(id - lockedVars.length);
             wpd.dataSeriesManagement.activeDataSeries.variableNames.splice(id, 1);
             wpd.dataSeriesManagement.activeDataSeries.variableIds.splice(id, 1);
-            redrawPointFields();
+            redrawFields();
         }
     }
 
@@ -3744,7 +3783,7 @@ wpd.dataSeriesManagement = (function () {
                 '<td>' + $(wpd.dataSeriesManagement.pointFieldSelect).clone().attr('id', 'point_field_value_' + i).prop('outerHTML') + '</td>' +
                 '<td>' + delButton + '</td></tr>';
             $('table[name=point_field_table]').find('tbody').append(new_row);
-            $('#point_field_value_' + i).val(wpd.dataSeriesManagement.activeDataSeries.variableIds[i] == null ? 0 : wpd.dataSeriesManagement.activeDataSeries.variableIds[i]);
+            $(wpd.findElement('point_field_value_' + i)).val(wpd.dataSeriesManagement.activeDataSeries.variableIds[i] == null ? 0 : wpd.dataSeriesManagement.activeDataSeries.variableIds[i]);
         }
     }
 
@@ -3758,13 +3797,18 @@ wpd.dataSeriesManagement = (function () {
         }
     }
 
+    function redrawFields() {
+        redrawPointFields();
+        redrawExtraVariables();
+    }
+
     function validateAndClose() {
         //Check that all defined fields have selected values, and no value is used twice
         var duped = false;
         var unselected = false;
         var selectedVals = [];
         for(var i=0; i < wpd.dataSeriesManagement.activeDataSeries.variableNames.length; i++){
-            var val = $('#point_field_value_' + i).find(':selected').val();
+            var val = $(wpd.findElement('point_field_value_' + i)).find(':selected').val();
             if( val == "0" ){
                 unselected = true;
                 break;
@@ -3788,16 +3832,20 @@ wpd.dataSeriesManagement = (function () {
     }
 
     return {
-        manage: manage,
         addField: addPointField,
-        updateField: updatePointField,
-        deleteField: deleteField,
         addSeries: addSeries,
-        deleteSeries: deleteSeries,
-        viewData: viewData,
         changeSelectedSeries: changeSelectedSeries,
+        deleteField: deleteField,
+        deleteSeries: deleteSeries,
         editSeriesName: editSeriesName.apply,
-        validateAndClose: validateAndClose
+        manage: manage,
+        populate: populate,
+        populatePointFields: populatePointFields,
+        pullMeasurementFields: pullMeasurementFields,
+        redrawFields: redrawFields,
+        updateField: updatePointField,
+        validateAndClose: validateAndClose,
+        viewData: viewData
     };
 })();
 /*
@@ -3864,13 +3912,13 @@ wpd.dataTable = (function () {
 
     function setupControls() {
 
-        var $datasetControl = document.getElementById('data-table-dataset-control'),
-            $datasetList = document.getElementById('data-table-dataset-list'),
+        var $datasetControl = wpd.findElement('data-table-dataset-control'),
+            $datasetList = wpd.findElement('data-table-dataset-list'),
             datasetNames = dataProvider.getDatasetNames(),
-            $sortingVariables = document.getElementById('data-sort-variables'),
-            $variableNames = document.getElementById('dataVariables'),
-            $dateFormattingContainer = document.getElementById('data-date-formatting-container'),
-            $dateFormatting = document.getElementById('data-date-formatting'),
+            $sortingVariables = wpd.findElement('data-sort-variables'),
+            $variableNames = wpd.findElement('dataVariables'),
+            $dateFormattingContainer = wpd.findElement('data-date-formatting-container'),
+            $dateFormatting = wpd.findElement('data-date-formatting'),
             i,
             datasetHTML = '',
             sortingHTML = '',
@@ -3917,14 +3965,14 @@ wpd.dataTable = (function () {
     }
 
     function changeDataset() {
-        var $datasetList = document.getElementById('data-table-dataset-list');
+        var $datasetList = wpd.findElement('data-table-dataset-list');
         dataProvider.setDatasetIndex($datasetList.selectedIndex);
         refresh();
     }
 
     function updateSortingControls() {
-        var sortingKey = document.getElementById('data-sort-variables').value,
-            $sortingOrder = document.getElementById('data-sort-order'),
+        var sortingKey = wpd.findElement('data-sort-variables').value,
+            $sortingOrder = wpd.findElement('data-sort-order'),
             isConnectivity = sortingKey === 'NearestNeighbor',
             isRaw = sortingKey === 'raw';
         
@@ -3948,8 +3996,8 @@ wpd.dataTable = (function () {
         }
 
         sortedData = dataCache.rawData.slice(0);
-        var sortingKey = document.getElementById('data-sort-variables').value,
-            sortingOrder = document.getElementById('data-sort-order').value,
+        var sortingKey = wpd.findElement('data-sort-variables').value,
+            sortingOrder = wpd.findElement('data-sort-order').value,
             isAscending = sortingOrder === 'ascending',
             isRaw = sortingKey === 'raw',
             isConnectivity = sortingKey === 'NearestNeighbor',
@@ -4015,10 +4063,10 @@ wpd.dataTable = (function () {
     function makeTable() {
         if(sortedData == null) { return; }
 
-        var $digitizedDataTable = document.getElementById('digitizedDataTable'),
-            numFormattingDigits = parseInt(document.getElementById('data-number-format-digits').value, 10),
-            numFormattingStyle = document.getElementById('data-number-format-style').value,
-            colSeparator = document.getElementById('data-number-format-separator').value,
+        var $digitizedDataTable = wpd.findElement('digitizedDataTable'),
+            numFormattingDigits = parseInt(wpd.findElement('data-number-format-digits').value, 10),
+            numFormattingStyle = wpd.findElement('data-number-format-style').value,
+            colSeparator = wpd.findElement('data-number-format-separator').value,
             rowi,
             coli,
             rowValues,
@@ -4033,7 +4081,7 @@ wpd.dataTable = (function () {
             for(coli = 0; coli < dataCache.fields.length; coli++) {
                 if(dataCache.fieldDateFormat[coli] != null) { // Date
                     if(dateFormattingStrings[coli] === undefined) {
-                        dateFormattingStrings[coli] = document.getElementById('data-format-string-'+ coli).value;
+                        dateFormattingStrings[coli] = wpd.findElement('data-format-string-'+ coli).value;
                     }
                     rowValues[coli] = wpd.dateConverter.formatDateNumber(sortedData[rowi][coli], dateFormattingStrings[coli]);
                 } else { // Non-date values
@@ -4059,7 +4107,7 @@ wpd.dataTable = (function () {
     }
 
     function selectAll() {
-        var $digitizedDataTable = document.getElementById('digitizedDataTable');
+        var $digitizedDataTable = wpd.findElement('digitizedDataTable');
         $digitizedDataTable.focus();
         $digitizedDataTable.select();
     }
@@ -4384,7 +4432,7 @@ wpd.graphicsWidget = (function () {
 
     function toggleExtendedCrosshairBtn() { // called directly when toolbar button is hit
         extendedCrosshair = !(extendedCrosshair);
-        var $crosshairBtn = document.getElementById('extended-crosshair-btn');
+        var $crosshairBtn = wpd.findElement('extended-crosshair-btn');
         if(extendedCrosshair) {
             $crosshairBtn.classList.add('pressed-button');
         } else {
@@ -4525,11 +4573,11 @@ wpd.graphicsWidget = (function () {
 
 
     function init() {
-        $mainCanvas = document.getElementById('mainCanvas');
-        $dataCanvas = document.getElementById('dataCanvas');
-        $drawCanvas = document.getElementById('drawCanvas');
-        $hoverCanvas = document.getElementById('hoverCanvas');
-        $topCanvas = document.getElementById('topCanvas');
+        $mainCanvas = wpd.findElement('mainCanvas');
+        $dataCanvas = wpd.findElement('dataCanvas');
+        $drawCanvas = wpd.findElement('drawCanvas');
+        $hoverCanvas = wpd.findElement('hoverCanvas');
+        $topCanvas = wpd.findElement('topCanvas');
 
         $oriImageCanvas = document.createElement('canvas');
         $oriDataCanvas = document.createElement('canvas');
@@ -4543,7 +4591,7 @@ wpd.graphicsWidget = (function () {
         oriImageCtx = $oriImageCanvas.getContext('2d');
         oriDataCtx = $oriDataCanvas.getContext('2d');
 
-        $canvasDiv = document.getElementById('canvasDiv');
+        $canvasDiv = wpd.findElement('canvasDiv');
 
         // Extended crosshair
         document.addEventListener('keydown', function(ev) {
@@ -4586,7 +4634,7 @@ wpd.graphicsWidget = (function () {
         
         wpd.zoomView.initZoom();
         
-        document.getElementById('fileLoadBox').addEventListener("change", loadNewFile); 
+        wpd.findElement('fileLoadBox').addEventListener("change", loadNewFile);
 
         // Paste image from clipboard
         window.addEventListener('paste', function(event) {pasteHandler(event);}, false);
@@ -4669,7 +4717,7 @@ wpd.graphicsWidget = (function () {
 
 
     function loadNewFile() {
-        var fileLoadElem = document.getElementById('fileLoadBox');
+        var fileLoadElem = wpd.findElement('fileLoadBox');
         if(fileLoadElem.files.length == 1) {
             var fileInfo = fileLoadElem.files[0];
             wpd.busyNote.show();
@@ -4872,8 +4920,8 @@ wpd.layoutManager = (function () {
 
     // Redo layout when window is resized
     function adjustLayout() {
-        var windowWidth = wpd.isWindowed ? $('#allContainer').parent().width() : parseInt(document.body.offsetWidth,10),
-            windowHeight = wpd.isWindowed ? $('#allContainer').parent().height() : parseInt(document.body.offsetHeight,10);
+        var windowWidth = wpd.isWindowed ? wpd.parent_ref.width() : parseInt(document.body.offsetWidth,10),
+            windowHeight = wpd.isWindowed ? wpd.parent_ref.height() : parseInt(document.body.offsetHeight,10);
 
         $sidebarContainer.style.height = windowHeight + 'px';
         $sidebarControlsContainer.style.height = windowHeight - 280 + 'px';
@@ -4899,10 +4947,10 @@ wpd.layoutManager = (function () {
     // Set initial layout. Called right when the app is loaded.
     function initialLayout() {
         // do initial layout and also bind to the window resize event
-        $graphicsContainer = document.getElementById('graphicsContainer');
-        $sidebarContainer = document.getElementById('sidebarContainer');
-        $sidebarControlsContainer = document.getElementById('sidebarControlsContainer');
-        $mainContainer = document.getElementById('mainContainer');
+        $graphicsContainer = wpd.findElement('graphicsContainer');
+        $sidebarContainer = wpd.findElement('sidebarContainer');
+        $sidebarControlsContainer = wpd.findElement('sidebarControlsContainer');
+        $mainContainer = wpd.findElement('mainContainer');
         adjustLayout();
          
         window.addEventListener('resize', adjustLayoutOnResize, false);
@@ -4947,13 +4995,13 @@ wpd.popup = (function () {
     function show(popupid) {
 
         // Dim lights to make it obvious that these are modal dialog boxes.
-        var shadowDiv = document.getElementById('shadow');
+        var shadowDiv = wpd.findElement('shadow');
         shadowDiv.style.visibility = "visible";
         
         // Display the popup
-        var pWindow = document.getElementById(popupid);
-        var screenWidth = wpd.isWindowed ? $('#allContainer').parent().width() : parseInt(window.innerWidth, 10);
-        var screenHeight = wpd.isWindowed ? $('#allContainer').parent().height() : parseInt(window.innerHeight, 10);
+        var pWindow = wpd.findElement(popupid);
+        var screenWidth = wpd.isWindowed ? wpd.parent_ref.width() : parseInt(window.innerWidth, 10);
+        var screenHeight = wpd.isWindowed ? wpd.parent_ref.height() : parseInt(window.innerHeight, 10);
         var pWidth = parseInt(pWindow.offsetWidth, 10);
         var pHeight = parseInt(pWindow.offsetHeight, 10);
         var xPos = (screenWidth - pWidth)/2;
@@ -4976,10 +5024,10 @@ wpd.popup = (function () {
 
     function close(popupid) {
 
-        var shadowDiv = document.getElementById('shadow');
+        var shadowDiv = wpd.findElement('shadow');
         shadowDiv.style.visibility = "hidden";
 
-        var pWindow = document.getElementById(popupid);
+        var pWindow = wpd.findElement(popupid);
         pWindow.style.visibility = "hidden";
 
         removeDragMask();
@@ -5093,8 +5141,8 @@ wpd.messagePopup = (function () {
 
     function show(title, msg, callback) {
         wpd.popup.show('messagePopup');
-        document.getElementById('message-popup-heading').innerHTML = title;
-        document.getElementById('message-popup-text').innerHTML = msg;
+        wpd.findElement('message-popup-heading').innerHTML = title;
+        wpd.findElement('message-popup-text').innerHTML = msg;
         close_callback = callback;
     }
 
@@ -5116,8 +5164,8 @@ wpd.okCancelPopup = (function () {
 
     function show(title, msg, ok_callback, cancel_callback) {
         wpd.popup.show('okCancelPopup');
-        document.getElementById('ok-cancel-popup-heading').innerHTML = title;
-        document.getElementById('ok-cancel-popup-text').innerHTML = msg;
+        wpd.findElement('ok-cancel-popup-heading').innerHTML = title;
+        wpd.findElement('ok-cancel-popup-text').innerHTML = msg;
         okCallback = ok_callback;
         cancelCallback = cancel_callback;
     }
@@ -5171,13 +5219,13 @@ wpd.sidebar = (function () {
 
     function show(sbid) { // Shows a specific sidebar
         clear();
-        var sb = document.getElementById(sbid);
+        var sb = wpd.findElement(sbid);
         sb.style.display = "inline-block";
-        sb.style.height = wpd.isWindowed ? $('#allContainer').parent().height() - 280 + 'px' : parseInt(document.body.offsetHeight,10) - 280 + 'px';
+        sb.style.height = wpd.isWindowed ? wpd.parent_ref.height() - 280 + 'px' : parseInt(document.body.offsetHeight,10) - 280 + 'px';
     }
 
     function clear() { // Clears all open sidebars
-        var sidebarList = document.getElementsByClassName('sidebar'),
+        var sidebarList = wpd.findElementsByClass('sidebar'),
             ii;
 
         for (ii = 0; ii < sidebarList.length; ii++) {
@@ -5187,12 +5235,12 @@ wpd.sidebar = (function () {
     }
 
     function resize() {
-        var sidebarList = document.getElementsByClassName('sidebar'),
+        var sidebarList = wpd.findElementsByClass('sidebar'),
             ii;
 
         for (ii = 0; ii < sidebarList.length; ii++) {
             if (sidebarList[ii].style.display === "inline-block") {
-                sidebarList[ii].style.height = wpd.isWindowed ? $('#allContainer').parent().height() - 280 + 'px' : parseInt(document.body.offsetHeight,10) - 280 + 'px';
+                sidebarList[ii].style.height = wpd.isWindowed ? wpd.parent_ref.height() - 280 + 'px' : parseInt(document.body.offsetHeight,10) - 280 + 'px';
             }
         }
     }
@@ -5233,12 +5281,12 @@ wpd.toolbar = (function () {
 
     function show(tbid) { // Shows a specific toolbar
         clear();
-        var tb = document.getElementById(tbid);
+        var tb = wpd.findElement(tbid);
         tb.style.visibility = "visible";
     }
 
     function clear() { // Clears all open toolbars
-        var toolbarList = document.getElementsByClassName('toolbar'),
+        var toolbarList = wpd.findElementsByClass('toolbar'),
             ii;
 
         for (ii = 0; ii < toolbarList.length; ii++) {
@@ -5284,7 +5332,7 @@ wpd.transformationEquations = (function () {
             return;
         }
         wpd.popup.show('axes-transformation-equations-window');
-        var $list = document.getElementById('axes-transformation-equation-list'),
+        var $list = wpd.findElement('axes-transformation-equation-list'),
             listHTML = '',
             axes = wpd.appData.getPlotData().axes,
             eqns = axes.getTransformationEquations(),
@@ -5375,7 +5423,7 @@ wpd.webcamCapture = (function () {
             return;
         }
         wpd.popup.show('webcamCapture'); 
-        var $camVideo = document.getElementById('webcamVideo');
+        var $camVideo = wpd.findElement('webcamVideo');
         navigator.getUserMedia = getUserMedia();
         navigator.getUserMedia({video: true}, function(stream) {
             cameraStream = stream;
@@ -5385,7 +5433,7 @@ wpd.webcamCapture = (function () {
 
     function capture() {
         var $webcamCanvas = document.createElement('canvas'),
-            $camVideo = document.getElementById('webcamVideo'),
+            $camVideo = wpd.findElement('webcamVideo'),
             webcamCtx = $webcamCanvas.getContext('2d'),
             imageData;
         $webcamCanvas.width = $camVideo.videoWidth;
@@ -5462,12 +5510,12 @@ wpd.zoomView = (function() {
 
     function init() {
 
-        zCanvas = document.getElementById('zoomCanvas');
+        zCanvas = wpd.findElement('zoomCanvas');
     	zctx = zCanvas.getContext('2d');
 	    tempCanvas = document.createElement('canvas');
         tctx = tempCanvas.getContext('2d');
 
-        $mPosn = document.getElementById('mousePosition');
+        $mPosn = wpd.findElement('mousePosition');
 
         zoomRatio = 5;
 
@@ -5475,7 +5523,7 @@ wpd.zoomView = (function() {
     }
 
     function drawCrosshair() {
-        var zCrossHair = document.getElementById("zoomCrossHair");
+        var zCrossHair = wpd.findElement("zoomCrossHair");
         var zchCtx = zCrossHair.getContext("2d");
         
         zCrossHair.width = zCrossHair.width;
@@ -5532,14 +5580,14 @@ wpd.zoomView = (function() {
     }
 
     function showSettingsWindow() {
-        document.getElementById('zoom-magnification-value').value = zoomRatio;
-        document.getElementById('zoom-crosshair-color-value').value = crosshairColorText;
+        wpd.findElement('zoom-magnification-value').value = zoomRatio;
+        wpd.findElement('zoom-crosshair-color-value').value = crosshairColorText;
         wpd.popup.show('zoom-settings-popup');
     }
 
     function applySettings() {
-        zoomRatio = document.getElementById('zoom-magnification-value').value;
-        crosshairColorText = document.getElementById('zoom-crosshair-color-value').value;
+        zoomRatio = wpd.findElement('zoom-magnification-value').value;
+        crosshairColorText = wpd.findElement('zoom-crosshair-color-value').value;
         drawCrosshair();
         wpd.popup.close('zoom-settings-popup');
     }
@@ -5603,12 +5651,12 @@ wpd.xyCalibration = (function () {
     }
 
     function align() {
-        var xmin = document.getElementById('xmin').value,
-	        xmax = document.getElementById('xmax').value,
-	        ymin = document.getElementById('ymin').value,
-	        ymax = document.getElementById('ymax').value,
-	        xlog = document.getElementById('xlog').checked,
-	        ylog = document.getElementById('ylog').checked,
+        var xmin = wpd.findElement('xmin').value,
+	        xmax = wpd.findElement('xmax').value,
+	        ymin = wpd.findElement('ymin').value,
+	        ymax = wpd.findElement('ymax').value,
+	        xlog = wpd.findElement('xlog').checked,
+	        ylog = wpd.findElement('ylog').checked,
             axes = new wpd.XYAxes(),
             plot,
             calib = wpd.alignAxes.getActiveCalib();
@@ -5660,9 +5708,9 @@ wpd.barCalibration = (function () {
     }
 
     function align() {
-        var p1 = document.getElementById('bar-axes-p1').value,
-	        p2 = document.getElementById('bar-axes-p2').value,
-	        isLogScale = document.getElementById('bar-axes-log-scale').checked,
+        var p1 = wpd.findElement('bar-axes-p1').value,
+	        p2 = wpd.findElement('bar-axes-p2').value,
+	        isLogScale = wpd.findElement('bar-axes-log-scale').checked,
             axes = new wpd.BarAxes(),
             plot,
             calib = wpd.alignAxes.getActiveCalib();
@@ -5713,14 +5761,14 @@ wpd.polarCalibration = (function () {
     }
 
     function align() {
-        var r1 = parseFloat(document.getElementById('polar-r1').value),
-	        theta1 = parseFloat(document.getElementById('polar-theta1').value),
-	        r2 = parseFloat(document.getElementById('polar-r2').value),
-	        theta2 = parseFloat(document.getElementById('polar-theta2').value),
-	        degrees = document.getElementById('polar-degrees').checked,
-	        radians = document.getElementById('polar-radians').checked,
-	        orientation = document.getElementById('polar-clockwise').checked,
-            rlog = document.getElementById('polar-log-scale').checked,
+        var r1 = parseFloat(wpd.findElement('polar-r1').value),
+	        theta1 = parseFloat(wpd.findElement('polar-theta1').value),
+	        r2 = parseFloat(wpd.findElement('polar-r2').value),
+	        theta2 = parseFloat(wpd.findElement('polar-theta2').value),
+	        degrees = wpd.findElement('polar-degrees').checked,
+	        radians = wpd.findElement('polar-radians').checked,
+	        orientation = wpd.findElement('polar-clockwise').checked,
+            rlog = wpd.findElement('polar-log-scale').checked,
             axes = new wpd.PolarAxes(),
             plot,
             isDegrees = degrees,
@@ -5769,9 +5817,9 @@ wpd.ternaryCalibration = (function () {
     }
 
     function align() {
-        var range1 = document.getElementById('range0to1').checked,
-	        range100 = document.getElementById('range0to100').checked,
-	        ternaryNormal = document.getElementById('ternarynormal').checked,
+        var range1 = wpd.findElement('range0to1').checked,
+	        range100 = wpd.findElement('range0to100').checked,
+	        ternaryNormal = wpd.findElement('ternarynormal').checked,
             axes = new wpd.TernaryAxes(),
             plot,
             calib = wpd.alignAxes.getActiveCalib();
@@ -5816,8 +5864,8 @@ wpd.mapCalibration = (function () {
     }
 
     function align() {
-        var scaleLength = parseFloat(document.getElementById('scaleLength').value),
-            scaleUnits = document.getElementById('scaleUnits').value,
+        var scaleLength = parseFloat(wpd.findElement('scaleLength').value),
+            scaleUnits = wpd.findElement('scaleUnits').value,
             axes = new wpd.MapAxes(),
             plot,
             calib = wpd.alignAxes.getActiveCalib();
@@ -5964,12 +6012,12 @@ wpd.alignAxes = (function () {
     var calib, calibrator;
 
     function initiatePlotAlignment() {
-        xyEl = document.getElementById('r_xy');
-        polarEl = document.getElementById('r_polar');
-        ternaryEl = document.getElementById('r_ternary');
-        mapEl = document.getElementById('r_map');
-        imageEl = document.getElementById('r_image');
-        barEl = document.getElementById('r_bar');
+        xyEl = wpd.findElement('r_xy');
+        polarEl = wpd.findElement('r_polar');
+        ternaryEl = wpd.findElement('r_ternary');
+        mapEl = wpd.findElement('r_map');
+        imageEl = wpd.findElement('r_image');
+        barEl = wpd.findElement('r_bar');
 
         wpd.popup.close('axesList');
 
@@ -6015,7 +6063,7 @@ wpd.alignAxes = (function () {
             return;
         }
         wpd.appData.isAligned(true);
-        wpd.dataSeriesManagement.manage();
+        wpd.dataSeriesManagement.manage.call(wpd.dataSeriesManagement);
         wpd.acquireData.load();
     }
 
@@ -6093,7 +6141,7 @@ wpd.autoExtraction = (function () {
         var plotData = wpd.appData.getPlotData(),
             currentDataset = plotData.getActiveDataSeries(), // just to create a dataset if there is none.
             currentIndex = plotData.getActiveDataSeriesIndex(),
-            $datasetList = document.getElementById('automatic-sidebar-dataset-list'),
+            $datasetList = wpd.findElement('automatic-sidebar-dataset-list'),
             listHTML = '',
             i;
         for(i = 0; i < plotData.dataSeriesColl.length; i++) {
@@ -6104,7 +6152,7 @@ wpd.autoExtraction = (function () {
     }
 
     function changeDataset() {
-        var $datasetList = document.getElementById('automatic-sidebar-dataset-list'),
+        var $datasetList = wpd.findElement('automatic-sidebar-dataset-list'),
             index = $datasetList.selectedIndex;
         wpd.appData.getPlotData().setActiveDataSeriesIndex(index);
         wpd.graphicsWidget.forceHandlerRepaint();
@@ -6128,7 +6176,7 @@ wpd.algoManager = (function() {
         
         var innerHTML = '',
             axes = wpd.appData.getPlotData().axes,
-            $algoOptions = document.getElementById('auto-extract-algo-name');
+            $algoOptions = wpd.findElement('auto-extract-algo-name');
 
         if(axes === axesPtr) {
             return; // don't re-render if already done for this axes object.
@@ -6168,7 +6216,7 @@ wpd.algoManager = (function() {
     }
 
     function applyAlgoSelection() {
-        var $algoOptions = document.getElementById('auto-extract-algo-name'),
+        var $algoOptions = wpd.findElement('auto-extract-algo-name'),
             selectedValue = $algoOptions.value,
             autoDetector = wpd.appData.getPlotData().getAutoDetector();
 
@@ -6190,7 +6238,7 @@ wpd.algoManager = (function() {
     }
 
     function renderParameters(algo) {
-        var $paramContainer = document.getElementById('algo-parameter-container'),
+        var $paramContainer = wpd.findElement('algo-parameter-container'),
             algoParams = algo.getParamList(),
             pi,
             tableString = "<table>";
@@ -6213,7 +6261,7 @@ wpd.algoManager = (function() {
             var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
                 algo = autoDetector.algorithm,
                 repainter = new wpd.DataPointsRepainter(),
-                $paramFields = document.getElementsByClassName('algo-params'),
+                $paramFields = wpd.findElementsByClass('algo-params'),
                 pi,
                 paramId, paramIndex,
                 ctx = wpd.graphicsWidget.getAllContexts(),
@@ -6285,12 +6333,12 @@ wpd.colorSelectionWidget = (function () {
         title = params.title;
         setColorDelegate = params.setColorDelegate;
 
-        var $widgetTitle = document.getElementById('color-selection-title');
+        var $widgetTitle = wpd.findElement('color-selection-title');
         $widgetTitle.innerHTML = title;
     }
 
     function apply() {
-        var $triggerBtn = document.getElementById(triggerElementId);
+        var $triggerBtn = wpd.findElement(triggerElementId);
         $triggerBtn.style.backgroundColor = 'rgb('+color[0]+','+color[1]+','+color[2]+')';
         if(color[0] + color[1] + color[2] < 200) {
             $triggerBtn.style.color = 'rgb(255,255,255)';
@@ -6300,18 +6348,18 @@ wpd.colorSelectionWidget = (function () {
     }
 
     function startPicker() {
-        var $selectedColor = document.getElementById('color-selection-selected-color-box');
+        var $selectedColor = wpd.findElement('color-selection-selected-color-box');
         
         $selectedColor.style.backgroundColor = 'rgb('+color[0]+','+color[1]+','+color[2]+')';
-        document.getElementById('color-selection-red').value = color[0];
-        document.getElementById('color-selection-green').value = color[1];
-        document.getElementById('color-selection-blue').value = color[2];
+        wpd.findElement('color-selection-red').value = color[0];
+        wpd.findElement('color-selection-green').value = color[1];
+        wpd.findElement('color-selection-blue').value = color[2];
         renderColorOptions();
         wpd.popup.show('color-selection-widget');
     }
 
     function renderColorOptions() {
-        var $container = document.getElementById('color-selection-options'),
+        var $container = wpd.findElement('color-selection-options'),
             topColors = wpd.appData.getPlotData().topColors,
             colorCount = topColors.length > 10 ? 10 : topColors.length,
             colori,
@@ -6342,9 +6390,9 @@ wpd.colorSelectionWidget = (function () {
 
     function setColor() {
         var gui_color = [];
-        gui_color[0] = parseInt(document.getElementById('color-selection-red').value, 10);
-        gui_color[1] = parseInt(document.getElementById('color-selection-green').value, 10);
-        gui_color[2] = parseInt(document.getElementById('color-selection-blue').value, 10);
+        gui_color[0] = parseInt(wpd.findElement('color-selection-red').value, 10);
+        gui_color[1] = parseInt(wpd.findElement('color-selection-green').value, 10);
+        gui_color[2] = parseInt(wpd.findElement('color-selection-blue').value, 10);
         color = gui_color;
         setColorDelegate(gui_color);
         wpd.popup.close('color-selection-widget');
@@ -6436,10 +6484,10 @@ wpd.colorPicker = (function () {
     }
     
     function init() {
-        var $colorBtn = document.getElementById('color-button'),
-            $colorDistance = document.getElementById('color-distance-value'),
+        var $colorBtn = wpd.findElement('color-button'),
+            $colorDistance = wpd.findElement('color-distance-value'),
             autoDetector = wpd.appData.getPlotData().getAutoDetector(),
-            $modeSelector = document.getElementById('color-detection-mode-select'),
+            $modeSelector = wpd.findElement('color-detection-mode-select'),
             color;
         
         if(autoDetector.colorDetectionMode === 'fg') {
@@ -6455,7 +6503,7 @@ wpd.colorPicker = (function () {
     }
 
     function changeColorDistance() {
-        var color_distance = parseFloat(document.getElementById('color-distance-value').value);
+        var color_distance = parseFloat(wpd.findElement('color-distance-value').value);
         wpd.appData.getPlotData().getAutoDetector().colorDistance = color_distance;
     }
 
@@ -6486,7 +6534,7 @@ wpd.colorPicker = (function () {
     }
 
     function changeDetectionMode() {
-        var $modeSelector = document.getElementById('color-detection-mode-select');
+        var $modeSelector = wpd.findElement('color-detection-mode-select');
         wpd.appData.getPlotData().getAutoDetector().colorDetectionMode = $modeSelector.value;
         init();
     }
@@ -6912,8 +6960,8 @@ wpd.gridDetection = (function () {
     }
 
     function sidebarInit() {
-        var $colorPickerBtn = document.getElementById('grid-color-picker-button'),
-            $backgroundMode = document.getElementById('grid-background-mode'),
+        var $colorPickerBtn = wpd.findElement('grid-color-picker-button'),
+            $backgroundMode = wpd.findElement('grid-background-mode'),
             autodetector = wpd.appData.getPlotData().getAutoDetector(),
             color = autodetector.gridLineColor,
             backgroundMode = autodetector.gridBackgroundMode;
@@ -7012,11 +7060,11 @@ wpd.gridDetection = (function () {
         var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
             ctx = wpd.graphicsWidget.getAllContexts(),
             imageSize = wpd.graphicsWidget.getImageSize(),
-            $xperc = document.getElementById('grid-horiz-perc'),
-            $yperc = document.getElementById('grid-vert-perc'),
-            horizEnable = document.getElementById('grid-horiz-enable').checked,
-            vertEnable = document.getElementById('grid-vert-enable').checked,
-            backgroundMode = document.getElementById('grid-background-mode').checked,
+            $xperc = wpd.findElement('grid-horiz-perc'),
+            $yperc = wpd.findElement('grid-vert-perc'),
+            horizEnable = wpd.findElement('grid-horiz-enable').checked,
+            vertEnable = wpd.findElement('grid-vert-enable').checked,
+            backgroundMode = wpd.findElement('grid-background-mode').checked,
             plotData = wpd.appData.getPlotData();
         
         if(plotData.backupImageData == null) {
@@ -7127,12 +7175,12 @@ wpd.gridDetection = (function () {
     }
 
     function changeColorDistance() {
-        var color_distance = parseFloat(document.getElementById('grid-color-distance').value);
+        var color_distance = parseFloat(wpd.findElement('grid-color-distance').value);
         wpd.appData.getPlotData().getAutoDetector().gridColorDistance = color_distance;
     }
 
     function changeBackgroundMode() {
-        var backgroundMode = document.getElementById('grid-background-mode').checked;
+        var backgroundMode = wpd.findElement('grid-background-mode').checked;
         wpd.appData.getPlotData().getAutoDetector().gridBackgroundMode = backgroundMode;
     }
      
@@ -7199,8 +7247,8 @@ wpd.GridBoxTool = (function () {
 
         this.onAttach = function () {
             wpd.graphicsWidget.setRepainter(new wpd.GridMaskPainter());
-            document.getElementById('grid-mask-box').classList.add('pressed-button');
-            document.getElementById('grid-mask-view').classList.add('pressed-button');
+            wpd.findElement('grid-mask-box').classList.add('pressed-button');
+            wpd.findElement('grid-mask-view').classList.add('pressed-button');
         };
 
         this.onMouseDown = function (ev, pos, imagePos) {
@@ -7240,8 +7288,8 @@ wpd.GridBoxTool = (function () {
         };
 
         this.onRemove = function () {
-            document.getElementById('grid-mask-box').classList.remove('pressed-button');
-            document.getElementById('grid-mask-view').classList.remove('pressed-button');
+            wpd.findElement('grid-mask-box').classList.remove('pressed-button');
+            wpd.findElement('grid-mask-view').classList.remove('pressed-button');
             wpd.gridDetection.grabMask();
         };
     };
@@ -7254,11 +7302,11 @@ wpd.GridViewMaskTool = (function () {
 
         this.onAttach = function () {
             wpd.graphicsWidget.setRepainter(new wpd.GridMaskPainter());
-            document.getElementById('grid-mask-view').classList.add('pressed-button');
+            wpd.findElement('grid-mask-view').classList.add('pressed-button');
         };
 
         this.onRemove = function () {
-            document.getElementById('grid-mask-view').classList.remove('pressed-button');
+            wpd.findElement('grid-mask-view').classList.remove('pressed-button');
             wpd.gridDetection.grabMask();
         };
     };
@@ -7350,8 +7398,8 @@ wpd.iframe_api = (function () {
     }
 
     function sendDataChangeUpdate() {
-        var message = {name: 'dataChange'};
-        this.sendMessage(message);
+        var message = {name: 'exportJSON', data: wpd.saveResume.generateJSON()};
+        wpd.iframe_api.sendMessage(message);
     }
 
     return {
@@ -7593,7 +7641,7 @@ wpd.acquireData = (function () {
 
     function updateControlVisibility() {
         var axes = wpd.appData.getPlotData().axes,
-            $editLabelsBtn = document.getElementById('edit-data-labels');
+            $editLabelsBtn = wpd.findElement('edit-data-labels');
         if(axes instanceof wpd.BarAxes) {
             $editLabelsBtn.style.display = 'inline-block';
         } else {
@@ -7605,7 +7653,7 @@ wpd.acquireData = (function () {
         var plotData = wpd.appData.getPlotData(),
             currentDataset = plotData.getActiveDataSeries(), // just to create a dataset if there is none.
             currentIndex = plotData.getActiveDataSeriesIndex(),
-            $datasetList = document.getElementById('manual-sidebar-dataset-list'),
+            $datasetList = wpd.findElement('manual-sidebar-dataset-list'),
             listHTML = '',
             i;
         for(i = 0; i < plotData.dataSeriesColl.length; i++) {
@@ -7665,6 +7713,7 @@ wpd.acquireData = (function () {
         adjustPoints: adjustPoints,
         deletePoint: deletePoint,
         clearAll: clearAll,
+        confirmedClearAll: confirmedClearAll,
         undo: undo,
         showSidebar: showSidebar,
         switchToolOnKeyPress: switchToolOnKeyPress,
@@ -7692,13 +7741,13 @@ wpd.dataPointLabelEditor = (function() {
 
         // show popup window with originalLabel in the input field.
         wpd.popup.show('data-point-label-editor');
-        $labelField = document.getElementById('data-point-label-field');
+        $labelField = wpd.findElement('data-point-label-field');
         $labelField.value = originalLabel;
         $labelField.focus();
     }
 
     function ok() {
-        var newLabel = document.getElementById('data-point-label-field').value;
+        var newLabel = wpd.findElement('data-point-label-field').value;
 
         if(newLabel != null && newLabel.length > 0) {
             // set label 
@@ -7740,7 +7789,7 @@ wpd.ManualSelectionTool = (function () {
         var plotData = wpd.appData.getPlotData();
 
         this.onAttach = function () {
-            document.getElementById('manual-select-button').classList.add('pressed-button');
+            wpd.findElement('manual-select-button').classList.add('pressed-button');
             wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
         };
 
@@ -7779,7 +7828,7 @@ wpd.ManualSelectionTool = (function () {
         };
 
         this.onRemove = function () {
-            document.getElementById('manual-select-button').classList.remove('pressed-button');
+            wpd.findElement('manual-select-button').classList.remove('pressed-button');
         };
 
         this.onKeyDown = function (ev) {
@@ -7820,7 +7869,7 @@ wpd.DeleteDataPointTool = (function () {
             plotData = wpd.appData.getPlotData();
 
         this.onAttach = function () {
-            document.getElementById('delete-point-button').classList.add('pressed-button');
+            wpd.findElement('delete-point-button').classList.add('pressed-button');
             wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
         };
 
@@ -7840,7 +7889,7 @@ wpd.DeleteDataPointTool = (function () {
         };
 
         this.onRemove = function () {
-            document.getElementById('delete-point-button').classList.remove('pressed-button');
+            wpd.findElement('delete-point-button').classList.remove('pressed-button');
         };
     };
     return Tool;
@@ -7911,7 +7960,7 @@ wpd.AdjustDataPointTool = (function () {
     var Tool = function () {
 
         this.onAttach = function () {
-            document.getElementById('manual-adjust-button').classList.add('pressed-button');
+            wpd.findElement('manual-adjust-button').classList.add('pressed-button');
             wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
             wpd.toolbar.show('adjustDataPointsToolbar');
         }; 
@@ -7920,7 +7969,7 @@ wpd.AdjustDataPointTool = (function () {
             var dataSeries = wpd.appData.getPlotData().getActiveDataSeries();
             dataSeries.unselectAll();
             wpd.graphicsWidget.forceHandlerRepaint();
-            document.getElementById('manual-adjust-button').classList.remove('pressed-button');
+            wpd.findElement('manual-adjust-button').classList.remove('pressed-button');
             wpd.toolbar.clear();
         };
 
@@ -8011,12 +8060,12 @@ wpd.AdjustDataPointTool = (function () {
 wpd.EditLabelsTool = function() {
 
     this.onAttach = function () {
-        document.getElementById('edit-data-labels').classList.add('pressed-button');
+        wpd.findElement('edit-data-labels').classList.add('pressed-button');
         wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
     };
 
     this.onRemove = function () {
-        document.getElementById('edit-data-labels').classList.remove('pressed-button');
+        wpd.findElement('edit-data-labels').classList.remove('pressed-button');
         wpd.appData.getPlotData().getActiveDataSeries().unselectAll();
     };
 
@@ -8041,7 +8090,7 @@ wpd.EditLabelsTool = function() {
 
 wpd.dataPointCounter = (function () {
     function setCount() {
-        var $counters = document.getElementsByClassName('data-point-counter'),
+        var $counters = wpd.findElementsByClass('data-point-counter'),
             ci;
         for(ci = 0; ci < $counters.length; ci++) {
             $counters[ci].innerHTML = wpd.appData.getPlotData().getActiveDataSeries().getCount();
@@ -8164,8 +8213,8 @@ wpd.BoxMaskTool = (function () {
 
         this.onAttach = function () {
             wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
-            document.getElementById('box-mask').classList.add('pressed-button');
-            document.getElementById('view-mask').classList.add('pressed-button');
+            wpd.findElement('box-mask').classList.add('pressed-button');
+            wpd.findElement('view-mask').classList.add('pressed-button');
         };
 
         this.onMouseDown = function(ev, pos, imagePos) {
@@ -8205,8 +8254,8 @@ wpd.BoxMaskTool = (function () {
         };
 
         this.onRemove = function () {
-            document.getElementById('box-mask').classList.remove('pressed-button');
-            document.getElementById('view-mask').classList.remove('pressed-button');
+            wpd.findElement('box-mask').classList.remove('pressed-button');
+            wpd.findElement('view-mask').classList.remove('pressed-button');
             wpd.dataMask.grabMask();
         };
     };
@@ -8232,14 +8281,14 @@ wpd.PenMaskTool = (function () {
 
         this.onAttach = function () {
             wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
-            document.getElementById('pen-mask').classList.add('pressed-button');
-            document.getElementById('view-mask').classList.add('pressed-button');
+            wpd.findElement('pen-mask').classList.add('pressed-button');
+            wpd.findElement('view-mask').classList.add('pressed-button');
             wpd.toolbar.show('paintToolbar');
         };
 
         this.onMouseDown = function(ev, pos, imagePos) {
             if(isDrawing === true) return;
-            var lwidth = parseInt(document.getElementById('paintThickness').value, 10);
+            var lwidth = parseInt(wpd.findElement('paintThickness').value, 10);
             isDrawing = true;
             ctx.dataCtx.strokeStyle = "rgba(255,255,0,1)";
             ctx.dataCtx.lineWidth = lwidth*wpd.graphicsWidget.getZoomRatio();
@@ -8274,8 +8323,8 @@ wpd.PenMaskTool = (function () {
         };
 
         this.onRemove = function() {
-            document.getElementById('pen-mask').classList.remove('pressed-button');
-            document.getElementById('view-mask').classList.remove('pressed-button');
+            wpd.findElement('pen-mask').classList.remove('pressed-button');
+            wpd.findElement('view-mask').classList.remove('pressed-button');
             wpd.dataMask.grabMask();
             wpd.toolbar.clear();
         };
@@ -8307,14 +8356,14 @@ wpd.EraseMaskTool = (function () {
 
         this.onAttach = function() {
              wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
-             document.getElementById('erase-mask').classList.add('pressed-button');
-             document.getElementById('view-mask').classList.add('pressed-button');
+             wpd.findElement('erase-mask').classList.add('pressed-button');
+             wpd.findElement('view-mask').classList.add('pressed-button');
              wpd.toolbar.show('eraseToolbar');
         };
 
         this.onMouseDown = function(ev, pos, imagePos) {
             if(isDrawing === true) return;
-            var lwidth = parseInt(document.getElementById('eraseThickness').value, 10);
+            var lwidth = parseInt(wpd.findElement('eraseThickness').value, 10);
             isDrawing = true;
             ctx.dataCtx.globalCompositeOperation = "destination-out";
             ctx.oriDataCtx.globalCompositeOperation = "destination-out";
@@ -8356,8 +8405,8 @@ wpd.EraseMaskTool = (function () {
         };
 
         this.onRemove = function() {
-            document.getElementById('erase-mask').classList.remove('pressed-button');
-            document.getElementById('view-mask').classList.remove('pressed-button');
+            wpd.findElement('erase-mask').classList.remove('pressed-button');
+            wpd.findElement('view-mask').classList.remove('pressed-button');
             wpd.dataMask.grabMask();
             wpd.toolbar.clear();
         };
@@ -8372,11 +8421,11 @@ wpd.ViewMaskTool = (function() {
 
         this.onAttach = function () {
             wpd.graphicsWidget.setRepainter(new wpd.MaskPainter());
-            document.getElementById('view-mask').classList.add('pressed-button');
+            wpd.findElement('view-mask').classList.add('pressed-button');
         };
 
         this.onRemove = function () {
-            document.getElementById('view-mask').classList.remove('pressed-button');
+            wpd.findElement('view-mask').classList.remove('pressed-button');
             wpd.dataMask.grabMask();
         };
     };
@@ -8579,12 +8628,12 @@ wpd.AddMeasurementTool = (function () {
             plist = [];
 
         this.onAttach = function () {
-            document.getElementById(mode.addButtonId).classList.add('pressed-button');
+            wpd.findElement(mode.addButtonId).classList.add('pressed-button');
             wpd.graphicsWidget.setRepainter(new wpd.MeasurementRepainter(mode));
         };
 
         this.onRemove = function () {
-            document.getElementById(mode.addButtonId).classList.remove('pressed-button');
+            wpd.findElement(mode.addButtonId).classList.remove('pressed-button');
         };
 
         this.onKeyDown = function (ev) {
@@ -8679,12 +8728,12 @@ wpd.DeleteMeasurementTool = (function () {
             plotData = wpd.appData.getPlotData();
 
         this.onAttach = function () {
-            document.getElementById(mode.deleteButtonId).classList.add('pressed-button');
+            wpd.findElement(mode.deleteButtonId).classList.add('pressed-button');
             wpd.graphicsWidget.setRepainter(new wpd.MeasurementRepainter(mode));
         };
 
         this.onRemove = function () {
-            document.getElementById(mode.deleteButtonId).classList.remove('pressed-button');
+            wpd.findElement(mode.deleteButtonId).classList.remove('pressed-button');
         };
         
         this.onKeyDown = function (ev) {
@@ -9244,7 +9293,7 @@ wpd.download = (function() {
 var wpd = wpd || {};
 
 wpd.gettext = function(stringId) {
-    var $str = document.getElementById('i18n-string-' + stringId);
+    var $str = wpd.findElement('i18n-string-' + stringId);
     if($str) {
         return $str.innerHTML;
     }
@@ -9450,6 +9499,7 @@ wpd.saveResume = (function () {
            }
        }
 
+       wpd.dataSeriesManagement.populate();
 
     }
 
@@ -9561,7 +9611,7 @@ wpd.saveResume = (function () {
     }
 
     function read() {
-        var $fileInput = document.getElementById('import-json-file');
+        var $fileInput =  wpd.findElement('import-json-file');
         wpd.popup.close('import-json-window');
         if($fileInput.files.length === 1) {
             var fileReader = new FileReader();
@@ -9592,18 +9642,11 @@ wpd.saveResume = (function () {
         wpd.messagePopup.show(wpd.gettext('import-json'), wpd.gettext("json-data-loaded"));
     }
 
-    function exportToDACTYL() {
-        //Send JSON of data back to DACTYL in parent frame
-        var message = {name: 'exportJSON', data: generateJSON()};
-        wpd.iframe_api.sendMessage(message);
-        wpd.popup.close('export-json-window');
-    }
-
     return {
         save: save,
         load: load,
         download: download,
-        exportToDACTYL: exportToDACTYL,
+        generateJSON: generateJSON,
         importJSON: importJSON,
         importImageAndJSON: importImageAndJSON,
         read: read
@@ -9645,7 +9688,7 @@ wpd.scriptInjector = (function () {
     }
 
     function load() {
-        var $scriptFileInput = document.getElementById('runScriptFileInput');
+        var $scriptFileInput = wpd.findElement('runScriptFileInput');
         wpd.popup.close('runScriptPopup');
         if($scriptFileInput.files.length == 1) {
             var fileReader = new FileReader();

@@ -30,15 +30,17 @@ wpd.dataSeriesManagement = (function () {
     var activeDataSeries = null;
     var lockedVars = null;
 
-    function manage() {
-        if (lockedVars == null) { lockedVars = ['X Value','Y Value']; }
+    function populate() {
+        if (lockedVars == null) {
+            lockedVars = ['X Value', 'Y Value'];
+        }
 
-        if(!wpd.appData.isAligned()) {
+        if (!wpd.appData.isAligned()) {
             wpd.messagePopup.show(wpd.gettext('manage-datasets'), wpd.gettext('manage-datasets-text'));
         } else {
-            var $nameField = document.getElementById('manage-data-series-name'),
-                $pointCount = document.getElementById('manage-data-series-point-count'),
-                //$datasetList = document.getElementById('manage-data-series-list'),
+            var $nameField = wpd.findElement('manage-data-series-name'),
+                $pointCount = wpd.findElement('manage-data-series-point-count'),
+                //$datasetList = wpd.findElement('manage-data-series-list'),
                 plotData = wpd.appData.getPlotData(),
                 seriesList = plotData.getDataSeriesNames(),
                 activeSeriesIndex = plotData.getActiveDataSeriesIndex(),
@@ -48,23 +50,27 @@ wpd.dataSeriesManagement = (function () {
             this.activeDataSeries = plotData.getActiveDataSeries();
 
             //Populate point fields; pull measurement fields first if blank
-            if( wpd.dataSeriesManagement.pointFieldSelect == null ){
-                pullMeasurementFields(populatePointFields);
-            }else{
-                populatePointFields();
+            if (wpd.dataSeriesManagement.pointFieldSelect == null) {
+                this.pullMeasurementFields(this.populatePointFields.bind(this));
+            } else {
+                this.populatePointFields();
             }
 
             $nameField.value = this.activeDataSeries.name;
             $pointCount.innerHTML = this.activeDataSeries.getCount();
             /*for(i = 0; i < seriesList.length; i++) {
-                listHtml += '<option value="'+ i + '">' + seriesList[i] + '</option>';
-            }
-            $datasetList.innerHTML = listHtml;
-            $datasetList.selectedIndex = activeSeriesIndex; */
-
-            // TODO: disable delete button if only one series is present
-            wpd.popup.show('manage-data-series-window');
+             listHtml += '<option value="'+ i + '">' + seriesList[i] + '</option>';
+             }
+             $datasetList.innerHTML = listHtml;
+             $datasetList.selectedIndex = activeSeriesIndex; */
         }
+    }
+
+    function manage() {
+        this.populate();
+
+        // TODO: disable delete button if only one series is present
+        wpd.popup.show('manage-data-series-window');
     }
 
     function addSeries() {
@@ -109,7 +115,7 @@ wpd.dataSeriesManagement = (function () {
     }
 
     function changeSelectedSeries() {
-        var $list = document.getElementById('manage-data-series-list'),
+        var $list = wpd.findElement('manage-data-series-list'),
             plotData = wpd.appData.getPlotData();
 
         close();
@@ -127,7 +133,7 @@ wpd.dataSeriesManagement = (function () {
 
     function editSeriesName() {
         var activeSeries = wpd.appData.getPlotData().getActiveDataSeries(),
-            $name = document.getElementById('manage-data-series-name');
+            $name = wpd.findElement('manage-data-series-name');
         close();
         activeSeries.name = $name.value;
         updateApp(); // overkill, but not too bad.
@@ -159,25 +165,34 @@ wpd.dataSeriesManagement = (function () {
     function populatePointFields() {
         //If field list is blank, Populate X and Y values
         if( wpd.dataSeriesManagement.activeDataSeries.variableNames.length == 0 ) {
-            addPointField();
-            addPointField();
+            this.addField();
+            this.addField();
         }else{
-            redrawPointFields();
+            this.redrawFields();
         }
     }
 
     function addPointField(name) {
-        wpd.dataSeriesManagement.activeDataSeries.variableNames.push(null);
-        wpd.dataSeriesManagement.activeDataSeries.variableIds.push(null);
-        if(wpd.dataSeriesManagement.activeDataSeries.getCount() > 0){ alert('You have existing points which don\'t contain your new variable.  For consistent data, clear the existing points.'); }
-        redrawPointFields();
+        if(wpd.dataSeriesManagement.activeDataSeries.getCount() > 0){
+            if( confirm(wpd.gettext('existing-data-text')) ){
+                wpd.acquireData.confirmedClearAll();
+                wpd.dataSeriesManagement.activeDataSeries.variableNames.push(null);
+                wpd.dataSeriesManagement.activeDataSeries.variableIds.push(null);
+                redrawFields();
+            }
+        }else{
+            wpd.dataSeriesManagement.activeDataSeries.variableNames.push(null);
+            wpd.dataSeriesManagement.activeDataSeries.variableIds.push(null);
+            redrawFields();
+        }
+
     }
 
     function updatePointField(fieldDom){
         //Get ID from DOM element passed
         id = parseInt(fieldDom.id.substr(fieldDom.id.lastIndexOf("_") + 1));
-        wpd.dataSeriesManagement.activeDataSeries.variableNames[id] = $('#point_field_value_' + id).find(':selected').text();
-        wpd.dataSeriesManagement.activeDataSeries.variableIds[id] = $('#point_field_value_' + id).find(':selected').val();
+        wpd.dataSeriesManagement.activeDataSeries.variableNames[id] = $(wpd.findElement('point_field_value_' + id)).find(':selected').text();
+        wpd.dataSeriesManagement.activeDataSeries.variableIds[id] = $(wpd.findElement('point_field_value_' + id)).find(':selected').val();
     }
 
     function deleteField(fieldDom) {
@@ -190,14 +205,14 @@ wpd.dataSeriesManagement = (function () {
                 var data = wpd.dataSeriesManagement.activeDataSeries.removeExtraVariableFromData(id - lockedVars.length);
                 wpd.dataSeriesManagement.activeDataSeries.variableNames.splice(id, 1);
                 wpd.dataSeriesManagement.activeDataSeries.variableIds.splice(id, 1);
-                redrawPointFields();
+                redrawFields();
             }
         }else{
             //Remove from variable list and redraw screen
             wpd.dataSeriesManagement.activeDataSeries.removeExtraVariableFromData(id - lockedVars.length);
             wpd.dataSeriesManagement.activeDataSeries.variableNames.splice(id, 1);
             wpd.dataSeriesManagement.activeDataSeries.variableIds.splice(id, 1);
-            redrawPointFields();
+            redrawFields();
         }
     }
 
@@ -216,7 +231,7 @@ wpd.dataSeriesManagement = (function () {
                 '<td>' + $(wpd.dataSeriesManagement.pointFieldSelect).clone().attr('id', 'point_field_value_' + i).prop('outerHTML') + '</td>' +
                 '<td>' + delButton + '</td></tr>';
             $('table[name=point_field_table]').find('tbody').append(new_row);
-            $('#point_field_value_' + i).val(wpd.dataSeriesManagement.activeDataSeries.variableIds[i] == null ? 0 : wpd.dataSeriesManagement.activeDataSeries.variableIds[i]);
+            $(wpd.findElement('point_field_value_' + i)).val(wpd.dataSeriesManagement.activeDataSeries.variableIds[i] == null ? 0 : wpd.dataSeriesManagement.activeDataSeries.variableIds[i]);
         }
     }
 
@@ -230,13 +245,18 @@ wpd.dataSeriesManagement = (function () {
         }
     }
 
+    function redrawFields() {
+        redrawPointFields();
+        redrawExtraVariables();
+    }
+
     function validateAndClose() {
         //Check that all defined fields have selected values, and no value is used twice
         var duped = false;
         var unselected = false;
         var selectedVals = [];
         for(var i=0; i < wpd.dataSeriesManagement.activeDataSeries.variableNames.length; i++){
-            var val = $('#point_field_value_' + i).find(':selected').val();
+            var val = $(wpd.findElement('point_field_value_' + i)).find(':selected').val();
             if( val == "0" ){
                 unselected = true;
                 break;
@@ -260,15 +280,19 @@ wpd.dataSeriesManagement = (function () {
     }
 
     return {
-        manage: manage,
         addField: addPointField,
-        updateField: updatePointField,
-        deleteField: deleteField,
         addSeries: addSeries,
-        deleteSeries: deleteSeries,
-        viewData: viewData,
         changeSelectedSeries: changeSelectedSeries,
+        deleteField: deleteField,
+        deleteSeries: deleteSeries,
         editSeriesName: editSeriesName.apply,
-        validateAndClose: validateAndClose
+        manage: manage,
+        populate: populate,
+        populatePointFields: populatePointFields,
+        pullMeasurementFields: pullMeasurementFields,
+        redrawFields: redrawFields,
+        updateField: updatePointField,
+        validateAndClose: validateAndClose,
+        viewData: viewData
     };
 })();

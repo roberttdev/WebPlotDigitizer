@@ -32,8 +32,8 @@ wpd.layoutManager = (function () {
 
     // Redo layout when window is resized
     function adjustLayout() {
-        var windowWidth = wpd.isWindowed ? $('#allContainer').parent().width() : parseInt(document.body.offsetWidth,10),
-            windowHeight = wpd.isWindowed ? $('#allContainer').parent().height() : parseInt(document.body.offsetHeight,10);
+        var windowWidth = wpd.isWindowed ? wpd.parent_ref.width() : parseInt(document.body.offsetWidth,10),
+            windowHeight = wpd.isWindowed ? wpd.parent_ref.height() : parseInt(document.body.offsetHeight,10);
 
         $sidebarContainer.style.height = windowHeight + 'px';
         $sidebarControlsContainer.style.height = windowHeight - 280 + 'px';
@@ -59,10 +59,10 @@ wpd.layoutManager = (function () {
     // Set initial layout. Called right when the app is loaded.
     function initialLayout() {
         // do initial layout and also bind to the window resize event
-        $graphicsContainer = document.getElementById('graphicsContainer');
-        $sidebarContainer = document.getElementById('sidebarContainer');
-        $sidebarControlsContainer = document.getElementById('sidebarControlsContainer');
-        $mainContainer = document.getElementById('mainContainer');
+        $graphicsContainer = wpd.findElement('graphicsContainer');
+        $sidebarContainer = wpd.findElement('sidebarContainer');
+        $sidebarControlsContainer = wpd.findElement('sidebarControlsContainer');
+        $mainContainer = wpd.findElement('mainContainer');
         adjustLayout();
          
         window.addEventListener('resize', adjustLayoutOnResize, false);

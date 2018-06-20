@@ -34,7 +34,7 @@ wpd.scriptInjector = (function () {
     }
 
     function load() {
-        var $scriptFileInput = document.getElementById('runScriptFileInput');
+        var $scriptFileInput = wpd.findElement('runScriptFileInput');
         wpd.popup.close('runScriptPopup');
         if($scriptFileInput.files.length == 1) {
             var fileReader = new FileReader();

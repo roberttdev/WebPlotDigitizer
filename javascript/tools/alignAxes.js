@@ -45,12 +45,12 @@ wpd.xyCalibration = (function () {
     }
 
     function align() {
-        var xmin = document.getElementById('xmin').value,
-	        xmax = document.getElementById('xmax').value,
-	        ymin = document.getElementById('ymin').value,
-	        ymax = document.getElementById('ymax').value,
-	        xlog = document.getElementById('xlog').checked,
-	        ylog = document.getElementById('ylog').checked,
+        var xmin = wpd.findElement('xmin').value,
+	        xmax = wpd.findElement('xmax').value,
+	        ymin = wpd.findElement('ymin').value,
+	        ymax = wpd.findElement('ymax').value,
+	        xlog = wpd.findElement('xlog').checked,
+	        ylog = wpd.findElement('ylog').checked,
             axes = new wpd.XYAxes(),
             plot,
             calib = wpd.alignAxes.getActiveCalib();
@@ -102,9 +102,9 @@ wpd.barCalibration = (function () {
     }
 
     function align() {
-        var p1 = document.getElementById('bar-axes-p1').value,
-	        p2 = document.getElementById('bar-axes-p2').value,
-	        isLogScale = document.getElementById('bar-axes-log-scale').checked,
+        var p1 = wpd.findElement('bar-axes-p1').value,
+	        p2 = wpd.findElement('bar-axes-p2').value,
+	        isLogScale = wpd.findElement('bar-axes-log-scale').checked,
             axes = new wpd.BarAxes(),
             plot,
             calib = wpd.alignAxes.getActiveCalib();
@@ -155,14 +155,14 @@ wpd.polarCalibration = (function () {
     }
 
     function align() {
-        var r1 = parseFloat(document.getElementById('polar-r1').value),
-	        theta1 = parseFloat(document.getElementById('polar-theta1').value),
-	        r2 = parseFloat(document.getElementById('polar-r2').value),
-	        theta2 = parseFloat(document.getElementById('polar-theta2').value),
-	        degrees = document.getElementById('polar-degrees').checked,
-	        radians = document.getElementById('polar-radians').checked,
-	        orientation = document.getElementById('polar-clockwise').checked,
-            rlog = document.getElementById('polar-log-scale').checked,
+        var r1 = parseFloat(wpd.findElement('polar-r1').value),
+	        theta1 = parseFloat(wpd.findElement('polar-theta1').value),
+	        r2 = parseFloat(wpd.findElement('polar-r2').value),
+	        theta2 = parseFloat(wpd.findElement('polar-theta2').value),
+	        degrees = wpd.findElement('polar-degrees').checked,
+	        radians = wpd.findElement('polar-radians').checked,
+	        orientation = wpd.findElement('polar-clockwise').checked,
+            rlog = wpd.findElement('polar-log-scale').checked,
             axes = new wpd.PolarAxes(),
             plot,
             isDegrees = degrees,
@@ -211,9 +211,9 @@ wpd.ternaryCalibration = (function () {
     }
 
     function align() {
-        var range1 = document.getElementById('range0to1').checked,
-	        range100 = document.getElementById('range0to100').checked,
-	        ternaryNormal = document.getElementById('ternarynormal').checked,
+        var range1 = wpd.findElement('range0to1').checked,
+	        range100 = wpd.findElement('range0to100').checked,
+	        ternaryNormal = wpd.findElement('ternarynormal').checked,
             axes = new wpd.TernaryAxes(),
             plot,
             calib = wpd.alignAxes.getActiveCalib();
@@ -258,8 +258,8 @@ wpd.mapCalibration = (function () {
     }
 
     function align() {
-        var scaleLength = parseFloat(document.getElementById('scaleLength').value),
-            scaleUnits = document.getElementById('scaleUnits').value,
+        var scaleLength = parseFloat(wpd.findElement('scaleLength').value),
+            scaleUnits = wpd.findElement('scaleUnits').value,
             axes = new wpd.MapAxes(),
             plot,
             calib = wpd.alignAxes.getActiveCalib();
@@ -406,12 +406,12 @@ wpd.alignAxes = (function () {
     var calib, calibrator;
 
     function initiatePlotAlignment() {
-        xyEl = document.getElementById('r_xy');
-        polarEl = document.getElementById('r_polar');
-        ternaryEl = document.getElementById('r_ternary');
-        mapEl = document.getElementById('r_map');
-        imageEl = document.getElementById('r_image');
-        barEl = document.getElementById('r_bar');
+        xyEl = wpd.findElement('r_xy');
+        polarEl = wpd.findElement('r_polar');
+        ternaryEl = wpd.findElement('r_ternary');
+        mapEl = wpd.findElement('r_map');
+        imageEl = wpd.findElement('r_image');
+        barEl = wpd.findElement('r_bar');
 
         wpd.popup.close('axesList');
 
@@ -457,7 +457,7 @@ wpd.alignAxes = (function () {
             return;
         }
         wpd.appData.isAligned(true);
-        wpd.dataSeriesManagement.manage();
+        wpd.dataSeriesManagement.manage.call(wpd.dataSeriesManagement);
         wpd.acquireData.load();
     }
 

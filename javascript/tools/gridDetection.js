@@ -34,8 +34,8 @@ wpd.gridDetection = (function () {
     }
 
     function sidebarInit() {
-        var $colorPickerBtn = document.getElementById('grid-color-picker-button'),
-            $backgroundMode = document.getElementById('grid-background-mode'),
+        var $colorPickerBtn = wpd.findElement('grid-color-picker-button'),
+            $backgroundMode = wpd.findElement('grid-background-mode'),
             autodetector = wpd.appData.getPlotData().getAutoDetector(),
             color = autodetector.gridLineColor,
             backgroundMode = autodetector.gridBackgroundMode;
@@ -134,11 +134,11 @@ wpd.gridDetection = (function () {
         var autoDetector = wpd.appData.getPlotData().getAutoDetector(),
             ctx = wpd.graphicsWidget.getAllContexts(),
             imageSize = wpd.graphicsWidget.getImageSize(),
-            $xperc = document.getElementById('grid-horiz-perc'),
-            $yperc = document.getElementById('grid-vert-perc'),
-            horizEnable = document.getElementById('grid-horiz-enable').checked,
-            vertEnable = document.getElementById('grid-vert-enable').checked,
-            backgroundMode = document.getElementById('grid-background-mode').checked,
+            $xperc = wpd.findElement('grid-horiz-perc'),
+            $yperc = wpd.findElement('grid-vert-perc'),
+            horizEnable = wpd.findElement('grid-horiz-enable').checked,
+            vertEnable = wpd.findElement('grid-vert-enable').checked,
+            backgroundMode = wpd.findElement('grid-background-mode').checked,
             plotData = wpd.appData.getPlotData();
         
         if(plotData.backupImageData == null) {
@@ -249,12 +249,12 @@ wpd.gridDetection = (function () {
     }
 
     function changeColorDistance() {
-        var color_distance = parseFloat(document.getElementById('grid-color-distance').value);
+        var color_distance = parseFloat(wpd.findElement('grid-color-distance').value);
         wpd.appData.getPlotData().getAutoDetector().gridColorDistance = color_distance;
     }
 
     function changeBackgroundMode() {
-        var backgroundMode = document.getElementById('grid-background-mode').checked;
+        var backgroundMode = wpd.findElement('grid-background-mode').checked;
         wpd.appData.getPlotData().getAutoDetector().gridBackgroundMode = backgroundMode;
     }
      
@@ -321,8 +321,8 @@ wpd.GridBoxTool = (function () {
 
         this.onAttach = function () {
             wpd.graphicsWidget.setRepainter(new wpd.GridMaskPainter());
-            document.getElementById('grid-mask-box').classList.add('pressed-button');
-            document.getElementById('grid-mask-view').classList.add('pressed-button');
+            wpd.findElement('grid-mask-box').classList.add('pressed-button');
+            wpd.findElement('grid-mask-view').classList.add('pressed-button');
         };
 
         this.onMouseDown = function (ev, pos, imagePos) {
@@ -362,8 +362,8 @@ wpd.GridBoxTool = (function () {
         };
 
         this.onRemove = function () {
-            document.getElementById('grid-mask-box').classList.remove('pressed-button');
-            document.getElementById('grid-mask-view').classList.remove('pressed-button');
+            wpd.findElement('grid-mask-box').classList.remove('pressed-button');
+            wpd.findElement('grid-mask-view').classList.remove('pressed-button');
             wpd.gridDetection.grabMask();
         };
     };
@@ -376,11 +376,11 @@ wpd.GridViewMaskTool = (function () {
 
         this.onAttach = function () {
             wpd.graphicsWidget.setRepainter(new wpd.GridMaskPainter());
-            document.getElementById('grid-mask-view').classList.add('pressed-button');
+            wpd.findElement('grid-mask-view').classList.add('pressed-button');
         };
 
         this.onRemove = function () {
-            document.getElementById('grid-mask-view').classList.remove('pressed-button');
+            wpd.findElement('grid-mask-view').classList.remove('pressed-button');
             wpd.gridDetection.grabMask();
         };
     };

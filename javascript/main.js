@@ -23,18 +23,24 @@
 
 var wpd = wpd || {};
 
-wpd.initApp = function(isWindowed, image_ref, initial_graph_json) {// This is run when the page loads.
+wpd.initApp = function(isWindowed, image_ref, initial_graph_json, parent_ref) {// This is run when the page loads.
 
     wpd.isWindowed = isWindowed;
     wpd.image_ref = image_ref == null ? 'start.png' : image_ref;
     wpd.initial_graph_json = initial_graph_json;
+    wpd.parent_ref = parent_ref ? parent_ref : document;
 
-    //Load CSS
-    wpd.css_loaded = [];
-    wpd.css_loaded['/viewer/WPD/css/styles.css'] = false;
-    wpd.css_loaded['/viewer/WPD/css/widgets.css'] = false;
-    wpd.includeCss('/viewer/WPD/css/styles.css');
-    wpd.includeCss('/viewer/WPD/css/widgets.css');
+    //Load CSS if it's not loaded.  If it is, skip to display
+    if( !$("link[href='/viewer/WPD/css/styles.css']").length ){
+        wpd.css_loaded = [];
+        wpd.css_loaded['/viewer/WPD/css/styles.css'] = false;
+        wpd.css_loaded['/viewer/WPD/css/widgets.css'] = false;
+        wpd.includeCss('/viewer/WPD/css/styles.css');
+        wpd.includeCss('/viewer/WPD/css/widgets.css');
+    }else{
+        wpd.initDisplay();
+    }
+
 
     //Set up frame API
     window.addEventListener('message', $.proxy(wpd.iframe_api.receiveMessage, wpd.iframe_api));
@@ -45,16 +51,23 @@ wpd.initApp = function(isWindowed, image_ref, initial_graph_json) {// This is ru
 
 wpd.initIfAllCSSLoaded = function(){
     if( wpd.css_loaded['/viewer/WPD/css/styles.css'] && wpd.css_loaded['/viewer/WPD/css/widgets.css'] ){
-        wpd.browserInfo.checkBrowser();
-        wpd.layoutManager.initialLayout();
+        wpd.initDisplay();
+    }
+};
 
-        document.getElementById('loadingCurtain').style.display = 'none';
 
-        if(!wpd.loadRemoteData()) {
-            wpd.saveResume.importImageAndJSON(wpd.image_ref, wpd.initial_graph_json);
-            //wpd.graphicsWidget.loadImageFromURL(wpd.image_ref);
-            //wpd.messagePopup.show(wpd.gettext('unstable-version-warning'), wpd.gettext('unstable-version-warning-text'));
-        }
+wpd.initDisplay = function(){
+    wpd.browserInfo.checkBrowser();
+    wpd.layoutManager.initialLayout();
+
+    var curtain = this.findElement('loadingCurtain');
+
+    if(curtain) curtain.style.display = 'none';
+
+    if(!wpd.loadRemoteData()) {
+        wpd.saveResume.importImageAndJSON(wpd.image_ref, wpd.initial_graph_json);
+        //wpd.graphicsWidget.loadImageFromURL(wpd.image_ref);
+        //wpd.messagePopup.show(wpd.gettext('unstable-version-warning'), wpd.gettext('unstable-version-warning-text'));
     }
 };
 
@@ -89,6 +102,17 @@ wpd.loadRemoteData = function() {
     }
     return false;
 };
+
+
+wpd.findElement = function(elementId) {
+    return (this.parent_ref) ? wpd.parent_ref.find('#' + elementId)[0] : document.getElementById(elementId);
+};
+
+
+wpd.findElementsByClass = function(className) {
+    return (this.parent_ref) ? wpd.parent_ref.find('.' + className) : document.getElementsByClassName(className)
+};
+
 
 document.addEventListener("DOMContentLoaded", wpd.initApp, true);
 

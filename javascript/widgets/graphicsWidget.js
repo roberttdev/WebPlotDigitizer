@@ -266,7 +266,7 @@ wpd.graphicsWidget = (function () {
 
     function toggleExtendedCrosshairBtn() { // called directly when toolbar button is hit
         extendedCrosshair = !(extendedCrosshair);
-        var $crosshairBtn = document.getElementById('extended-crosshair-btn');
+        var $crosshairBtn = wpd.findElement('extended-crosshair-btn');
         if(extendedCrosshair) {
             $crosshairBtn.classList.add('pressed-button');
         } else {
@@ -407,11 +407,11 @@ wpd.graphicsWidget = (function () {
 
 
     function init() {
-        $mainCanvas = document.getElementById('mainCanvas');
-        $dataCanvas = document.getElementById('dataCanvas');
-        $drawCanvas = document.getElementById('drawCanvas');
-        $hoverCanvas = document.getElementById('hoverCanvas');
-        $topCanvas = document.getElementById('topCanvas');
+        $mainCanvas = wpd.findElement('mainCanvas');
+        $dataCanvas = wpd.findElement('dataCanvas');
+        $drawCanvas = wpd.findElement('drawCanvas');
+        $hoverCanvas = wpd.findElement('hoverCanvas');
+        $topCanvas = wpd.findElement('topCanvas');
 
         $oriImageCanvas = document.createElement('canvas');
         $oriDataCanvas = document.createElement('canvas');
@@ -425,7 +425,7 @@ wpd.graphicsWidget = (function () {
         oriImageCtx = $oriImageCanvas.getContext('2d');
         oriDataCtx = $oriDataCanvas.getContext('2d');
 
-        $canvasDiv = document.getElementById('canvasDiv');
+        $canvasDiv = wpd.findElement('canvasDiv');
 
         // Extended crosshair
         document.addEventListener('keydown', function(ev) {
@@ -468,7 +468,7 @@ wpd.graphicsWidget = (function () {
         
         wpd.zoomView.initZoom();
         
-        document.getElementById('fileLoadBox').addEventListener("change", loadNewFile); 
+        wpd.findElement('fileLoadBox').addEventListener("change", loadNewFile);
 
         // Paste image from clipboard
         window.addEventListener('paste', function(event) {pasteHandler(event);}, false);
@@ -551,7 +551,7 @@ wpd.graphicsWidget = (function () {
 
 
     function loadNewFile() {
-        var fileLoadElem = document.getElementById('fileLoadBox');
+        var fileLoadElem = wpd.findElement('fileLoadBox');
         if(fileLoadElem.files.length == 1) {
             var fileInfo = fileLoadElem.files[0];
             wpd.busyNote.show();

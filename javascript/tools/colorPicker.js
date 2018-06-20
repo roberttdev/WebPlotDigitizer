@@ -36,12 +36,12 @@ wpd.colorSelectionWidget = (function () {
         title = params.title;
         setColorDelegate = params.setColorDelegate;
 
-        var $widgetTitle = document.getElementById('color-selection-title');
+        var $widgetTitle = wpd.findElement('color-selection-title');
         $widgetTitle.innerHTML = title;
     }
 
     function apply() {
-        var $triggerBtn = document.getElementById(triggerElementId);
+        var $triggerBtn = wpd.findElement(triggerElementId);
         $triggerBtn.style.backgroundColor = 'rgb('+color[0]+','+color[1]+','+color[2]+')';
         if(color[0] + color[1] + color[2] < 200) {
             $triggerBtn.style.color = 'rgb(255,255,255)';
@@ -51,18 +51,18 @@ wpd.colorSelectionWidget = (function () {
     }
 
     function startPicker() {
-        var $selectedColor = document.getElementById('color-selection-selected-color-box');
+        var $selectedColor = wpd.findElement('color-selection-selected-color-box');
         
         $selectedColor.style.backgroundColor = 'rgb('+color[0]+','+color[1]+','+color[2]+')';
-        document.getElementById('color-selection-red').value = color[0];
-        document.getElementById('color-selection-green').value = color[1];
-        document.getElementById('color-selection-blue').value = color[2];
+        wpd.findElement('color-selection-red').value = color[0];
+        wpd.findElement('color-selection-green').value = color[1];
+        wpd.findElement('color-selection-blue').value = color[2];
         renderColorOptions();
         wpd.popup.show('color-selection-widget');
     }
 
     function renderColorOptions() {
-        var $container = document.getElementById('color-selection-options'),
+        var $container = wpd.findElement('color-selection-options'),
             topColors = wpd.appData.getPlotData().topColors,
             colorCount = topColors.length > 10 ? 10 : topColors.length,
             colori,
@@ -93,9 +93,9 @@ wpd.colorSelectionWidget = (function () {
 
     function setColor() {
         var gui_color = [];
-        gui_color[0] = parseInt(document.getElementById('color-selection-red').value, 10);
-        gui_color[1] = parseInt(document.getElementById('color-selection-green').value, 10);
-        gui_color[2] = parseInt(document.getElementById('color-selection-blue').value, 10);
+        gui_color[0] = parseInt(wpd.findElement('color-selection-red').value, 10);
+        gui_color[1] = parseInt(wpd.findElement('color-selection-green').value, 10);
+        gui_color[2] = parseInt(wpd.findElement('color-selection-blue').value, 10);
         color = gui_color;
         setColorDelegate(gui_color);
         wpd.popup.close('color-selection-widget');
@@ -187,10 +187,10 @@ wpd.colorPicker = (function () {
     }
     
     function init() {
-        var $colorBtn = document.getElementById('color-button'),
-            $colorDistance = document.getElementById('color-distance-value'),
+        var $colorBtn = wpd.findElement('color-button'),
+            $colorDistance = wpd.findElement('color-distance-value'),
             autoDetector = wpd.appData.getPlotData().getAutoDetector(),
-            $modeSelector = document.getElementById('color-detection-mode-select'),
+            $modeSelector = wpd.findElement('color-detection-mode-select'),
             color;
         
         if(autoDetector.colorDetectionMode === 'fg') {
@@ -206,7 +206,7 @@ wpd.colorPicker = (function () {
     }
 
     function changeColorDistance() {
-        var color_distance = parseFloat(document.getElementById('color-distance-value').value);
+        var color_distance = parseFloat(wpd.findElement('color-distance-value').value);
         wpd.appData.getPlotData().getAutoDetector().colorDistance = color_distance;
     }
 
@@ -237,7 +237,7 @@ wpd.colorPicker = (function () {
     }
 
     function changeDetectionMode() {
-        var $modeSelector = document.getElementById('color-detection-mode-select');
+        var $modeSelector = wpd.findElement('color-detection-mode-select');
         wpd.appData.getPlotData().getAutoDetector().colorDetectionMode = $modeSelector.value;
         init();
     }

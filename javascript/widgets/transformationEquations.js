@@ -30,7 +30,7 @@ wpd.transformationEquations = (function () {
             return;
         }
         wpd.popup.show('axes-transformation-equations-window');
-        var $list = document.getElementById('axes-transformation-equation-list'),
+        var $list = wpd.findElement('axes-transformation-equation-list'),
             listHTML = '',
             axes = wpd.appData.getPlotData().axes,
             eqns = axes.getTransformationEquations(),

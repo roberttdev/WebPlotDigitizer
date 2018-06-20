@@ -45,7 +45,7 @@ wpd.webcamCapture = (function () {
             return;
         }
         wpd.popup.show('webcamCapture'); 
-        var $camVideo = document.getElementById('webcamVideo');
+        var $camVideo = wpd.findElement('webcamVideo');
         navigator.getUserMedia = getUserMedia();
         navigator.getUserMedia({video: true}, function(stream) {
             cameraStream = stream;
@@ -55,7 +55,7 @@ wpd.webcamCapture = (function () {
 
     function capture() {
         var $webcamCanvas = document.createElement('canvas'),
-            $camVideo = document.getElementById('webcamVideo'),
+            $camVideo = wpd.findElement('webcamVideo'),
             webcamCtx = $webcamCanvas.getContext('2d'),
             imageData;
         $webcamCanvas.width = $camVideo.videoWidth;
