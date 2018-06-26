@@ -28,12 +28,13 @@ wpd.acquireData = (function () {
         if(!wpd.appData.isAligned()) {
             wpd.messagePopup.show(wpd.gettext('acquire-data'), wpd.gettext('acquire-data-calibration'));
         } else {
-            showSidebar();
+            if(!wpd.read_only){ showSidebar(); }
+
             wpd.dataPointCounter.setCount();
             wpd.graphicsWidget.removeTool();
             wpd.graphicsWidget.setRepainter(new wpd.DataPointsRepainter());
 
-            manualSelection();
+            if(!wpd.read_only){ manualSelection(); }
         }
     }
 

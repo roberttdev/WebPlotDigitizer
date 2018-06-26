@@ -23,12 +23,13 @@
 
 var wpd = wpd || {};
 
-wpd.initApp = function(isWindowed, image_ref, initial_graph_json, parent_ref) {// This is run when the page loads.
+wpd.initApp = function(isWindowed, image_ref, initial_graph_json, parent_ref, read_only) {// This is run when the page loads.
 
     wpd.isWindowed = isWindowed;
     wpd.image_ref = image_ref == null ? 'start.png' : image_ref;
     wpd.initial_graph_json = initial_graph_json;
     wpd.parent_ref = parent_ref ? parent_ref : document;
+    wpd.read_only = read_only;
 
     //Load CSS if it's not loaded.  If it is, skip to display
     if( !$("link[href='/viewer/WPD/css/styles.css']").length ){
@@ -59,6 +60,9 @@ wpd.initIfAllCSSLoaded = function(){
 wpd.initDisplay = function(){
     wpd.browserInfo.checkBrowser();
     wpd.layoutManager.initialLayout();
+
+    //Hide toolbar if read only
+    if(wpd.read_only){ $(this.findElement('menuButtonsContainer')).hide(); }
 
     var curtain = this.findElement('loadingCurtain');
 

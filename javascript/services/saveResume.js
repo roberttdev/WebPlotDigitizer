@@ -282,7 +282,7 @@ wpd.saveResume = (function () {
         if(wpd.appData.isAligned()) {
             wpd.acquireData.load();
         }
-        wpd.messagePopup.show(wpd.gettext('import-json'), wpd.gettext("json-data-loaded"));
+        //wpd.messagePopup.show(wpd.gettext('import-json'), wpd.gettext("json-data-loaded"));
     }
 
     return {
